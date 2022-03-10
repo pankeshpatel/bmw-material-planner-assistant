@@ -4,8 +4,6 @@ from config.db import conn
 from datetime import datetime, date
 
 
-
-
 exception = APIRouter()
 
 # Write a logic that returns a list of  exception ID  and exception message

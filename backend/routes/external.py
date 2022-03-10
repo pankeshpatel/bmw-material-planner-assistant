@@ -4,8 +4,6 @@ from config.db import conn
 from schemas.user import User
 from datetime import datetime, date
 
-
-
 external = APIRouter()
 
 @external.get('/external/weather', tags=["External"])
@@ -15,9 +13,6 @@ async def get_weather_info(plant:str = 'MC10'):
 @external.get('/external/traffic', tags=["External"])
 async def get_traffic_info(plant:str = 'MC10'):
     return {"message": "Hello, World"}
-
-
-
 
 
 

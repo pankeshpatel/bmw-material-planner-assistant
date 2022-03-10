@@ -33,9 +33,7 @@ It implements various APIs for the development of  MPA Dashboard and AI-based Fo
 * **get_all_exception_info** (implemented).
 * **get_material_exception_info** (_not implemented_).
 
-#### Material Transaction
 
-* **get_material_transaction_info** (_not implemented_).
 
 #### Supply Chain
 
@@ -49,6 +47,15 @@ It implements various APIs for the development of  MPA Dashboard and AI-based Fo
 * **get_traffic_info** (_not implemented_).
 
 """
+
+# #### Material Transaction
+
+# * **get_material_transaction_info** (_not implemented_).
+
+#  {
+#         "name" : "Material Transaction",
+#         "description" : "MD04 transaction with Material."
+#     },
 
 tags_metadata = [
     {
@@ -69,10 +76,7 @@ tags_metadata = [
         "name" : "Exception",
         "description" : "Operations with Exceptions related to the material at plant MC10."
     },
-     {
-        "name" : "Material Transaction",
-        "description" : "MD04 transaction with Material."
-    },
+    
      
     {
         "name" : "Supply Chain",
