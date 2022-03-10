@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.user import dbUser, dbExceptionMessage
+from models.user import  dbExceptionMessage
 from config.db import conn
 from datetime import datetime, date
 

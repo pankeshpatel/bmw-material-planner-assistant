@@ -1,6 +1,5 @@
 from fastapi import FastAPI
-from models.user import dbUser
-from models.user import dbExceptionMessage
+from models.user import dbUser, dbExceptionMessage, dbMaterialMaster
 from routes.supplychain import supplychain
 from routes.planner import planner
 from routes.material import material
@@ -19,8 +18,8 @@ It implements various APIs for the development of  MPA Dashboard and AI-based Fo
 
 ####  Material 
 
-* **get_all_material_info** (_not implemented_).
-* **get_material_info** (_not implemented_).
+* **get_all_material_info** (implemented).
+* **get_material_info** (implemented).
 
 ####  Forecasting Model
 
