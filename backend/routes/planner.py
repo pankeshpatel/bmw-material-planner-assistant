@@ -1,9 +1,8 @@
 from fastapi import APIRouter
-from models.user import dbUser
 from config.db import conn
 from schemas.user import User
 from datetime import datetime, date
-from models.user import dbPlanner
+from models.dbschema import dbPlanner
 
 
 

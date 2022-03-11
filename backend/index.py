@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from models.user import dbUser, dbExceptionMessage, dbMaterialMaster
+from models.dbschema import  dbExceptionMessage, dbMaterialMaster
 from routes.supplychain import supplychain
 from routes.planner import planner
 from routes.material import material
@@ -13,8 +13,8 @@ It implements various APIs for the development of  MPA Dashboard and AI-based Fo
 
 #### Material Planner 
 
-* **get_all_material_planner_info** (_not implemented_).
-* **get_material_planner_info** (_not implemented_).
+* **get_all_material_planner_info** (implemented).
+* **get_material_planner_info** (implemented).
 
 ####  Material 
 
@@ -25,13 +25,10 @@ It implements various APIs for the development of  MPA Dashboard and AI-based Fo
 
 * **get_material_healthscore** (_not implemented_).
 
-
-
 ####  Exception
 
 * **get_all_exception_info** (implemented).
 * **get_material_exception_info** (_not implemented_).
-
 
 
 #### Supply Chain
@@ -40,12 +37,12 @@ It implements various APIs for the development of  MPA Dashboard and AI-based Fo
 * **get_arrival_probability** (_not implemented_).
 
 
-#### External
-
-* **get_weather_info** (_not implemented_).
-* **get_traffic_info** (_not implemented_).
-
 """
+
+# #### External
+
+# * **get_weather_info** (_not implemented_).
+# * **get_traffic_info** (_not implemented_).
 
 # #### Material Transaction
 
@@ -80,14 +77,16 @@ tags_metadata = [
     {
         "name" : "Supply Chain",
         "description" : "Operations with supply chain of a material."
-    },
-      
-    {
-        "name" : "External",
-        "description" : "External APIs of Weather and Traffic to be used for supply chain of material."
     }
+      
+   
     
 ]
+
+#  {
+#         "name" : "External",
+#         "description" : "External APIs of Weather and Traffic to be used for supply chain of material."
+#     }
 
 
 app = FastAPI(title="Material Planner Assistant",
@@ -99,4 +98,4 @@ app.include_router(material)
 app.include_router(healthscore)
 app.include_router(exception)
 app.include_router(supplychain)
-app.include_router(external)
+#app.include_router(external)

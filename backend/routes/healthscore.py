@@ -1,28 +1,29 @@
 from fastapi import APIRouter
-from models.user import dbUser
 from config.db import conn
 from schemas.user import User
 from datetime import datetime, date
+from models.dbschema import dbHealthScore
 
 healthscore = APIRouter()
 
+# Write a logic that return a health score of a material
+  # Material ID
+  # Material Name
+  # Health Score
+  # Date
+  # Other information
+
 @healthscore.get('/healthscore/{material_id}', tags=["Forecasting Model"])
 async def get_material_healthscore(material_id: str, 
-                                  date : date  = date.today(), 
+                                  healthdate: str, 
                                   plant : str = 'MC10'):
-    # Write a logic that return a health score of a material
-    # Material ID
-    # Material Name
-    # Health Score
-    # Date
-    # Other information
+     sql = """SELECT * FROM admin.HealthScore WHERE materialID = %s AND healthscoredate = %s"""     
+     return conn.execute(sql, material_id, healthdate).fetchall()
+   
     
     
-    return {
-            "material ID": material_id,
-            "date": date,
-            "plant": plant
-           }
+    
+
 
 
 # # GET

@@ -1,18 +1,17 @@
 from fastapi import APIRouter
-from models.user import dbUser
 from config.db import conn
 from schemas.user import User
 from datetime import datetime, date
 
+
+
 supplychain  = APIRouter()
 
-
-
-@supplychain.get('/API9', tags=["Supply Chain"])
+@supplychain.get('/eta/', tags=["Supply Chain"])
 async def get_eta_delivery(plant:str = 'MC10'):
     return {"message": "Hello, World"}
 
-@supplychain.get('/API10', tags=["Supply Chain"])
+@supplychain.get('/arrivalprobability/', tags=["Supply Chain"])
 async def get_arrival_probability(plant:str = 'MC10'):
     return {"message": "Hello, World"}
 

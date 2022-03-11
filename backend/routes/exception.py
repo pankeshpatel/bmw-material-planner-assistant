@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.user import  dbExceptionMessage
+from models.dbschema import  dbExceptionMessage
 from config.db import conn
 from datetime import datetime, date
 
@@ -10,6 +10,12 @@ exception = APIRouter()
 @exception.get('/exceptions/', tags=["Exception"])
 async def get_all_exception_info(plant:str = 'MC10'):
     return conn.execute(dbExceptionMessage.select()).fetchall()
+
+
+# This list an exception with an id and an exception message
+@exception.get('/exceptions/{exception_id}', tags=["Exception"])
+async def get_exception_info(exception_id: int, plant:str = 'MC10'):
+    return conn.execute(dbExceptionMessage.select().where(dbExceptionMessage.c.exceptionID == exception_id)).fetchall()
 
 
 @exception.get('/exceptions/{material_id}', tags=["Exception"])

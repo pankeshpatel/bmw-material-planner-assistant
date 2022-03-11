@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from models.user import dbUser
 from config.db import conn
 from schemas.user import User
 from datetime import datetime, date
