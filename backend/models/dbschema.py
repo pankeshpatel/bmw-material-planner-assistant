@@ -45,5 +45,12 @@ dbHealthScore = Table ("HealthScore", meta,
                        Column("plant", String(225)),
                        Column("safetystock", Integer),
                        Column("storagelocation", String(225)) )
+
+dbExceptionManager = Table ("ExceptionManager", meta,
+                             Column('exceptionID', Integer, primary_key=True),
+                             Column('message', String(225)),
+                             Column('count', String(225)),
+                             Column('percentage', String(225))
+                             )
                   
 meta.create_all(engine) 

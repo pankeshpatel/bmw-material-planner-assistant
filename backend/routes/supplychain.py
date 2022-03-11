@@ -34,14 +34,6 @@ async def get_arrival_probability(plant:str = 'MC10'):
 
 
 
-
-
-
-
-
-
-
-
 # # GET
 # ## This is retrive all the users 
 # @users.get('/')

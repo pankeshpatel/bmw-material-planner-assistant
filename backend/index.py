@@ -11,33 +11,32 @@ description = """
 This is a MPA WebServer. 
 It implements various APIs for the development of  MPA Dashboard and AI-based Forecasting Model 🚀
 
-#### Material Planner 
-
-* **get_all_material_planner_info** (implemented).
-* **get_material_planner_info** (implemented).
-
-####  Material 
-
-* **get_all_material_info** (implemented).
-* **get_material_info** (implemented).
-
-####  Forecasting Model
-
-* **get_material_healthscore** (_not implemented_).
-
-####  Exception
-
-* **get_all_exception_info** (implemented).
-* **get_material_exception_info** (_not implemented_).
-
-
-#### Supply Chain
-
-* **get_eta_delivery** (_not implemented_).
-* **get_arrival_probability** (_not implemented_).
-
-
 """
+
+# #### Material Planner 
+
+# * **get_all_material_planner_info** (implemented).
+# * **get_material_planner_info** (implemented).
+
+# ####  Material 
+
+# * **get_all_material_info** (implemented).
+# * **get_material_info** (implemented).
+
+# ####  Forecasting Model
+
+# * **get_material_healthscore** (_not implemented_).
+
+# ####  Exception
+
+# * **get_all_exception_info** (implemented).
+# * **get_material_exception_info** (_not implemented_).
+
+
+# #### Supply Chain
+
+# * **get_eta_delivery** (_not implemented_).
+# * **get_arrival_probability** (_not implemented_).
 
 # #### External
 
@@ -69,7 +68,7 @@ tags_metadata = [
     },
       
     {
-        "name" : "Exception",
+        "name" : "Exception Manager",
         "description" : "Operations with Exceptions related to the material at plant MC10."
     },
     

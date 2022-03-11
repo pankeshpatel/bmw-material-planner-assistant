@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.dbschema import  dbExceptionMessage
+from models.dbschema import  dbExceptionMessage, dbExceptionManager
 from config.db import conn
 from datetime import datetime, date
 
@@ -7,36 +7,44 @@ from datetime import datetime, date
 exception = APIRouter()
 
 # Write a logic that returns a list of  exception ID  and exception message
-@exception.get('/exceptions/', tags=["Exception"])
+@exception.get('/exceptions/', tags=["Exception Manager"])
 async def get_all_exception_info(plant:str = 'MC10'):
     return conn.execute(dbExceptionMessage.select()).fetchall()
 
 
 # This list an exception with an id and an exception message
-@exception.get('/exceptions/{exception_id}', tags=["Exception"])
+@exception.get('/exceptions/{exception_id}', tags=["Exception Manager"])
 async def get_exception_info(exception_id: int, plant:str = 'MC10'):
     return conn.execute(dbExceptionMessage.select().where(dbExceptionMessage.c.exceptionID == exception_id)).fetchall()
 
 
-@exception.get('/exceptions/{material_id}', tags=["Exception"])
-async def get_material_exception_info(material_id: str, 
+@exception.get('/exceptions/sysviewer/{planner_id}', tags=["Exception Manager"])
+async def get_material_exception_info(planner_id:str, 
+                                      days : int = 45,
                                       start_date : date = date.today(),
-                                      end_date : date = date.today(),
-                                      plant:str = 'MC10'):
+                                      plant:str = 'MC10'):    
+    return conn.execute(dbExceptionManager.select()).fetchall()
+
+
+# @exception.get('/exceptions/{material_id}', tags=["Exception"])
+# async def get_material_exception_info(material_id: str, 
+#                                       start_date : date = date.today(),
+#                                       end_date : date = date.today(),
+#                                       plant:str = 'MC10'):
     
-    # Write a logic that returns a list of exceptions in the specific time range
-    # material id
-    # material name
-    # start date
-    # end date
-    # exceptions per date
+#     # Write a logic that returns a list of exceptions in the specific time range
+#     # material id
+#     # material name
+#     # start date
+#     # end date
+#     # exceptions per date
     
-    return {
-        "material ID" : material_id,
-        "start date" : start_date,
-        "end date" : end_date,
-        "plant" : plant
-    }
+#     return {
+#         "material ID" : material_id,
+#         "start date" : start_date,
+#         "end date" : end_date,
+#         "plant" : plant
+#     }
     
     
 

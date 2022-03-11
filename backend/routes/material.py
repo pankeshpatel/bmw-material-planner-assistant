@@ -31,14 +31,11 @@ async def get_all_material_info(plant = 'MC10'):
 @material.get('/materials/{material_id}', tags=["Material"])
 async def get_material_info(material_id:str, plant : str = 'MC10'):
     
-     return conn.execute(dbMaterialMaster.select().where(dbMaterialMaster.c.material == material_id)).first()
+    return conn.execute(dbMaterialMaster.select().where(dbMaterialMaster.c.material == material_id)).first()
     
    
     
     
-    # return {
-    #         "material ID": material_id,
-    #         "plant": plant
-    #     }
+ 
 
 
