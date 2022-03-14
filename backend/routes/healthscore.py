@@ -13,8 +13,9 @@ healthscore = APIRouter()
   # Date
   # Other information
 
-@healthscore.get('/healthscore/{material_id}', tags=["Forecasting Model"])
-async def get_material_healthscore(material_id: str, 
+@healthscore.get('/healthscore/{planner_id}/{material_id}', tags=["Forecasting Model"])
+async def get_material_healthscore(planner_id:str,
+                                  material_id: str, 
                                   healthdate: str, 
                                   plant : str = 'MC10'):
      sql = """SELECT * FROM admin.HealthScore WHERE materialID = %s AND healthscoredate = %s"""     

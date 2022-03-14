@@ -18,7 +18,7 @@ async def get_exception_info(exception_id: int, plant:str = 'MC10'):
     return conn.execute(dbExceptionMessage.select().where(dbExceptionMessage.c.exceptionID == exception_id)).fetchall()
 
 
-@exception.get('/exceptions/sysviewer/{planner_id}', tags=["Exception Manager"])
+@exception.get('/exceptions/{planner_id}/sysviewer/', tags=["Exception Manager"])
 async def get_material_exception_info(planner_id:str, 
                                       days : int = 45,
                                       start_date : date = date.today(),

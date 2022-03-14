@@ -31,4 +31,4 @@ async def get_material_planner_info(
                     planner_id:str, 
                     plant : str = 'MC10'):
     
-    return conn.execute(dbPlanner.select().where(dbPlanner.c.mrpcnt == planner_id)).fetchall()
+    return conn.execute(dbPlanner.select().where(dbPlanner.c.mrpcnt == planner_id)).first()

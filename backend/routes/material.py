@@ -16,8 +16,9 @@ material = APIRouter()
     # Material Other ID
     # Safety Stock and other important parameters
 
-@material.get('/materials/', tags=["Material"])
-async def get_all_material_info(plant = 'MC10'):
+@material.get('/materials/{planner_id}', tags=["Material"])
+async def get_all_material_info(planner_id: str , 
+                                plant: str = 'MC10'):
     return conn.execute(dbMaterialMaster.select()).fetchall()
   
     
@@ -28,8 +29,10 @@ async def get_all_material_info(plant = 'MC10'):
     # Safety Stock
     # Other information 
 
-@material.get('/materials/{material_id}', tags=["Material"])
-async def get_material_info(material_id:str, plant : str = 'MC10'):
+@material.get('/materials/{planner_id}/{material_id}', tags=["Material"])
+async def get_material_info(planner_id, 
+                            material_id:str , 
+                            plant : str = 'MC10'):
     
     return conn.execute(dbMaterialMaster.select().where(dbMaterialMaster.c.material == material_id)).first()
     
