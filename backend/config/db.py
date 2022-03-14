@@ -1,5 +1,14 @@
 from sqlalchemy import create_engine, MetaData
 
-engine = create_engine('mysql+pymysql://root:admin@localhost:3306/admin')
+DB_USER = "root"
+DB_PASSWORD ="admin"
+DB_HOST = "localhost"
+DB_PORT = "3306"
+DATABASE = "admin"
+
+
+connect_string = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8mb4'.format(DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DATABASE)
+
+engine = create_engine(connect_string)
 meta = MetaData()
 conn = engine.connect()

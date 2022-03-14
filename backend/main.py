@@ -6,6 +6,7 @@ from routes.material import material
 from routes.healthscore import healthscore
 from routes.external import external
 from routes.exception import exception
+from routes.credential import credential
 
 description = """
 This is a MPA WebServer. 
@@ -76,10 +77,12 @@ tags_metadata = [
     {
         "name" : "Supply Chain",
         "description" : "Operations with supply chain of a material."
+    },             
+    {
+        "name" : "Authentication",
+        "description" : "Operations with creating users"
     }
-      
-   
-    
+     
 ]
 
 #  {
@@ -97,4 +100,5 @@ app.include_router(material)
 app.include_router(healthscore)
 app.include_router(exception)
 app.include_router(supplychain)
+app.include_router(credential)
 #app.include_router(external)

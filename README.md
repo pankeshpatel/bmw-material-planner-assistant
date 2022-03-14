@@ -1,6 +1,6 @@
 ```
 cd backend
-uvicorn index:app --reload
+uvicorn main:app --reload
 ```
 
 mysql docker

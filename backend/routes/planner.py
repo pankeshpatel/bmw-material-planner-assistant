@@ -5,7 +5,6 @@ from datetime import datetime, date
 from models.dbschema import dbPlanner
 
 
-
 planner = APIRouter()
 
 # Write a logic here that list ALL identified planners with information
