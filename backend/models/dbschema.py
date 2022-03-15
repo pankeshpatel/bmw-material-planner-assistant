@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Column
-from sqlalchemy.sql.sqltypes import Integer, String, DateTime
+from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Date
 from config.db import meta, engine
 
 
@@ -61,5 +61,21 @@ dbExceptionManager = Table (
                     Column('count', String(225)),
                     Column('percentage', String(225))
                 )
+
+dbmd04 = Table(
+            "MD04",
+            meta,
+            Column("materialID", String(225)),
+            Column("plant", String(225)),
+            Column("demand_date", String(225)),
+            Column("mrp_element", String(225)),
+            Column("change_quantity", Integer),
+            Column("total_quantity", Integer),
+            Column("storage_location", String(225)),
+            Column("supplier_nr", String(225)),
+            Column("planner", String(225)),
+            Column("line_index", String(225))  
+    )
+
                   
 meta.create_all(engine) 
