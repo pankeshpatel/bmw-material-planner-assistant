@@ -146,7 +146,7 @@ async def get_material_healthscore(planner_id:str,
     data = pd.DataFrame(conn.execute(sql, material_id, healthdate).fetchall())
     
     
-    avg_stock_change: float = calc_avg_stock_change(data)
+    #avg_stock_change: float = calc_avg_stock_change(data)
 
     # Start at given date find stock
     # If no stock present indicate that
@@ -186,7 +186,7 @@ async def get_material_healthscore(planner_id:str,
         if health != None:
             avg.append(health)
 
-        print_values(health, stock, avg_stock_change, material, formatted_date)
+        #print_values(health, stock, avg_stock_change, material, formatted_date)
 
     result = sum(avg)/len(avg)
     result = round(result, 2)
