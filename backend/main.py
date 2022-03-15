@@ -80,7 +80,7 @@ tags_metadata = [
     },             
     {
         "name" : "Authentication",
-        "description" : "Operations with creating users"
+        "description" : "Operations with sign-in users, login"
     }
      
 ]

@@ -27,43 +27,41 @@ stock: int
 avg_stock_change: float
 
 
+
 # This function is to find stock
-def find_stock(date: str, data: pd.DataFrame(), formatted_date: str) -> int:
-    print("******I am in find_stock()************") 
-    print("**data**")
-    print(data)
-    print("**first date**")
-    print(date)
-    print("formatted_date****")
-    print(formatted_date)
-  
-    data_stock = data[data[3] == "Stock"]
-    print("***data_stock***")
-    print(data_stock)
-    print("***data_stock.iterrows()***")
-    print(data_stock.iterrows())
-    for index, row in data_stock.iterrows():
-        print("Index>", index) 
-        print("row>>>", row)       
-        if date == row[2]:
-            print("I am in date == row[2]")               
+def find_stock(date: str, formatted_date: str, material_id: str) -> int:
+    
+    sql = """SELECT * FROM admin.MD04 WHERE materialID = %s AND demand_date = %s""" 
+    data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
+    
+    # Data is not available in DB
+    if(len(data) == 0):
+        print("No data found for", formatted_date)
+        return None 
+    
+        
+    if "Stock" in data.values:
+        #print("Stock exists")
+        data_stock = data[data[3] == "Stock"]  
+        for index, row in data_stock.iterrows():      
+            if date == row[2]:
+                #print(row[5])
+                return row[5]
+    else:
+        #print("Stock does not exists")
+        # # If else no concrete "Stock" data present just take stock for first entry of that day
+        data_date = data[data[2] == formatted_date]
+        for index, row in data_date.iterrows():
+            # Assuming data sorted, returning first total_quantity entry for that data
+            #print(row[5])
             return row[5]
+    
+   
 
-    # If else no concrete "Stock" data present just take stock for first entry of that day
-    data_date = data[data[2] == date]
-    for index, row in data_date.iterrows():
-        # Assuming data sorted, returning first total_quantity entry for that data
-        return row[5]
-
-    # Else essentially
-    print("No data found for", formatted_date)
-    return None
 
 
 def find_saftey_stock(date: datetime, data: pd.DataFrame(), saftey_stock: int) -> int:
-    for index, row in data.iterrows():
-        print("find_safety_stock..index", index)
-        print("find_safety_stock..row", row)
+    for index, row in data.iterrows():        
         return abs(row[4])  # Change due to removal of saftey stock, assumed const
 
     # Else
@@ -71,7 +69,6 @@ def find_saftey_stock(date: datetime, data: pd.DataFrame(), saftey_stock: int) -
 
 
 def format_date(date: datetime) -> str:
-      #return datetime.date.strftime(date, "%-m/%-d/%Y")
       return datetime.date.strftime(date, "%x")
 
 
@@ -139,12 +136,28 @@ async def get_material_healthscore(planner_id:str,
   
     material = material_id
     date = healthdate
-    num_days = 10
-    
+    num_days = 10    
     
     sql = """SELECT * FROM admin.MD04 WHERE materialID = %s AND demand_date = %s""" 
     data = pd.DataFrame(conn.execute(sql, material_id, healthdate).fetchall())
     
+    # find a safety stock
+    # If we do not find a value of "SafeSt", 
+    # then default value of safety_stock = 0 
+    mm, dd, yyyy = map(int, date.split('/'))
+    healthdate = datetime.datetime(yyyy, mm, dd)
+    
+    
+    # To calculate safety stock
+    # Look for a "SafeSt" value in the entire dataset of a material ID.   
+    sql = """SELECT * FROM admin.MD04 where materialID = %s"""
+    data_safety_stock = pd.DataFrame(conn.execute(sql, material_id).fetchall())    
+    saftey_stock = 0 # default value 
+    saftey_stock = find_saftey_stock(
+                   format_date(healthdate), 
+                   data_safety_stock[data_safety_stock[3] == "SafeSt"], saftey_stock
+        )
+            
     
     #avg_stock_change: float = calc_avg_stock_change(data)
 
@@ -155,37 +168,21 @@ async def get_material_healthscore(planner_id:str,
     # Repeat for next 10 days
     mm, dd, yyyy = map(int, date.split('/'))
     date_obj = datetime.datetime(yyyy, mm, dd)
-    saftey_stock = 0  # Default
     avg: List = []  # List to keep track of health scores
 
     for i in range(int(num_days)):
         td = datetime.timedelta(days=i)
-        #print("td>>", td)
         new_date = date_obj + td
-        #print("new_date>>", new_date)
         formatted_date = format_date(date=new_date)
-        #print("formattted_date>>>" + formatted_date)
         
-        #print("new_date formattted_date>>>" + format_date(new_date))
-
-
         # # ASSUME DATA SORTED ALREADY
-        stock = find_stock(format_date(new_date), data, formatted_date)
-        print("Return value of stock", stock)
-        saftey_stock = find_saftey_stock(
-                   format_date(new_date), 
-                   data[data[3] == "SafeSt"], 
-                   saftey_stock
-              )
-        
-        print("return value of safety_stock", saftey_stock)
+        stock = find_stock(format_date(new_date), formatted_date, material)
         
         
-
-        health = get_health_score(stock, abs(saftey_stock), k_val=0.8)
+        health = get_health_score(stock, saftey_stock, k_val=0.8)
         if health != None:
-            avg.append(health)
-
+             avg.append(health)
+            
         #print_values(health, stock, avg_stock_change, material, formatted_date)
 
     result = sum(avg)/len(avg)
