@@ -19,6 +19,11 @@ http://localhost:8000/docs
 
 ## frontend
 
+``
+cd frontend
+
+``
+
 - Install dependencies: `npm install` or `yarn`
 
 - Start the server: `npm run dev` or `yarn dev`
