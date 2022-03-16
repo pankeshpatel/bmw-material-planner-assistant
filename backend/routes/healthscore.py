@@ -256,4 +256,3 @@ async def get_material_healthscore(planner_id:str,
 # async def delete_user(id: int):
 #     conn.execute(dbUser.delete().where(dbUser.c.id == id))
 #     return conn.execute(dbUser.select()).fetchall()
-
