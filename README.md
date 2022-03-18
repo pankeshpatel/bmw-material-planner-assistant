@@ -30,3 +30,8 @@ cd frontend
 
 - Views are on: `localhost:3000`
 
+### frontend deployment to EC2
+
+[Guide](https://medium.com/today-i-solved/how-to-deploy-next-js-on-aws-ec2-with-ssl-https-7980ec6fe8d3)
+
+
