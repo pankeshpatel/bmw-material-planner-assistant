@@ -13,7 +13,7 @@ import { User as UserIcon } from '../icons/user';
 import { UserAdd as UserAddIcon } from '../icons/user-add';
 import { Users as UsersIcon } from '../icons/users';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
-import { Logo } from './logo';
+// import { Logo } from './logo';
 import { NavItem } from './nav-item';
 
 const items = [
@@ -54,7 +54,7 @@ const items = [
   },
   // {
   //   href: '/404',
-  //   icon: (<XCircleIcon fontSize="small" />),
+  //   icon:  (<XCircleIcon fontSize="small" />),
   //   title: 'Error'
   // }
 ];
