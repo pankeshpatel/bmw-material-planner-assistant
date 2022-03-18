@@ -25,38 +25,38 @@ const items = [
   {
     href: '/customers',
     icon: (<UsersIcon fontSize="small" />),
-    title: 'Customers'
+    title: 'Materials'
   },
   {
-    href: '/products',
+    href: '',
     icon: (<ShoppingBagIcon fontSize="small" />),
-    title: 'Products'
+    title: 'Health Score'
+  },
+  {
+    href: '',
+    icon: (<UserIcon fontSize="small" />),
+    title: 'Exception Manager'
+  },
+  {
+    href: '',
+    icon: (<CogIcon fontSize="small" />),
+    title: 'Part Ranking'
   },
   {
     href: '/account',
-    icon: (<UserIcon fontSize="small" />),
+    icon: (<LockIcon fontSize="small" />),
     title: 'Account'
   },
   {
-    href: '/settings',
-    icon: (<CogIcon fontSize="small" />),
-    title: 'Settings'
-  },
-  {
     href: '/login',
-    icon: (<LockIcon fontSize="small" />),
-    title: 'Login'
-  },
-  {
-    href: '/register',
     icon: (<UserAddIcon fontSize="small" />),
-    title: 'Register'
+    title: 'Log out'
   },
-  {
-    href: '/404',
-    icon: (<XCircleIcon fontSize="small" />),
-    title: 'Error'
-  }
+  // {
+  //   href: '/404',
+  //   icon: (<XCircleIcon fontSize="small" />),
+  //   title: 'Error'
+  // }
 ];
 
 export const DashboardSidebar = (props) => {
@@ -97,14 +97,24 @@ export const DashboardSidebar = (props) => {
               passHref
             >
               <a>
-                <Logo
+                {/* <Logo
                   sx={{
                     height: 42,
                     width: 42
                   }}
-                />
+                /> */}
+                <img height={62} width={62}  src="https://pngimg.com/uploads/bmw_logo/bmw_logo_PNG19714.png" alt="" />
+
+
               </a>
+              
             </NextLink>
+            {/* <Typography
+                  color="inherit"
+                  variant="subtitle1"
+                >
+                  BMW
+                </Typography> */}
           </Box>
           <Box sx={{ px: 2 }}>
             <Box
@@ -124,24 +134,22 @@ export const DashboardSidebar = (props) => {
                   color="inherit"
                   variant="subtitle1"
                 >
-                  Acme Inc
+                  Username
                 </Typography>
-                <Typography
+                {/* <Typography
                   color="neutral.400"
                   variant="body2"
                 >
-                  Your tier
-                  {' '}
-                  : Premium
-                </Typography>
+                 Username
+                </Typography> */}
               </div>
-              <SelectorIcon
+              {/* <SelectorIcon
                 sx={{
                   color: 'neutral.500',
                   width: 14,
                   height: 14
                 }}
-              />
+              /> */}
             </Box>
           </Box>
         </div>
@@ -162,7 +170,7 @@ export const DashboardSidebar = (props) => {
           ))}
         </Box>
         <Divider sx={{ borderColor: '#2D3748' }} />
-        <Box
+        {/* <Box
           sx={{
             px: 2,
             py: 3
@@ -211,7 +219,7 @@ export const DashboardSidebar = (props) => {
               Pro Live Preview
             </Button>
           </NextLink>
-        </Box>
+        </Box> */}
       </Box>
     </>
   );
