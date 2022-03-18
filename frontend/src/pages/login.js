@@ -12,8 +12,8 @@ const Login = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: 'demo@devias.io',
-      password: 'Password123'
+      email: '',
+      password: ''
     },
     validationSchema: Yup.object({
       email: Yup
@@ -49,7 +49,7 @@ const Login = () => {
         }}
       >
         <Container maxWidth="sm">
-          <NextLink
+          {/* <NextLink
             href="/"
             passHref
           >
@@ -59,7 +59,7 @@ const Login = () => {
             >
               Dashboard
             </Button>
-          </NextLink>
+          </NextLink> */}
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
               <Typography
@@ -80,7 +80,7 @@ const Login = () => {
               container
               spacing={3}
             >
-              <Grid
+              {/* <Grid
                 item
                 xs={12}
                 md={6}
@@ -95,8 +95,8 @@ const Login = () => {
                 >
                   Login with Facebook
                 </Button>
-              </Grid>
-              <Grid
+              </Grid> */}
+              {/* <Grid
                 item
                 xs={12}
                 md={6}
@@ -111,7 +111,7 @@ const Login = () => {
                 >
                   Login with Google
                 </Button>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Box
               sx={{
@@ -124,14 +124,14 @@ const Login = () => {
                 color="textSecondary"
                 variant="body1"
               >
-                or login with email address
+                {/* or login with email address */}
               </Typography>
             </Box>
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
               helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
+              label="User name"
               margin="normal"
               name="email"
               onBlur={formik.handleBlur}
@@ -165,7 +165,7 @@ const Login = () => {
                 Sign In Now
               </Button>
             </Box>
-            <Typography
+            {/* <Typography
               color="textSecondary"
               variant="body2"
             >
@@ -185,7 +185,7 @@ const Login = () => {
                   Sign Up
                 </Link>
               </NextLink>
-            </Typography>
+            </Typography> */}
           </form>
         </Container>
       </Box>
