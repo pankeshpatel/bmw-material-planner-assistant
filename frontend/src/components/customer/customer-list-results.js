@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
@@ -17,7 +18,13 @@ import {
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 
+
+import {materialMaster} from '../../../material-master';
+
+
 export const CustomerListResults = ({ customers, ...rest }) => {
+
+
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -69,7 +76,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedCustomerIds.length === customers.length}
                     color="primary"
@@ -79,38 +86,47 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                     }
                     onChange={handleSelectAll}
                   />
+                </TableCell> */}
+                <TableCell>
+                  material
                 </TableCell>
                 <TableCell>
-                  Name
+                  material_9
                 </TableCell>
                 <TableCell>
-                  Email
+                  material_7
                 </TableCell>
                 <TableCell>
-                  Location
+                  mat_description
+                </TableCell>
+                <TableCell >
+                  mat_description_eng
                 </TableCell>
                 <TableCell>
-                  Phone
+                  plant
                 </TableCell>
                 <TableCell>
-                  Registration date
+                  planner
+                </TableCell>
+                <TableCell>
+                  safety_stock
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {materialMaster.slice(0, limit).map((material) => (
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  key={material.material_7}
+                  // selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                 >
-                  <TableCell padding="checkbox">
+                  {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedCustomerIds.indexOf(customer.id) !== -1}
                       onChange={(event) => handleSelectOne(event, customer.id)}
                       value="true"
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Box
                       sx={{
@@ -118,31 +134,40 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                         display: 'flex'
                       }}
                     >
-                      <Avatar
+                      {/* <Avatar
                         src={customer.avatarUrl}
                         sx={{ mr: 2 }}
                       >
                         {getInitials(customer.name)}
-                      </Avatar>
+                      </Avatar> */}
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {material.material}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {material.material_9}
                   </TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                   {material.material_7}
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    {material.mat_description}
                   </TableCell>
                   <TableCell>
-                    {format(customer.createdAt, 'dd/MM/yyyy')}
+                    {material.mat_description_eng}
+                  </TableCell>
+                  <TableCell>
+                    {material.plant}
+                  </TableCell>
+                  <TableCell align="center">
+                    {material.planner}
+                  </TableCell>
+                  <TableCell align="center">
+                  {material.safety_stock}
                   </TableCell>
                 </TableRow>
               ))}

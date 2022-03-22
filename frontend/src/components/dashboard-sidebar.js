@@ -23,17 +23,17 @@ const items = [
     title: 'Dashboard'
   },
   {
-    href: '/customers',
+    href: '/materials',
     icon: (<UsersIcon fontSize="small" />),
     title: 'Materials'
   },
   {
-    href: '',
+    href: '/healthScore',
     icon: (<ShoppingBagIcon fontSize="small" />),
     title: 'Health Score'
   },
   {
-    href: '',
+    href: '/healthManager',
     icon: (<UserIcon fontSize="small" />),
     title: 'Exception Manager'
   },

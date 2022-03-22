@@ -17,6 +17,13 @@ import {
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { SeverityPill } from '../severity-pill';
 
+import {healthScore} from '../../../health-score';
+import {exceptionViewer} from '../../../Exception-Viewer-Widget-Datasheet';
+
+import { useState } from 'react';
+
+
+
 const orders = [
   {
     id: uuid(),
@@ -80,8 +87,13 @@ const orders = [
   }
 ];
 
-export const LatestOrders = (props) => (
-  <Card {...props}>
+export const LatestOrders = (props) => {
+  const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
+
+
+return(
+    <>
+    <Card {...props}>
     <CardHeader title="Latest Orders" />
     <PerfectScrollbar>
       <Box sx={{ minWidth: 800 }}>
@@ -89,12 +101,12 @@ export const LatestOrders = (props) => (
           <TableHead>
             <TableRow>
               <TableCell>
-                Order Ref
+                Material ID
               </TableCell>
               <TableCell>
-                Customer
+                Date
               </TableCell>
-              <TableCell sortDirection="desc">
+              {/* <TableCell sortDirection="desc">
                 <Tooltip
                   enterDelay={300}
                   title="Sort"
@@ -106,36 +118,43 @@ export const LatestOrders = (props) => (
                     Date
                   </TableSortLabel>
                 </Tooltip>
+              </TableCell> */}
+              <TableCell>
+                Supplier Number
               </TableCell>
               <TableCell>
-                Status
+                Health Score
+              </TableCell>
+              <TableCell>
+                Material Description
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((order) => (
+            {healthScore.slice(0,5).map((order,index) => (
               <TableRow
                 hover
-                key={order.id}
+                key={order.materialID}
+                onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
               >
                 <TableCell>
-                  {order.ref}
+                 {order.materialID}
                 </TableCell>
                 <TableCell>
-                  {order.customer.name}
+                  {order.healthscoredate}
                 </TableCell>
                 <TableCell>
-                  {format(order.createdAt, 'dd/MM/yyyy')}
+                  {order.suppliernumber}
                 </TableCell>
+
                 <TableCell>
-                  <SeverityPill
-                    color={(order.status === 'delivered' && 'success')
-                    || (order.status === 'refunded' && 'error')
-                    || 'warning'}
-                  >
-                    {order.status}
-                  </SeverityPill>
+                  {order.healthstatus}
                 </TableCell>
+
+                <TableCell>
+                  {order.partdescriptioneng}
+                </TableCell>
+          
               </TableRow>
             ))}
           </TableBody>
@@ -159,4 +178,172 @@ export const LatestOrders = (props) => (
       </Button>
     </Box>
   </Card>
-);
+  <Card {...props}>
+    <CardHeader title="Part Detailed Information" />
+    <PerfectScrollbar>
+      <Box sx={{ minWidth: 800 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                Material ID
+              </TableCell>
+              <TableCell>
+                Safety Stock
+              </TableCell>
+              {/* <TableCell sortDirection="desc">
+                <Tooltip
+                  enterDelay={300}
+                  title="Sort"
+                >
+                  <TableSortLabel
+                    active
+                    direction="desc"
+                  >
+                    Date
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell> */}
+              <TableCell>
+                Part Description Eng
+              </TableCell>
+              <TableCell>
+                Plant
+              </TableCell>
+              <TableCell>
+                Storage Location
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {selectedMaterial.map((order) => (
+              <TableRow
+                hover
+                key={order.materialID}
+              >
+                <TableCell>
+                 {order.materialID}
+                </TableCell>
+                <TableCell>
+                  {order.safetystock}
+                </TableCell>
+                <TableCell >
+                  {order.partdescriptioneng}
+                </TableCell>
+
+                <TableCell>
+                  {order.plant}
+                </TableCell>
+
+                <TableCell>
+                  {order.storagelocation}
+                </TableCell>
+          
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
+    </PerfectScrollbar>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        p: 2
+      }}
+    >
+
+    </Box>
+  </Card>
+  </>
+
+)};
+
+
+export const LatestOrderDetail= (props) => {
+ const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
+
+ return(<Card {...props}>
+    <CardHeader title="Part Detailed Information" />
+    <PerfectScrollbar>
+      <Box sx={{ minWidth: 800 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                Material ID
+              </TableCell>
+              <TableCell>
+              ExceptionCount
+              </TableCell>
+              {/* <TableCell sortDirection="desc">
+                <Tooltip
+                  enterDelay={300}
+                  title="Sort"
+                >
+                  <TableSortLabel
+                    active
+                    direction="desc"
+                  >
+                    Date
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell> */}
+              <TableCell>
+              Percentage
+
+              </TableCell>
+              <TableCell>
+              Part Description
+
+              </TableCell>
+              <TableCell>
+              Part Description Eng
+
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {exceptionViewer.map((order) => (
+              <TableRow
+                hover
+                key={order.MaterialID}
+              >
+                 <TableCell>
+                 {order.MaterialID}
+                </TableCell>
+
+                <TableCell>
+                 {order.ExceptionCount}
+                </TableCell>
+                <TableCell>
+                  {order.Percentage}
+                </TableCell>
+                <TableCell >
+                  {order.PartDescription}
+                </TableCell>
+
+                <TableCell>
+                  {order.PartDescriptionEng}
+                </TableCell>
+
+            
+          
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
+    </PerfectScrollbar>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        p: 2
+      }}
+    >
+
+    </Box>
+  </Card>
+)
+}
