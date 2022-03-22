@@ -14,22 +14,13 @@ export const Sales = (props) => {
         barThickness: 12,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year',
-        maxBarThickness: 10
+        data: [18, 50, 40, 32,100],
+        label: '',
+        maxBarThickness: 100
       },
-      {
-        backgroundColor: '#EEEEEE',
-        barPercentage: 0.5,
-        barThickness: 12,
-        borderRadius: 4,
-        categoryPercentage: 0.5,
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year',
-        maxBarThickness: 10
-      }
+   
     ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug', '7 aug']
+    labels: ['Postponed order', 'Potential Shortage Rqmt Increase', 'Firmed oder is late', 'No bill of material selected']
   };
 
   const options = {
@@ -39,7 +30,8 @@ export const Sales = (props) => {
     legend: { display: false },
     maintainAspectRatio: false,
     responsive: true,
-    xAxes: [
+    indexAxis: 'y',
+    yAxes: [
       {
         ticks: {
           fontColor: theme.palette.text.secondary
@@ -50,7 +42,7 @@ export const Sales = (props) => {
         }
       }
     ],
-    yAxes: [
+    xAxes: [
       {
         ticks: {
           fontColor: theme.palette.text.secondary,
@@ -92,7 +84,7 @@ export const Sales = (props) => {
             Last 7 days
           </Button>
         )}
-        title="Latest Sales"
+        title="Part Exception Manager"
       />
       <Divider />
       <CardContent>

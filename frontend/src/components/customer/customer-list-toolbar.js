@@ -11,7 +11,12 @@ import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
 
+
+
 export const CustomerListToolbar = (props) => (
+
+  
+
   <Box {...props}>
     <Box
       sx={{
@@ -28,7 +33,7 @@ export const CustomerListToolbar = (props) => (
       >
         Customers
       </Typography>
-      <Box sx={{ m: 1 }}>
+      {/* <Box sx={{ m: 1 }}>
         <Button
           startIcon={(<UploadIcon fontSize="small" />)}
           sx={{ mr: 1 }}
@@ -47,7 +52,7 @@ export const CustomerListToolbar = (props) => (
         >
           Add Customers
         </Button>
-      </Box>
+      </Box> */}
     </Box>
     <Box sx={{ mt: 3 }}>
       <Card>
@@ -67,7 +72,7 @@ export const CustomerListToolbar = (props) => (
                   </InputAdornment>
                 )
               }}
-              placeholder="Search customer"
+              placeholder="Search Material"
               variant="outlined"
             />
           </Box>

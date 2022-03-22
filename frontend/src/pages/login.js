@@ -15,21 +15,23 @@ const Login = () => {
       email: '',
       password: ''
     },
-    validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email(
-          'Must be a valid email')
-        .max(255)
-        .required(
-          'Email is required'),
-      password: Yup
-        .string()
-        .max(255)
-        .required(
-          'Password is required')
-    }),
+    // validationSchema: Yup.object({
+    //   email: Yup
+    //     .string()
+    //     .email(
+    //       'Must be a valid email')
+    //     .max(255)
+    //     .required(
+    //       'Email is required'),
+    //   password: Yup
+    //     .string()
+    //     .max(255)
+    //     .required(
+    //       'Password is required')
+    // }),
     onSubmit: () => {
+
+      localStorage.setItem("loggedIn","true")
       router.push('/');
     }
   });
