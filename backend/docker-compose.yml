@@ -1,24 +1,29 @@
-version: '3.8'
+version: '3.3'
 
 services:
+  backend-server:
+    container_name: "backend-server"
+    build: .    
+    ports:
+      - 8000:8000
+    depends_on:
+      - mysql-db
   mysql-db:
     container_name: mysql-db
     image: mysql:latest
     platform: linux/amd64
     environment:
-      - MYSQL_DATABASE='admin'
-      - MYSQL_ROOT_PASSWORD='admin'
+      - MYSQL_DATABASE=admin
+      - MYSQL_ROOT_PASSWORD=admin
     expose:
-      - "3306"
+      - 3306
     ports:
-      - "3306:3306"
-  backend-server:
-    container_name: "backend-server"
-    build: .    
-    ports:
-      - "8000:8000"
-    depends_on:
-      - mysql-db
+      - 3306:3306
+
+
+      
+
+  
     
 
        

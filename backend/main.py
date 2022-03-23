@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from models.dbschema import  dbExceptionMessage, dbMaterialMaster
-from routes.supplychain import supplychain
+#from models.dbschema import  dbExceptionMessage, dbMaterialMaster
+#from routes.supplychain import supplychain
 from routes.planner import planner
 from routes.material import material
 from routes.healthscore import healthscore
@@ -99,6 +99,6 @@ app.include_router(planner)
 app.include_router(material)
 app.include_router(healthscore)
 app.include_router(exception)
-app.include_router(supplychain)
+#app.include_router(supplychain)
 app.include_router(credential)
 #app.include_router(external)
