@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-#from models.dbschema import  dbExceptionMessage, dbMaterialMaster
-#from routes.supplychain import supplychain
+from models.dbschema import  dbExceptionMessage, dbMaterialMaster
+from routes.supplychain import supplychain
 from routes.planner import planner
 from routes.material import material
 from routes.healthscore import healthscore
