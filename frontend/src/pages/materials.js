@@ -6,27 +6,23 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import { customers } from '../__mocks__/customers';
 
 const Customers = () => (
-  <>
-    <Head>
-      <title>
-        Customers | Material Kit
-      </title>
-    </Head>
+  <div style={{marginTop:"-4%"}}>
+  
     <Box
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8
+        py: 0
       }}
     >
       <Container maxWidth={false}>
         <CustomerListToolbar />
-        <Box sx={{ mt: 3 }}>
+        <Box sx={{ mt: 0 }}>
           <CustomerListResults customers={customers} />
         </Box>
       </Container>
     </Box>
-  </>
+  </div>
 );
 Customers.getLayout = (page) => (
   <DashboardLayout>

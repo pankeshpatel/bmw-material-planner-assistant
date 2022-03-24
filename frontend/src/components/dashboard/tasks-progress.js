@@ -18,19 +18,20 @@ export const TasksProgress = (props) => (
             gutterBottom
             variant="overline"
           >
-            TASKS PROGRESS
+            Material with red <br/>
+            Score
           </Typography>
           <Typography
             color="textPrimary"
             variant="h4"
           >
-            75.5%
+            6
           </Typography>
         </Grid>
         <Grid item>
           <Avatar
             sx={{
-              backgroundColor: 'warning.main',
+              backgroundColor: 'error.main',
               height: 56,
               width: 56
             }}
@@ -39,12 +40,12 @@ export const TasksProgress = (props) => (
           </Avatar>
         </Grid>
       </Grid>
-      <Box sx={{ pt: 3 }}>
+      {/* <Box sx={{ pt: 3 }}>
         <LinearProgress
           value={75.5}
           variant="determinate"
         />
-      </Box>
+      </Box> */}
     </CardContent>
   </Card>
 );

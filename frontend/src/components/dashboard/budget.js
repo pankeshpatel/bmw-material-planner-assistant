@@ -19,19 +19,19 @@ export const Budget = (props) => (
             gutterBottom
             variant="overline"
           >
-            BUDGET
+            Total Material
           </Typography>
           <Typography
             color="textPrimary"
             variant="h4"
           >
-            $24k
+            25
           </Typography>
         </Grid>
         <Grid item>
           <Avatar
             sx={{
-              backgroundColor: 'error.main',
+              backgroundColor: 'primary.main',
               height: 56,
               width: 56
             }}
@@ -40,7 +40,7 @@ export const Budget = (props) => (
           </Avatar>
         </Grid>
       </Grid>
-      <Box
+      {/* <Box
         sx={{
           pt: 2,
           display: 'flex',
@@ -63,7 +63,7 @@ export const Budget = (props) => (
         >
           Since last month
         </Typography>
-      </Box>
+      </Box> */}
     </CardContent>
   </Card>
 );

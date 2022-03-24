@@ -8,9 +8,9 @@ import { DashboardLayout } from '../components/dashboard-layout';
 const Products = () => (
   <>
     <Head>
-      <title>
+      {/* <title>
         Products | Material Kit
-      </title>
+      </title> */}
     </Head>
     <Box
       component="main"

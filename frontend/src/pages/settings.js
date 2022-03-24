@@ -7,9 +7,9 @@ import { SettingsPassword } from '../components/settings/settings-password';
 const Settings = () => (
   <>
     <Head>
-      <title>
+      {/* <title>
         Settings | Material Kit
-      </title>
+      </title> */}
     </Head>
     <Box
       component="main"
