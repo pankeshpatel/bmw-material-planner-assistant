@@ -72,10 +72,10 @@ export const CustomerListResults = ({ customers, ...rest }) => {
   return (
     <Card {...rest}>
       <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
+        <Box sx={{ minWidth: 1050 }} style={{overflow:"scroll",height:"500px"}}>
+          <Table stickyHeader={true} >
+            <TableHead >
+              <TableRow >
                 {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedCustomerIds.length === customers.length}
@@ -118,6 +118,8 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                 <TableRow
                   hover
                   key={material.material_7}
+                  
+                  
                   // selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                 >
                   {/* <TableCell padding="checkbox">
@@ -127,11 +129,12 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                       value="true"
                     />
                   </TableCell> */}
-                  <TableCell>
+                  <TableCell >
                     <Box
                       sx={{
-                        alignItems: 'center',
-                        display: 'flex'
+                        // alignItems: 'center',
+                        // display: 'flex',
+                        // overflow:"scroll"
                       }}
                     >
                       {/* <Avatar

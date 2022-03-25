@@ -17,9 +17,9 @@ import {LatestOrderDetail} from '../components/dashboard/latest-orders';
 const Dashboard = () => (
   <>
     <Head>
-      <title>
+      {/* <title>
         Dashboard | Material Kit
-      </title>
+      </title> */}
     </Head>
     <Box
       component="main"

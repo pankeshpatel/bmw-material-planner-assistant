@@ -16,13 +16,13 @@ export const TotalCustomers = (props) => (
             gutterBottom
             variant="overline"
           >
-            TOTAL CUSTOMERS
+            Material With Green <br/> Score
           </Typography>
           <Typography
             color="textPrimary"
             variant="h4"
           >
-            1,6k
+            15
           </Typography>
         </Grid>
         <Grid item>
@@ -37,7 +37,7 @@ export const TotalCustomers = (props) => (
           </Avatar>
         </Grid>
       </Grid>
-      <Box
+      {/* <Box
         sx={{
           alignItems: 'center',
           display: 'flex',
@@ -59,7 +59,7 @@ export const TotalCustomers = (props) => (
         >
           Since last month
         </Typography>
-      </Box>
+      </Box> */}
     </CardContent>
   </Card>
 );

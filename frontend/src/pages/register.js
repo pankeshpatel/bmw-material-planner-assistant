@@ -63,9 +63,9 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>
+        {/* <title>
           Register | Material Kit
-        </title>
+        </title> */}
       </Head>
       <Box
         component="main"

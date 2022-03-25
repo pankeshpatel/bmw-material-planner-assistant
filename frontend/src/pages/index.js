@@ -15,9 +15,9 @@ import { DashboardLayout } from '../components/dashboard-layout';
 const Dashboard = () => (
   <>
     <Head>
-      <title>
+      {/* <title>
         Dashboard | Material Kit
-      </title>
+      </title> */}
     </Head>
     <Box
       component="main"
@@ -74,7 +74,7 @@ const Dashboard = () => (
             xl={9}
             xs={12}
           >
-            <Sales />
+            {/* <Sales /> */}
           </Grid>
           <Grid
             item
@@ -83,7 +83,7 @@ const Dashboard = () => (
             xl={3}
             xs={12}
           >
-            <TrafficByDevice sx={{ height: '100%' }} />
+            {/* <TrafficByDevice sx={{ height: '100%' }} /> */}
           </Grid>
           <Grid
             item
@@ -92,7 +92,7 @@ const Dashboard = () => (
             xl={3}
             xs={12}
           >
-            <LatestProducts sx={{ height: '100%' }} />
+            {/* <LatestProducts sx={{ height: '100%' }} /> */}
           </Grid>
           <Grid
             item
@@ -101,7 +101,7 @@ const Dashboard = () => (
             xl={9}
             xs={12}
           >
-            <LatestOrders />
+            {/* <LatestOrders /> */}
           </Grid>
         </Grid>
       </Container>

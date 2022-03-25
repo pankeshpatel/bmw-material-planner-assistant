@@ -12,6 +12,12 @@ cd backend
 uvicorn main:app --reload
 ```
 
+
+```
+aws ec2
+nohup uvicorn main:app --reload --host 0.0.0.0 &
+```
+
 mysql docker
 
 ```

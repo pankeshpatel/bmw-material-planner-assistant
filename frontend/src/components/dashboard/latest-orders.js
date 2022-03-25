@@ -94,7 +94,7 @@ export const LatestOrders = (props) => {
 return(
     <>
     <Card {...props}>
-    <CardHeader title="Latest Orders" />
+    <CardHeader title="Part Lookup" />
     <PerfectScrollbar>
       <Box sx={{ minWidth: 800 }}>
         <Table>
@@ -131,7 +131,7 @@ return(
             </TableRow>
           </TableHead>
           <TableBody>
-            {healthScore.slice(0,5).map((order,index) => (
+            {healthScore.slice(30,35).map((order,index) => (
               <TableRow
                 hover
                 key={order.materialID}
@@ -179,7 +179,7 @@ return(
     </Box>
   </Card>
   <Card {...props}>
-    <CardHeader title="Part Detailed Information" />
+    <CardHeader title="Part Detailed  Description" />
     <PerfectScrollbar>
       <Box sx={{ minWidth: 800 }}>
         <Table>

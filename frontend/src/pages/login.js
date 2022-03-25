@@ -38,9 +38,9 @@ const Login = () => {
 
   return (
     <>
-      <Head>
+      {/* <Head>
         <title>Login | Material Kit</title>
-      </Head>
+      </Head> */}
       <Box
         component="main"
         sx={{
@@ -138,7 +138,7 @@ const Login = () => {
               name="email"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              type="email"
+              type="text"
               value={formik.values.email}
               variant="outlined"
             />
