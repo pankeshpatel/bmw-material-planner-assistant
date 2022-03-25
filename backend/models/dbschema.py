@@ -34,15 +34,15 @@ dbPlanner = Table (
                    "Planner", 
                    meta,
                    Column("material", String(225)),
-                   Column("mrpcnt", String(225)),
-                   Column("mrpname", String(225)),
+                   Column("planner", String(225)),
+                   Column("username", String(225)),
                    Column("email", String(225))
                 )
 
 dbHealthScore = Table (
                     "HealthScore", 
                     meta,
-                    Column("materialID", String(225)),
+                    Column("material", String(225)),
                     Column("healthscoredate", DateTime()),
                     Column("healthstatus", String(225)),
                     Column("suppliernumber", String(225)),
@@ -65,7 +65,7 @@ dbExceptionManager = Table (
 dbmd04 = Table(
             "MD04",
             meta,
-            Column("materialID", String(225)),
+            Column("material", String(225)),
             Column("plant", String(225)),
             Column("demand_date", String(225)),
             Column("mrp_element", String(225)),

@@ -1,8 +1,21 @@
 ## backend
 
+### to install dependences
+
+```
+pip install -r requirements.txt
+```
+
+
 ```
 cd backend
 uvicorn main:app --reload
+```
+
+
+```
+aws ec2
+nohup uvicorn main:app --reload --host 0.0.0.0 &
 ```
 
 mysql docker
@@ -29,4 +42,9 @@ cd frontend
 - Start the server: `npm run dev` or `yarn dev`
 
 - Views are on: `localhost:3000`
+
+### frontend deployment to EC2
+
+[Guide](https://medium.com/today-i-solved/how-to-deploy-next-js-on-aws-ec2-with-ssl-https-7980ec6fe8d3)
+
 
