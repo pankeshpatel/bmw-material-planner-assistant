@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Box, Container, Grid } from '@mui/material';
-import { Sales } from '../components/dashboard/sales';
+import { ExceptionManager } from '../components/dashboard/exception-manager';
 import { DashboardLayout } from '../components/dashboard-layout';
 import {LatestOrderDetail} from '../components/dashboard/latest-orders';
 
@@ -70,7 +70,7 @@ const Dashboard = () => (
             xs={12}
         
           >
-            <Sales />
+            <ExceptionManager />
 
           </Grid>
     

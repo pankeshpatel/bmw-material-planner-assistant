@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import { Box, Container, Grid } from '@mui/material';
-import { Budget } from '../components/dashboard/budget';
-import { TasksProgress } from '../components/dashboard/tasks-progress';
-import { TotalCustomers } from '../components/dashboard/total-customers';
-import { TotalProfit } from '../components/dashboard/total-profit';
+import { TotalMaterial } from '../components/dashboard/totalmaterial';
+import { MaterialRedScore } from '../components/dashboard/material-red-score';
+import { MaterialGreenScore } from '../components/dashboard/material-green-score';
+import { MaterialYellowScore } from '../components/dashboard/material-yellow-score';
 import { DashboardLayout } from '../components/dashboard-layout';
 
 
@@ -34,7 +34,7 @@ const Dashboard = () => (
             xl={3}
             xs={12}
           >
-            <Budget />
+            <TotalMaterial />
           </Grid>
           <Grid
             item
@@ -43,7 +43,7 @@ const Dashboard = () => (
             sm={6}
             xs={12}
           >
-            <TotalCustomers />
+            <MaterialGreenScore />
           </Grid>
           <Grid
             item
@@ -52,7 +52,7 @@ const Dashboard = () => (
             sm={6}
             xs={12}
           >
-            <TasksProgress />
+            <MaterialRedScore />
           </Grid>
           <Grid
             item
@@ -61,7 +61,7 @@ const Dashboard = () => (
             sm={6}
             xs={12}
           >
-            <TotalProfit sx={{ height: '100%' }} />
+            <MaterialYellowScore sx={{ height: '100%' }} />
           </Grid>
           <Grid
             item

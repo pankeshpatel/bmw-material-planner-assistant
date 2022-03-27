@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Box, Container, Grid } from '@mui/material';
 import { LatestOrders } from '../components/dashboard/latest-orders';
-import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
+import { HealthGauge } from '../components/dashboard/health-guage';
 import { DashboardLayout } from '../components/dashboard-layout';
 import React from 'react';
 import { useState } from 'react';
@@ -74,7 +74,7 @@ const Dashboard = () => {
             xl={3}
             xs={12}
           >
-            <TrafficByDevice healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100%' }}   />
+            <HealthGauge healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100%' }}   />
           </Grid>
           <Grid
             item

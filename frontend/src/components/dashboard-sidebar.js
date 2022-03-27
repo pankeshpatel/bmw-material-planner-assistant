@@ -41,9 +41,9 @@ const items = [
     title: 'Health Score'
   },
   {
-    href: '/exceptionmanager',
+    href: '/exception',
     icon: (<FontAwesomeIcon icon={faPeopleRoof} />),
-    title: 'Exception Manager'
+    title: 'Exception'
   },
   {
     href: '',

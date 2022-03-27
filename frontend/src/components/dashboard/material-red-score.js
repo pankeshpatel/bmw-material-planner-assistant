@@ -1,11 +1,14 @@
-import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { Avatar, Box, Card, CardContent, Grid, LinearProgress, Typography } from '@mui/material';
+import InsertChartIcon from '@mui/icons-material/InsertChartOutlined';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRankingStar } from '@fortawesome/free-solid-svg-icons';
+import { faPeopleRoof } from '@fortawesome/free-solid-svg-icons';
 
 
-export const TotalProfit = (props) => (
-  <Card {...props}>
+export const MaterialRedScore = (props) => (
+  <Card
+    sx={{ height: '100%' }}
+    {...props}
+  >
     <CardContent>
       <Grid
         container
@@ -18,29 +21,35 @@ export const TotalProfit = (props) => (
             gutterBottom
             variant="overline"
           >
-            Material With Yellow <br/>
+            Material with red <br/>
             Score
           </Typography>
           <Typography
             color="textPrimary"
             variant="h4"
           >
-            4
+            6
           </Typography>
         </Grid>
         <Grid item>
           <Avatar
             sx={{
-              backgroundColor: 'warning.main',
+              backgroundColor: 'error.main',
               height: 56,
               width: 56
             }}
           >
-            {/* <AttachMoneyIcon /> */}
-            <FontAwesomeIcon icon={faRankingStar} />
+            {/* <InsertChartIcon /> */}
+            <FontAwesomeIcon icon={faPeopleRoof} />
           </Avatar>
         </Grid>
       </Grid>
+      {/* <Box sx={{ pt: 3 }}>
+        <LinearProgress
+          value={75.5}
+          variant="determinate"
+        />
+      </Box> */}
     </CardContent>
   </Card>
 );
