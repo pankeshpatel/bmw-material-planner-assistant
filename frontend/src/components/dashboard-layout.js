@@ -19,9 +19,7 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 }));
 
 export const DashboardLayout = (props) => {
-
-
-
+  
   const { children } = props;
   const router = useRouter();
 
