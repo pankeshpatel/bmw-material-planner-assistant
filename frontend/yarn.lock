@@ -475,6 +475,7 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-12.1.0.tgz#68faeae10c89f698bf9d28759172b74c9c21bda1"
   integrity sha512-iwnKgHJdqhIW19H9PRPM9j55V6RdcOo6rX+5imx832BCWzkDbyomWnlzBfr6ByUYfhohb8QuH4hSGEikpPqI0Q==
 
+
 "@next/swc-win32-x64-msvc@12.1.0":
   version "12.1.0"
   resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.1.0.tgz"
