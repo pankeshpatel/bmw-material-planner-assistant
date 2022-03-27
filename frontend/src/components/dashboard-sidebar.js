@@ -36,12 +36,12 @@ const items = [
     title: 'Materials'
   },
   {
-    href: '/healthScore',
+    href: '/healthscore',
     icon: (<FontAwesomeIcon icon={faBriefcaseMedical} />),
     title: 'Health Score'
   },
   {
-    href: '/healthManager',
+    href: '/exceptionmanager',
     icon: (<FontAwesomeIcon icon={faPeopleRoof} />),
     title: 'Exception Manager'
   },
