@@ -6,9 +6,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const NotFound = () => (
   <>
     <Head>
-      <title>
+      {/* <title>
         404 | Material Kit
-      </title>
+      </title> */}
     </Head>
     <Box
       component="main"

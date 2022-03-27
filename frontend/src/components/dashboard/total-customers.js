@@ -1,6 +1,9 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import PeopleIcon from '@mui/icons-material/PeopleOutlined';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faBriefcaseMedical } from '@fortawesome/free-solid-svg-icons';
+
 
 export const TotalCustomers = (props) => (
   <Card {...props}>
@@ -33,7 +36,8 @@ export const TotalCustomers = (props) => (
               width: 56
             }}
           >
-            <PeopleIcon />
+            {/* <PeopleIcon /> */}
+            <FontAwesomeIcon icon={faBriefcaseMedical} />
           </Avatar>
         </Grid>
       </Grid>

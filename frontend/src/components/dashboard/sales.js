@@ -9,9 +9,9 @@ export const Sales = (props) => {
   const data = {
     datasets: [
       {
-        backgroundColor: '#3F51B5',
+        backgroundColor: '#D24D4D',
         barPercentage: 0.5,
-        barThickness: 12,
+        barThickness: 20,
         borderRadius: 4,
         categoryPercentage: 0.5,
         data: [18, 50, 40, 32,100],
@@ -78,10 +78,19 @@ export const Sales = (props) => {
       <CardHeader
         action={(
           <Button
-            endIcon={<ArrowDropDownIcon fontSize="small" />}
+            // endIcon={<ArrowDropDownIcon fontSize="small" />}
             size="small"
           >
-            Last 7 days
+            <select>
+              <option value="" key="">last 5 days</option>
+              <option value="" key="">last 10 days</option>
+              <option value="" key="">last 20 days</option>
+              <option value="" key="">last 30 days</option>
+              <option value="" key="">last 40 days</option>
+              <option value="" key="">last 45 days</option>
+              <option value="" key="">last 60 days</option>
+
+            </select>
           </Button>
         )}
         title="Part Exception Manager"
@@ -108,13 +117,13 @@ export const Sales = (props) => {
           p: 2
         }}
       >
-        <Button
+        {/* <Button
           color="primary"
           endIcon={<ArrowRightIcon fontSize="small" />}
           size="small"
         >
           Overview
-        </Button>
+        </Button> */}
       </Box>
     </Card>
   );

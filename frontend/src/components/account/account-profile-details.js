@@ -27,9 +27,9 @@ const states = [
 
 export const AccountProfileDetails = (props) => {
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
+    firstName: 'Liliana',
+    lastName: 'Banda',
+    email: 'liliana.banda@bmw.com.mx',
     phone: '',
     state: 'Alabama',
     country: 'USA'
@@ -142,7 +142,7 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Select State"
+                label="Location"
                 name="state"
                 onChange={handleChange}
                 required

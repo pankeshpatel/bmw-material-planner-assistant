@@ -10,11 +10,16 @@ import { TotalProfit } from '../components/dashboard/total-profit';
 import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
 import { DashboardLayout } from '../components/dashboard-layout';
 import {LatestOrderDetail} from '../components/dashboard/latest-orders';
+import React from 'react';
+import { useState } from 'react';
 
 
 
+const Dashboard = () => {
 
-const Dashboard = () => (
+  const [healthGuage,setHealthGuage]=useState(10)
+
+  return(
   <>
     <Head>
       {/* <title>
@@ -25,7 +30,7 @@ const Dashboard = () => (
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8
+        py: 0
       }}
     >
       <Container maxWidth={false}>
@@ -76,7 +81,7 @@ const Dashboard = () => (
             xl={3}
             xs={12}
           >
-            <TrafficByDevice sx={{ height: '100%' }}   />
+            <TrafficByDevice healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100%' }}   />
           </Grid>
           <Grid
             item
@@ -85,7 +90,9 @@ const Dashboard = () => (
             xl={9}
             xs={12}
           >
-            <LatestOrders />
+            <LatestOrders healthGuage={healthGuage} setHealthGuage={setHealthGuage}
+            
+             />
           </Grid>
           {/* <Grid
             item
@@ -120,7 +127,8 @@ const Dashboard = () => (
       </Container>
     </Box>
   </>
-);
+  )
+        };
 
 
 Dashboard.getLayout = (page) => (
