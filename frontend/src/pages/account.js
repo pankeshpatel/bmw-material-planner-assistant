@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Box, Container, Grid, Typography } from '@mui/material';
-import { AccountProfile } from '../components/account/account-profile';
+import { AccountProfile } from '../components/account-profile';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { SettingsPassword } from '../components/settings-password';
 
