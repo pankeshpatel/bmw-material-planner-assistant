@@ -12,7 +12,8 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  Tooltip
+  Tooltip,
+  Slider
 } from '@mui/material';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { SeverityPill } from '../severity-pill';
@@ -21,6 +22,7 @@ import {healthScore} from '../../../health-score';
 import {exceptionViewer} from '../../../Exception-Viewer-Widget-Datasheet';
 
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 
 
@@ -87,17 +89,125 @@ const orders = [
   }
 ];
 
+function sortByProperty(property){  
+  return function(a,b){  
+     if(Number(a[property]) < Number(b[property]))  
+        return 1;  
+     else if(Number(a[property]) > Number(b[property]))  
+        return -1;  
+ 
+     return 0;  
+  }  
+}
+
 export const LatestOrders = (props) => {
+
+  const [healthData,sethealthData]=useState(healthScore.slice(0,healthScore.length-1))
+  // let healthData=healthScore;
   const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
+  const [value, setValue] = useState([0, 200]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  useEffect(() => {
+    props.setHealthGuage(healthScore[0].healthstatus)
+  
+  }, [])
+  
 
 
-return(
+
+
+  const returnColor = (status)=>{
+
+    const yellow ={
+    
+      color:"black",
+      backgroundColor:"yellow",
+      padding:"5px 20px",
+      borderRadius:"25px 25px"
+  
+    }
+  
+    const green ={
+      
+      color:"white",
+      backgroundColor:"green",
+      padding:"5px 20px",
+      borderRadius:"25px 25px"
+  
+    }
+  
+    const maroon ={
+      
+      color:"white",
+      backgroundColor:"maroon",
+      padding:"5px 20px",
+      borderRadius:"25px 25px"
+  
+    }
+
+    if (status<20 ) {
+      return maroon
+    }
+
+    if (status>20  && status <60) {
+      return yellow
+    }
+
+    if (status >60) {
+      return green
+    }
+
+
+
+  }
+
+  function valuetext(value) {
+    return `${Date(value)}`;
+  }
+
+  return(
     <>
-    <Card {...props}>
+    <Card {...props} >
     <CardHeader title="Part Lookup" />
+    <Box
+      sx={{
+        display: 'flex',
+        marginTop:"-7%",
+        paddingBottom:"2%",
+        justifyContent: 'flex-end',
+      
+        // p: 2
+      }}
+    >
+     <Slider
+      // color="primary"
+       sx={{
+        display: 'flex',
+        width:"300px",
+        justifyContent: 'flex-end',
+        marginRight:"5%"
+      
+        // p: 2
+      }}
+      value={value}
+      aria-valuetext="sdasd"
+      onChange={handleChange}
+      min={0}
+      max={200}
+      valueLabelDisplay="off"
+      getAriaValueText={valuetext}
+     >
+
+     </Slider>
+    </Box>
     <PerfectScrollbar>
-      <Box sx={{ minWidth: 800 }}>
-        <Table>
+      <Box sx={{ minWidth: 800,height:"400px" ,overflow:"scroll"}}>
+     
+        <Table stickyHeader={true} >
           <TableHead>
             <TableRow>
               <TableCell>
@@ -122,7 +232,7 @@ return(
               <TableCell>
                 Supplier Number
               </TableCell>
-              <TableCell>
+              <TableCell onClick={()=>{sethealthData(healthScore.sort(sortByProperty("healthstatus")))}}>
                 Health Score
               </TableCell>
               <TableCell>
@@ -131,10 +241,12 @@ return(
             </TableRow>
           </TableHead>
           <TableBody>
-            {healthScore.slice(30,35).map((order,index) => (
-              <TableRow
+            
+            {healthData.map((order,index)=>{
+              return(
+                <TableRow
                 hover
-                key={order.materialID}
+                key={Math.random()}
                 onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
               >
                 <TableCell>
@@ -148,7 +260,7 @@ return(
                 </TableCell>
 
                 <TableCell>
-                  {order.healthstatus}
+                 <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                 </TableCell>
 
                 <TableCell>
@@ -156,12 +268,13 @@ return(
                 </TableCell>
           
               </TableRow>
-            ))}
+              )
+            })}
           </TableBody>
         </Table>
       </Box>
     </PerfectScrollbar>
-    <Box
+    {/* <Box
       sx={{
         display: 'flex',
         justifyContent: 'flex-end',
@@ -176,7 +289,7 @@ return(
       >
         View all
       </Button>
-    </Box>
+    </Box> */}
   </Card>
   <Card {...props}>
     <CardHeader title="Part Detailed  Description" />
@@ -262,12 +375,13 @@ return(
 
 export const LatestOrderDetail= (props) => {
  const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
+ const [matrixData,setMatrixData] = useState(exceptionViewer)
 
  return(<Card {...props}>
-    <CardHeader title="Part Detailed Information" />
+    <CardHeader title="Part Exception Matrix" />
     <PerfectScrollbar>
-      <Box sx={{ minWidth: 800 }}>
-        <Table>
+      <Box sx={{ minWidth: 800,height:"600px" ,overflow:"scroll"}}>
+        <Table stickyHeader={true}>
           <TableHead>
             <TableRow>
               <TableCell>
@@ -289,7 +403,7 @@ export const LatestOrderDetail= (props) => {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell> */}
-              <TableCell>
+              <TableCell onClick={()=>{setMatrixData(exceptionViewer.sort(sortByProperty("Percentage")).slice(0,exceptionViewer.length-1)) }}>
               Percentage
 
               </TableCell>
@@ -304,7 +418,7 @@ export const LatestOrderDetail= (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {exceptionViewer.map((order) => (
+            {matrixData.map((order) => (
               <TableRow
                 hover
                 key={order.MaterialID}
@@ -317,7 +431,7 @@ export const LatestOrderDetail= (props) => {
                  {order.ExceptionCount}
                 </TableCell>
                 <TableCell>
-                  {order.Percentage}
+                  {(order.Percentage*100).toString().slice(0,4) + "%"}
                 </TableCell>
                 <TableCell >
                   {order.PartDescription}

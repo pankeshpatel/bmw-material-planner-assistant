@@ -1,6 +1,8 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import MoneyIcon from '@mui/icons-material/Money';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 
 export const Budget = (props) => (
   <Card
@@ -36,7 +38,7 @@ export const Budget = (props) => (
               width: 56
             }}
           >
-            <MoneyIcon />
+            <FontAwesomeIcon icon={faBook} />
           </Avatar>
         </Grid>
       </Grid>
