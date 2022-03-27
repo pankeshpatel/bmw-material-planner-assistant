@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { Box, Container } from '@mui/material';
 import { CustomerListResults } from '../components/material/material-list-results';
 import { CustomerListToolbar } from '../components/material/material-list-toolbar';
-import { DashboardLayout } from '../components/dashboard-layout';
+import { DashboardLayout } from '../components/common/dashboard-layout';
 import { customers } from '../__mocks__/customers';
 
 const Customers = () => (

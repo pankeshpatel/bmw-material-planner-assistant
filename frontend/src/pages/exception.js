@@ -1,9 +1,8 @@
 import Head from 'next/head';
 import { Box, Container, Grid } from '@mui/material';
-import { ExceptionManager } from '../components/dashboard/exception-manager';
-import { DashboardLayout } from '../components/dashboard-layout';
-import {LatestOrderDetail} from '../components/dashboard/latest-orders';
-
+import { ExceptionManager } from '../components/exception/exception-manager';
+import { DashboardLayout } from '../components/common/dashboard-layout';
+import {ExceptionMatrix} from '../components/exception/exception-matrix';
 
 
 
@@ -82,7 +81,7 @@ const Dashboard = () => (
             xl={12}
             xs={12}
           >
-            <LatestOrderDetail />
+            <ExceptionMatrix />
           </Grid>
           {/* <Grid
             item

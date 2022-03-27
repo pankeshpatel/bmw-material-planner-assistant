@@ -4,7 +4,7 @@ import { TotalMaterial } from '../components/dashboard/totalmaterial';
 import { MaterialRedScore } from '../components/dashboard/material-red-score';
 import { MaterialGreenScore } from '../components/dashboard/material-green-score';
 import { MaterialYellowScore } from '../components/dashboard/material-yellow-score';
-import { DashboardLayout } from '../components/dashboard-layout';
+import { DashboardLayout } from '../components/common/dashboard-layout';
 
 
 

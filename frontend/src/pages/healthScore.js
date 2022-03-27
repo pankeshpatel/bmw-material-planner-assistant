@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import { Box, Container, Grid } from '@mui/material';
-import { LatestOrders } from '../components/dashboard/latest-orders';
-import { HealthGauge } from '../components/dashboard/health-guage';
-import { DashboardLayout } from '../components/dashboard-layout';
+import { ExceptionMatrix } from '../components/exception/exception-matrix';
+import { HealthGauge } from '../components/healthscore/health-guage';
+import { DashboardLayout } from '../components/common/dashboard-layout';
 import React from 'react';
 import { useState } from 'react';
 
@@ -83,7 +83,7 @@ const Dashboard = () => {
             xl={9}
             xs={12}
           >
-            <LatestOrders healthGuage={healthGuage} setHealthGuage={setHealthGuage}
+            <ExceptionMatrix healthGuage={healthGuage} setHealthGuage={setHealthGuage}
             
              />
           </Grid>

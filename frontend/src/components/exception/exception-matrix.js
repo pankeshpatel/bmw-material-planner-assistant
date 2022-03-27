@@ -373,7 +373,7 @@ export const LatestOrders = (props) => {
 )};
 
 
-export const LatestOrderDetail= (props) => {
+export const ExceptionMatrix = (props) => {
  const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
  const [matrixData,setMatrixData] = useState(exceptionViewer)
 
