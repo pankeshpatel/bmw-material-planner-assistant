@@ -107,9 +107,6 @@ const Dashboard = () => (
 
 
 Dashboard.getLayout = (page) => (
-
-  
-
   <DashboardLayout>
     {page}
   </DashboardLayout>
