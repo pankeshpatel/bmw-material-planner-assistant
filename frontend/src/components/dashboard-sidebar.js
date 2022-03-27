@@ -14,6 +14,13 @@ import { UserAdd as UserAddIcon } from '../icons/user-add';
 import { Users as UsersIcon } from '../icons/users';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { NavItem } from './nav-item';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
+import {faBriefcaseMedical } from '@fortawesome/free-solid-svg-icons';
+import { faPeopleRoof } from '@fortawesome/free-solid-svg-icons';
+import { faRankingStar } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+
 
 
 
@@ -25,27 +32,27 @@ const items = [
   },
   {
     href: '/materials',
-    icon: (<UsersIcon fontSize="small" />),
+    icon: (<FontAwesomeIcon  icon={faBook} />),
     title: 'Materials'
   },
   {
     href: '/healthScore',
-    icon: (<ShoppingBagIcon fontSize="small" />),
+    icon: (<FontAwesomeIcon icon={faBriefcaseMedical} />),
     title: 'Health Score'
   },
   {
     href: '/healthManager',
-    icon: (<UserIcon fontSize="small" />),
+    icon: (<FontAwesomeIcon icon={faPeopleRoof} />),
     title: 'Exception Manager'
   },
   {
     href: '',
-    icon: (<CogIcon fontSize="small" />),
+    icon: (<FontAwesomeIcon icon={faRankingStar} />),
     title: 'Part Ranking'
   },
   {
     href: '/account',
-    icon: (<LockIcon fontSize="small" />),
+    icon: (<FontAwesomeIcon icon={faUser} />),
     title: 'Account'
   },
   {

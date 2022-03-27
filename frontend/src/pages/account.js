@@ -10,9 +10,9 @@ import { SettingsNotifications } from '../components/settings/settings-notificat
 const Account = () => (
   <>
     <Head>
-      <title>
+      {/* <title>
         Account | Material Kit
-      </title>
+      </title> */}
     </Head>
     <Box
       component="main"

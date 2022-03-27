@@ -6,6 +6,9 @@ import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { createEmotionCache } from '../utils/create-emotion-cache';
 import { theme } from '../theme';
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -24,7 +27,10 @@ const App = (props) => {
           name="viewport"
           content="initial-scale=1, width=device-width"
         />
+      
       </Head>
+      <script src="https://use.fontawesome.com/589b55b0ea.js"></script>
+
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <ThemeProvider theme={theme}>
           <CssBaseline />

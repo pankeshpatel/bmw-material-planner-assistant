@@ -1,5 +1,8 @@
 import { Avatar, Box, Card, CardContent, Grid, LinearProgress, Typography } from '@mui/material';
 import InsertChartIcon from '@mui/icons-material/InsertChartOutlined';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPeopleRoof } from '@fortawesome/free-solid-svg-icons';
+
 
 export const TasksProgress = (props) => (
   <Card
@@ -36,7 +39,8 @@ export const TasksProgress = (props) => (
               width: 56
             }}
           >
-            <InsertChartIcon />
+            {/* <InsertChartIcon /> */}
+            <FontAwesomeIcon icon={faPeopleRoof} />
           </Avatar>
         </Grid>
       </Grid>
