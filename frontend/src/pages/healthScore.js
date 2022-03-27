@@ -15,9 +15,9 @@ const Dashboard = () => {
   return(
   <>
     <Head>
-      {/* <title>
-        Dashboard | Material Kit
-      </title> */}
+      <title>
+        Health Score
+      </title>
     </Head>
     <Box
       component="main"

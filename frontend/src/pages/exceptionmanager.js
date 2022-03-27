@@ -10,9 +10,9 @@ import {LatestOrderDetail} from '../components/dashboard/latest-orders';
 const Dashboard = () => (
   <>
     <Head>
-      {/* <title>
-        Dashboard | Material Kit
-      </title> */}
+      <title>
+        Exception Manager 
+      </title>
     </Head>
     <Box
       component="main"

@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
@@ -33,9 +34,9 @@ const Login = () => {
 
   return (
     <>
-      {/* <Head>
-        <title>Login | Material Kit</title>
-      </Head> */}
+      <Head>
+        <title>Login</title>
+      </Head>
       <Box
         component="main"
         sx={{

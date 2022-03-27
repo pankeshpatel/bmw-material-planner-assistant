@@ -8,9 +8,9 @@ import { SettingsPassword } from '../components/settings/settings-password';
 const Account = () => (
   <>
     <Head>
-      {/* <title>
-        Account | Material Kit
-      </title> */}
+      <title>
+        Account 
+      </title>
     </Head>
     <Box
       component="main"
