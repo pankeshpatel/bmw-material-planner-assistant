@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Box, Container } from '@mui/material';
-import { CustomerListResults } from '../components/material/material-list-results';
-import { CustomerListToolbar } from '../components/material/material-list-toolbar';
+import { MaterialListResults } from '../components/material/material-list-results';
+import { MaterialListToolbar } from '../components/material/material-list-toolbar';
 import { DashboardLayout } from '../components/common/dashboard-layout';
 import { customers } from '../__mocks__/customers';
 
@@ -16,9 +16,9 @@ const Customers = () => (
       }}
     >
       <Container maxWidth={false}>
-        <CustomerListToolbar />
+        <MaterialListToolbar />
         <Box sx={{ mt: 0 }}>
-          <CustomerListResults customers={customers} />
+          <MaterialListResults customers={customers} />
         </Box>
       </Container>
     </Box>

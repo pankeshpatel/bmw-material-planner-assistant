@@ -22,7 +22,7 @@ import { getInitials } from '../../utils/get-initials';
 import {materialMaster} from '../../../material-master';
 
 
-export const CustomerListResults = ({ customers, ...rest }) => {
+export const MaterialListResults = ({ customers, ...rest }) => {
 
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -191,6 +191,6 @@ export const CustomerListResults = ({ customers, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
+MaterialListResults.propTypes = {
   customers: PropTypes.array.isRequired
 };

@@ -13,7 +13,7 @@ import { Download as DownloadIcon } from '../../icons/download';
 
 
 
-export const CustomerListToolbar = (props) => (
+export const MaterialListToolbar = (props) => (
 
   
 
