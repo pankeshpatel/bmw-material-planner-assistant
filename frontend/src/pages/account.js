@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Box, Container, Grid, Typography } from '@mui/material';
-import { AccountProfileDetails } from '../components/account/account-profile-details';
+import { AccountProfile } from '../components/account/account-profile';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { SettingsPassword } from '../components/settings/settings-password';
 
@@ -44,7 +44,7 @@ const Account = () => (
             md={12}
             xs={12}
           >
-            <AccountProfileDetails />
+            <AccountProfile />
           </Grid>
         </Grid>
       </Container>
