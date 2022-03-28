@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Box, Container, Grid } from '@mui/material';
-import { ExceptionMatrix } from '../components/exception/exception-matrix';
-import { HealthGauge } from '../components/healthscore/health-guage';
+import { LatestOrders } from '../components/healthscore/latest-orders';
+import { TrafficByDevice } from '../components/healthscore/traffic-by-device';
 import { DashboardLayout } from '../components/common/dashboard-layout';
 import React from 'react';
 import { useState } from 'react';
@@ -15,9 +15,9 @@ const Dashboard = () => {
   return(
   <>
     <Head>
-      <title>
-        Health Score
-      </title>
+      {/* <title>
+        Dashboard | Material Kit
+      </title> */}
     </Head>
     <Box
       component="main"
@@ -74,7 +74,7 @@ const Dashboard = () => {
             xl={3}
             xs={12}
           >
-            <HealthGauge healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100%' }}   />
+            <TrafficByDevice healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100%' }}   />
           </Grid>
           <Grid
             item
@@ -83,7 +83,7 @@ const Dashboard = () => {
             xl={9}
             xs={12}
           >
-            <ExceptionMatrix healthGuage={healthGuage} setHealthGuage={setHealthGuage}
+            <LatestOrders healthGuage={healthGuage} setHealthGuage={setHealthGuage}
             
              />
           </Grid>

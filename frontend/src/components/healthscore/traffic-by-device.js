@@ -6,7 +6,7 @@ import TabletIcon from '@mui/icons-material/Tablet';
 import GaugeChart from 'react-gauge-chart'
 import { useEffect, useState } from 'react';
 
-export const HealthGauge = (props) => {
+export const TrafficByDevice = (props) => {
 
   const [arcs, setArcs] = useState([0.2, 0.3, 0.5])
   const theme = useTheme();
