@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Box, Container, Grid } from '@mui/material';
-import { LatestOrders } from '../components/healthscore/latest-orders';
+import { PartLookUp } from '../components/healthscore/part-lookup';
 import { TrafficByDevice } from '../components/healthscore/traffic-by-device';
 import { DashboardLayout } from '../components/common/dashboard-layout';
 import React from 'react';
@@ -83,7 +83,7 @@ const Dashboard = () => {
             xl={9}
             xs={12}
           >
-            <LatestOrders healthGuage={healthGuage} setHealthGuage={setHealthGuage}
+            <PartLookUp healthGuage={healthGuage} setHealthGuage={setHealthGuage}
             
              />
           </Grid>
