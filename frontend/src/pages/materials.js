@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { Box, Container } from '@mui/material';
 import { MaterialListResults } from '../components/material/material-list-results';
 import { MaterialListToolbar } from '../components/material/material-list-toolbar';
