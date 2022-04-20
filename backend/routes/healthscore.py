@@ -21,7 +21,7 @@ healthscore = APIRouter()
 PATH: str
 # This is a directory in which material files is stored.
 #directory: str = r'/code/app/MD04'
-directory: str = r'/Users/pankeshpatel/Desktop/bmw-material-planner-assistant/backend/MD04'
+#directory: str = r'/Users/pankeshpatel/Desktop/bmw-material-planner-assistant/backend/MD04'
 saftey_stock: int
 stock: int
 avg_stock_change: float
@@ -29,9 +29,11 @@ avg_stock_change: float
 
 
 # This function is to find stock
-def find_stock(date: str, formatted_date: str, material_id: str) -> int:
+def find_stock(formatted_date: str, material_id: str) -> int:
     
-    sql = """SELECT * FROM admin.MD04 WHERE materialID = %s AND demand_date = %s""" 
+
+    
+    sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
     data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
     
     # Data is not available in DB
@@ -138,8 +140,9 @@ async def get_material_healthscore(planner_id:str,
     date = healthdate
     num_days = 10    
     
-    sql = """SELECT * FROM admin.MD04 WHERE materialID = %s AND demand_date = %s""" 
+    sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
     data = pd.DataFrame(conn.execute(sql, material_id, healthdate).fetchall())
+    print(data)
     
     # find a safety stock
     # If we do not find a value of "SafeSt", 
@@ -150,13 +153,14 @@ async def get_material_healthscore(planner_id:str,
     
     # To calculate safety stock
     # Look for a "SafeSt" value in the entire dataset of a material ID.   
-    sql = """SELECT * FROM admin.MD04 where materialID = %s"""
+    sql = """SELECT * FROM admin.MD04 where material = %s"""
     data_safety_stock = pd.DataFrame(conn.execute(sql, material_id).fetchall())    
     saftey_stock = 0 # default value 
     saftey_stock = find_saftey_stock(
                    format_date(healthdate), 
                    data_safety_stock[data_safety_stock[3] == "SafeSt"], saftey_stock
         )
+    
             
     
     #avg_stock_change: float = calc_avg_stock_change(data)
@@ -176,7 +180,7 @@ async def get_material_healthscore(planner_id:str,
         formatted_date = format_date(date=new_date)
         
         # # ASSUME DATA SORTED ALREADY
-        stock = find_stock(format_date(new_date), formatted_date, material)
+        stock = find_stock(formatted_date, material)
         
         
         health = get_health_score(stock, saftey_stock, k_val=0.8)

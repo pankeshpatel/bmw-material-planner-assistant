@@ -6,12 +6,10 @@
 pip install -r requirements.txt
 ```
 
-
 ```
 cd backend
 uvicorn main:app --reload
 ```
-
 
 ```
 aws ec2
@@ -25,6 +23,7 @@ docker run --name mysqldb --platform linux/x86_64 -e MYSQL_DATABASE=admin -e MYS
 ```
 
 API Server
+
 ```
 http://localhost:8000/docs
 
@@ -47,4 +46,12 @@ cd frontend
 
 [Guide](https://medium.com/today-i-solved/how-to-deploy-next-js-on-aws-ec2-with-ssl-https-7980ec6fe8d3)
 
+### API guide
 
+- health score query sample:
+- http://localhost:8000/healthscore/114/7417886-07?healthdate=04/20/22&plant=MC10
+
+### Database guide
+
+- MD04 data must be sorted according to the demand_date (oldest first)
+- demand_date field format must be in mm/dd/yy (e.g., 04/20/22).
