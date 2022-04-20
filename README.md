@@ -55,3 +55,4 @@ cd frontend
 
 - MD04 data must be sorted according to the demand_date (oldest first)
 - demand_date field format must be in mm/dd/yy (e.g., 04/20/22).
+- the .csv file is in UTF-CSV format, Save the UTF-CSV file to .csv file
