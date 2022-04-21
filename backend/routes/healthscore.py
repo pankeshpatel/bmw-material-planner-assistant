@@ -20,8 +20,7 @@ healthscore = APIRouter()
 
 PATH: str
 # This is a directory in which material files is stored.
-#directory: str = r'/code/app/MD04'
-#directory: str = r'/Users/pankeshpatel/Desktop/bmw-material-planner-assistant/backend/MD04'
+
 saftey_stock: int
 stock: int
 avg_stock_change: float
@@ -29,10 +28,8 @@ avg_stock_change: float
 
 
 # This function is to find stock
-def find_stock(formatted_date: str, material_id: str) -> int:
-    
-
-    
+def find_stock(date: str, formatted_date: str, material_id: str) -> int:
+        
     sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
     data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
     
@@ -43,22 +40,17 @@ def find_stock(formatted_date: str, material_id: str) -> int:
     
         
     if "Stock" in data.values:
-        #print("Stock exists")
-        data_stock = data[data[3] == "Stock"]  
-        for index, row in data_stock.iterrows():      
+        data_stock = data[data[3] == "Stock"]
+        for index, row in data_stock.iterrows(): 
             if date == row[2]:
-                #print(row[5])
                 return row[5]
     else:
-        #print("Stock does not exists")
         # # If else no concrete "Stock" data present just take stock for first entry of that day
         data_date = data[data[2] == formatted_date]
         for index, row in data_date.iterrows():
             # Assuming data sorted, returning first total_quantity entry for that data
-            #print(row[5])
             return row[5]
-    
-   
+
 
 
 
@@ -77,8 +69,8 @@ def format_date(date: datetime) -> str:
 
 def calc_avg_stock_change(data: pd.DataFrame()) -> float:
     data_filtered = data[data[3] == "Stock"]  # Stock values
-    print("****data_filtered****")
-    print(data_filtered)
+    #print("****data_filtered****")
+    #print(data_filtered)
     #Assume data is sorted for now
     prev_row: int
     curr_row: int
@@ -104,7 +96,7 @@ def calc_avg_stock_change(data: pd.DataFrame()) -> float:
 
     return total_dif/counter
 
-
+# What is sigmoid function - https://www.youtube.com/watch?v=LcHYy-OZHp8
 def get_health_score(stock: int, saftey_stock: int, k_val: float) -> float:
     # Change value of k to affect attitude of curve
     if stock != None and saftey_stock != 0:
@@ -142,7 +134,7 @@ async def get_material_healthscore(planner_id:str,
     
     sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
     data = pd.DataFrame(conn.execute(sql, material_id, healthdate).fetchall())
-    print(data)
+    #print(data)
     
     # find a safety stock
     # If we do not find a value of "SafeSt", 
@@ -180,10 +172,12 @@ async def get_material_healthscore(planner_id:str,
         formatted_date = format_date(date=new_date)
         
         # # ASSUME DATA SORTED ALREADY
-        stock = find_stock(formatted_date, material)
+        stock = find_stock(format_date(new_date), formatted_date, material)
         
         
         health = get_health_score(stock, saftey_stock, k_val=0.8)
+        #print(formatted_date , "-->" , stock, "-->", saftey_stock, "-->", health)
+
         if health != None:
              avg.append(health)
             
@@ -197,9 +191,8 @@ async def get_material_healthscore(planner_id:str,
         "Material": material,
         "Date": date,
         "Health-score": percentage_result,
-        "Safety Stock": saftey_stock,
-        "Status Code": 200,
-        "Status Description": "Success"
+        "Safety Stock": saftey_stock
+      
     }
 
     return health_score
