@@ -13,6 +13,7 @@ from datetime import date
 import pandas as pd
 from typing import List, Tuple, Set, Dict
 from typing import Optional
+import json
 
 
 healthscore = APIRouter()
@@ -24,6 +25,91 @@ PATH: str
 saftey_stock: int
 stock: int
 avg_stock_change: float
+
+
+#d = {'col1': [1, 2], 'col2': [3, 4]}
+#df = pd.DataFrame(data=d)
+
+#total_quantity = pd.DataFrame()
+
+#total_quantity : dict
+
+dict = {
+    "demand_date" : [],
+    "total_quantity": []    
+}
+
+
+
+
+# This function is to construct a dataframe total Quantity
+
+def find_total_quantity(formatted_date: str, material_id: str):
+    sql = """SELECT material, demand_date, total_quantity FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
+     
+    data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
+    
+    global dict
+    dict["demand_date"].append(data[0])
+    dict["total_quantity"].append(data[1])
+    
+    df = pd.DataFrame(dict) 
+    print(df)
+    
+    
+    #df = pd.DataFrame(dict) 
+    #print(df)
+    
+    #df.to_csv("total_qty.csv", index=True, header=False)
+
+    
+    
+    #my_tuple = my_tuple + (data[0], data[1])
+    
+    #df = pd.DataFrame(data=my_tuple, columns=['demand_date','total_quantity'])    
+    #print(df)
+
+    
+    #my_tuple(data[0], data[1])
+    
+    #print(my_tuple)
+    
+    
+    #print("***data[1]***")
+    #print(data[1])
+    
+    #print(data["demand_date"], " ", data["total_quantity"])
+    
+    
+    #print("*******type(data)*******")
+    #print(type(data))
+    
+    
+    
+    
+    #data.to_csv("total_qty.csv", index=True, header=False, mode='a')
+    
+    #result = data.to_json(orient="split")
+    #parsed = json.loads(result)
+    #print(json.dumps(parsed, indent=4))      
+    #print(data.to_json(data))
+    #print(dict(data.values))
+    
+    #global total_quantity
+    #total_quantity.update(dict_data)
+    
+    #print(total_quantity)
+    
+    #global df
+    #d1 = {'col1': [5, 6], 'col2': [7, 8]}
+    #df.append(data=d1)
+    
+    #total_quantity.append(data)
+
+    #print("*******total_quantity*******")
+    #print(df)
+
+
 
 
 
@@ -165,6 +251,8 @@ async def get_material_healthscore(planner_id:str,
     mm, dd, yyyy = map(int, date.split('/'))
     date_obj = datetime.datetime(yyyy, mm, dd)
     avg: List = []  # List to keep track of health scores
+    
+    
 
     for i in range(int(num_days)):
         td = datetime.timedelta(days=i)
@@ -174,14 +262,22 @@ async def get_material_healthscore(planner_id:str,
         # # ASSUME DATA SORTED ALREADY
         stock = find_stock(format_date(new_date), formatted_date, material)
         
+        # Total Quantity
+        find_total_quantity(formatted_date, material)
+                
         
         health = get_health_score(stock, saftey_stock, k_val=0.8)
         #print(formatted_date , "-->" , stock, "-->", saftey_stock, "-->", health)
+        
+        
 
         if health != None:
              avg.append(health)
+
             
         #print_values(health, stock, avg_stock_change, material, formatted_date)
+        
+ 
 
     result = sum(avg)/len(avg)
     result = round(result, 2)
