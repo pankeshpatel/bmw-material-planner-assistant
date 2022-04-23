@@ -29,117 +29,22 @@ stock: int
 avg_stock_change: float
 
 
-#d = {'col1': [1, 2], 'col2': [3, 4]}
-#df = pd.DataFrame(data=d)
-
-#total_quantity = pd.DataFrame()
-
-#total_quantity : dict
-
-# dict = {
-#     "material" : [],
-#     "demand_date" : [],
-#     "total_quantity": []    
-# }
 
 list_qty = []
-
-
 
 
 # This function is to construct a dataframe total Quantity
 
 def find_total_quantity(formatted_date: str, material_id: str):
     
-    sql = """SELECT material, demand_date, total_quantity FROM MD04 WHERE material = %s AND demand_date = %s"""
-    
-    #print("*********len*********")
-    #print(len(conn.execute(sql, material_id, formatted_date).fetchall()))
-    
-    #print("*********items*********")
-    #print(conn.execute(sql, material_id, formatted_date).fetchall())
-    
+    sql = """SELECT demand_date, total_quantity FROM MD04 WHERE material = %s AND demand_date = %s"""
     data = []
     data = conn.execute(sql, material_id, formatted_date).fetchall()
     
     global list_qty     
     for item in data:
-        #print(item)
         list_qty.append(item)
         
-    
-    #list_qty.append(conn.execute(sql, material_id, formatted_date).fetchall())
-    
-    #print(list_qty)
-
-    
-    
-     
-    #data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
-    
-    #global dict
-    # dict["material"].append(data[0])
-    # dict["demand_date"].append(data[1])
-    # dict["total_quantity"].append(data[2])
-    
-    #df = pd.DataFrame(dict) 
-    #print(df)
-    
-    
-    #df = pd.DataFrame(dict) 
-    #print(df)
-    
-    #df.to_csv("total_qty.csv", index=True, header=False)
-
-    
-    
-    #my_tuple = my_tuple + (data[0], data[1])
-    
-    #df = pd.DataFrame(data=my_tuple, columns=['demand_date','total_quantity'])    
-    #print(df)
-
-    
-    #my_tuple(data[0], data[1])
-    
-    #print(my_tuple)
-    
-    
-    #print("***data[1]***")
-    #print(data[1])
-    
-    #print(data["demand_date"], " ", data["total_quantity"])
-    
-    
-    #print("*******type(data)*******")
-    #print(type(data))
-    
-    
-    
-    
-    #data.to_csv("total_qty.csv", index=True, header=False, mode='a')
-    
-    #result = data.to_json(orient="split")
-    #parsed = json.loads(result)
-    #print(json.dumps(parsed, indent=4))      
-    #print(data.to_json(data))
-    #print(dict(data.values))
-    
-    #global total_quantity
-    #total_quantity.update(dict_data)
-    
-    #print(total_quantity)
-    
-    #global df
-    #d1 = {'col1': [5, 6], 'col2': [7, 8]}
-    #df.append(data=d1)
-    
-    #total_quantity.append(data)
-
-    #print("*******total_quantity*******")
-    #print(df)
-
-
-
 
 
 # This function is to find stock
@@ -295,9 +200,7 @@ async def get_material_healthscore(planner_id:str,
         find_total_quantity(formatted_date, material)
                 
         
-        health = get_health_score(stock, saftey_stock, k_val=0.8)
-        #print(formatted_date , "-->" , stock, "-->", saftey_stock, "-->", health)
-        
+        health = get_health_score(stock, saftey_stock, k_val=0.8)        
     
 
         if health != None:
@@ -306,11 +209,10 @@ async def get_material_healthscore(planner_id:str,
         
         #print_values(health, stock, avg_stock_change, material, formatted_date)
         
-    df = pd.DataFrame(list_qty, columns = ['material', 'demand_date', 'total_quantity']) 
-    print(tabulate(df, headers = 'keys', tablefmt = 'psql'))
-
+    df_total_qty = pd.DataFrame(list_qty, columns = ['demand_date', 'total_quantity']) 
+    print(tabulate(df_total_qty, headers = 'keys', tablefmt = 'psql'))
+    df_total_qty.to_csv("total_qty.csv", index=True, header=False)
     
-    #print(df)
 
     result = sum(avg)/len(avg)
     result = round(result, 2)
@@ -325,60 +227,3 @@ async def get_material_healthscore(planner_id:str,
     }
 
     return health_score
-
-  
-  
-    #  sql = """SELECT * FROM admin.HealthScore WHERE materialID = %s AND healthscoredate = %s"""     
-    #  return conn.execute(sql, material_id, healthdate).fetchall()
-   
-    
-    
-    
-
-
-
-# # GET
-# ## This is retrive all the users 
-# @users.get('/')
-# async def fetch_users():
-#     return conn.execute(dbUser.select()).fetchall()
-
-# # # GET
-# # # This is to reterive a single user with id
-# @users.get('/{id}')
-# async def fetch_user(id: int):
-#     return conn.execute(dbUser.select().where(dbUser.c.id == id)).first()
-
-
-# # # POST
-# # # This is to create a single user
-# @users.post('/')
-# async def create_user(user:User):
-#     conn.execute(dbUser.insert().values(
-#         name = user.name,
-#         email = user.email,
-#         password = user.password
-#     ))
-     
-#     return conn.execute(dbUser.select()).fetchall()
-
-
-# # # PUT
-# # # This is to update a user with a id
-# @users.put('/{id}')
-# async def update_user(id:int, user: User):
-#     conn.execute(dbUser.update().values(
-#               name = user.name,
-#               email = user.email,
-#               password = user.password
-#         ).where(dbUser.c.id == id)).fetchall()
-    
-#     return  conn.execute(dbUser.select()).fetchall()
-
-
-# # # DELETE
-# # # This is to delete a user with an id
-# @users.delete('/{id}')
-# async def delete_user(id: int):
-#     conn.execute(dbUser.delete().where(dbUser.c.id == id))
-#     return conn.execute(dbUser.select()).fetchall()
