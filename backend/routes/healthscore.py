@@ -14,6 +14,8 @@ import pandas as pd
 from typing import List, Tuple, Set, Dict
 from typing import Optional
 import json
+from tabulate import tabulate
+
 
 
 healthscore = APIRouter()
@@ -34,10 +36,13 @@ avg_stock_change: float
 
 #total_quantity : dict
 
-dict = {
-    "demand_date" : [],
-    "total_quantity": []    
-}
+# dict = {
+#     "material" : [],
+#     "demand_date" : [],
+#     "total_quantity": []    
+# }
+
+list_qty = []
 
 
 
@@ -45,16 +50,40 @@ dict = {
 # This function is to construct a dataframe total Quantity
 
 def find_total_quantity(formatted_date: str, material_id: str):
-    sql = """SELECT material, demand_date, total_quantity FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
+    
+    sql = """SELECT material, demand_date, total_quantity FROM MD04 WHERE material = %s AND demand_date = %s"""
+    
+    #print("*********len*********")
+    #print(len(conn.execute(sql, material_id, formatted_date).fetchall()))
+    
+    #print("*********items*********")
+    #print(conn.execute(sql, material_id, formatted_date).fetchall())
+    
+    data = []
+    data = conn.execute(sql, material_id, formatted_date).fetchall()
+    
+    global list_qty     
+    for item in data:
+        #print(item)
+        list_qty.append(item)
+        
+    
+    #list_qty.append(conn.execute(sql, material_id, formatted_date).fetchall())
+    
+    #print(list_qty)
+
+    
+    
      
-    data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
+    #data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
     
-    global dict
-    dict["demand_date"].append(data[0])
-    dict["total_quantity"].append(data[1])
+    #global dict
+    # dict["material"].append(data[0])
+    # dict["demand_date"].append(data[1])
+    # dict["total_quantity"].append(data[2])
     
-    df = pd.DataFrame(dict) 
-    print(df)
+    #df = pd.DataFrame(dict) 
+    #print(df)
     
     
     #df = pd.DataFrame(dict) 
@@ -269,15 +298,19 @@ async def get_material_healthscore(planner_id:str,
         health = get_health_score(stock, saftey_stock, k_val=0.8)
         #print(formatted_date , "-->" , stock, "-->", saftey_stock, "-->", health)
         
-        
+    
 
         if health != None:
              avg.append(health)
 
-            
+        
         #print_values(health, stock, avg_stock_change, material, formatted_date)
         
- 
+    df = pd.DataFrame(list_qty, columns = ['material', 'demand_date', 'total_quantity']) 
+    print(tabulate(df, headers = 'keys', tablefmt = 'psql'))
+
+    
+    #print(df)
 
     result = sum(avg)/len(avg)
     result = round(result, 2)

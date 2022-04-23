@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, MetaData
 
 DB_USER = "root"
-DB_PASSWORD = "admin"
+DB_PASSWORD = "@root123"
 DB_HOST = "0.0.0.0"
 DB_PORT = "3306"
 DATABASE = "admin"
