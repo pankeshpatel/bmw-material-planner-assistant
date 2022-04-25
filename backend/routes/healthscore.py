@@ -18,34 +18,41 @@ from tabulate import tabulate
 
 
 
+
 healthscore = APIRouter()
 
 
-PATH: str
+#PATH: str
 # This is a directory in which material files is stored.
 
-saftey_stock: int
+saftey_stock : int
 stock: int
 avg_stock_change: float
-
-
-
 list_qty = []
+
 
 
 # This function is to construct a dataframe total Quantity
 
-def find_total_quantity(formatted_date: str, material_id: str):
+def find_total_quantity(formatted_date: str, material_id: str, safety_stock: int):
     
-    sql = """SELECT demand_date, total_quantity FROM MD04 WHERE material = %s AND demand_date = %s"""
-    data = []
-    data = conn.execute(sql, material_id, formatted_date).fetchall()
+    sql = """SELECT material, demand_date, total_quantity FROM MD04 WHERE material = %s AND demand_date = %s"""
     
-    global list_qty     
-    for item in data:
-        list_qty.append(item)
-        
-
+    data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "demand_date", "total_quantity"])
+    
+    local_list_qty = []    
+    local_list_qty = [
+        material_id, 
+        formatted_date, 
+        data["total_quantity"].max(), 
+        data["total_quantity"].min(), 
+        round(data["total_quantity"].mean(),2), 
+        safety_stock
+        ]
+            
+    # construct a list
+    list_qty.append(local_list_qty)
+    
 
 # This function is to find stock
 def find_stock(date: str, formatted_date: str, material_id: str) -> int:
@@ -75,10 +82,12 @@ def find_stock(date: str, formatted_date: str, material_id: str) -> int:
 
 
 def find_saftey_stock(date: datetime, data: pd.DataFrame(), saftey_stock: int) -> int:
-    for index, row in data.iterrows():        
+    for index, row in data.iterrows():   
+        safety_stock_qty = abs(row[4])    
         return abs(row[4])  # Change due to removal of saftey stock, assumed const
 
     # Else
+    safety_stock_qty = abs(saftey_stock)   
     return abs(saftey_stock)  # Return last known value of saftey stock
 
 
@@ -168,12 +177,12 @@ async def get_material_healthscore(planner_id:str,
     sql = """SELECT * FROM admin.MD04 where material = %s"""
     data_safety_stock = pd.DataFrame(conn.execute(sql, material_id).fetchall())    
     saftey_stock = 0 # default value 
+    
     saftey_stock = find_saftey_stock(
                    format_date(healthdate), 
                    data_safety_stock[data_safety_stock[3] == "SafeSt"], saftey_stock
         )
-    
-            
+
     
     #avg_stock_change: float = calc_avg_stock_change(data)
 
@@ -197,21 +206,19 @@ async def get_material_healthscore(planner_id:str,
         stock = find_stock(format_date(new_date), formatted_date, material)
         
         # Total Quantity
-        find_total_quantity(formatted_date, material)
-                
+        find_total_quantity(formatted_date, material, saftey_stock)        
         
-        health = get_health_score(stock, saftey_stock, k_val=0.8)        
-    
-
+        health = get_health_score(stock, saftey_stock, k_val=0.8)            
         if health != None:
              avg.append(health)
 
         
         #print_values(health, stock, avg_stock_change, material, formatted_date)
         
-    df_total_qty = pd.DataFrame(list_qty, columns = ['demand_date', 'total_quantity']) 
+    df_total_qty = pd.DataFrame(list_qty, columns = ['material', 'demand_date', 'max', 'min', 'mean', 'safety stock']) 
     print(tabulate(df_total_qty, headers = 'keys', tablefmt = 'psql'))
-    df_total_qty.to_csv("total_qty.csv", index=True, header=False)
+    df_total_qty.to_csv("total_qty.csv", index=True, header=True)
+    
     
 
     result = sum(avg)/len(avg)
@@ -221,9 +228,7 @@ async def get_material_healthscore(planner_id:str,
     health_score = {
         "Material": material,
         "Date": date,
-        "Health-score": percentage_result,
-        "Safety Stock": saftey_stock
-      
+        "Health-score": percentage_result      
     }
 
     return health_score
