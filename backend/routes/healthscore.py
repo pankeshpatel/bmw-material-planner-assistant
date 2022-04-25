@@ -16,25 +16,43 @@ from typing import Optional
 import json
 from tabulate import tabulate
 
-
-
-
 healthscore = APIRouter()
-
-
-#PATH: str
-# This is a directory in which material files is stored.
 
 saftey_stock : int
 stock: int
 avg_stock_change: float
 list_qty = []
+list_qty_instance = []
+
+
+# This function constructs an individual instances of total Quantity fields
+def find_total_quantity_instances(formatted_date: str, material_id: str, safety_stock: int):
+    
+    sql = """SELECT material, demand_date, total_quantity FROM MD04 WHERE material = %s AND demand_date = %s"""
+     
+    data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "demand_date", "total_quantity"])
+    
+    item=0
+    local_list_qty_instance = []
+    global list_qty_instance
+    
+    while(item < len(data)):
+        local_list_qty_instance = [
+            data["material"][item],
+            data["demand_date"][item],
+            data["total_quantity"][item],
+            safety_stock
+        ]
+        list_qty_instance.append(local_list_qty_instance)        
+        item = item + 1
 
 
 
-# This function is to construct a dataframe total Quantity
 
-def find_total_quantity(formatted_date: str, material_id: str, safety_stock: int):
+
+
+# This function  constructs a summary (avg, min, max) dataframe total Quantity
+def find_total_quantity_summary(formatted_date: str, material_id: str, safety_stock: int):
     
     sql = """SELECT material, demand_date, total_quantity FROM MD04 WHERE material = %s AND demand_date = %s"""
     
@@ -206,7 +224,10 @@ async def get_material_healthscore(planner_id:str,
         stock = find_stock(format_date(new_date), formatted_date, material)
         
         # Total Quantity
-        find_total_quantity(formatted_date, material, saftey_stock)        
+        find_total_quantity_summary(formatted_date, material, saftey_stock) 
+        
+        # to find each instances of total quantity instances
+        find_total_quantity_instances(formatted_date, material, saftey_stock)        
         
         health = get_health_score(stock, saftey_stock, k_val=0.8)            
         if health != None:
@@ -218,6 +239,12 @@ async def get_material_healthscore(planner_id:str,
     df_total_qty = pd.DataFrame(list_qty, columns = ['material', 'demand_date', 'max', 'min', 'mean', 'safety stock']) 
     print(tabulate(df_total_qty, headers = 'keys', tablefmt = 'psql'))
     df_total_qty.to_csv("total_qty.csv", index=True, header=True)
+    
+    
+    # This would prepare .csv file that contains total_qty_instances
+    df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']) 
+    print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
+    df_total_qty_instances.to_csv("total_qty_instances.csv", index=True, header=True)
     
     
 
