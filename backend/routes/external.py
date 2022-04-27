@@ -32,9 +32,6 @@ async def get_traffic_info(plant:str = 'MC10'):
 
 
 
-
-
-
 # # GET
 # ## This is retrive all the users 
 # @users.get('/')

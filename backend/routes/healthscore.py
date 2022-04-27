@@ -48,9 +48,6 @@ def find_total_quantity_instances(formatted_date: str, material_id: str, safety_
 
 
 
-
-
-
 # This function  constructs a summary (avg, min, max) dataframe total Quantity
 def find_total_quantity_summary(formatted_date: str, material_id: str, safety_stock: int):
     
