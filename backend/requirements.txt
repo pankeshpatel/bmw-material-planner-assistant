@@ -15,5 +15,7 @@ python-math
 pydantic>=1.8.0,<2.0.0
 pymysql
 tabulate
+janitor
+
 
 

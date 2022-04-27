@@ -13,7 +13,7 @@ users = Table(
 dbExceptionMessage = Table(
                     "ExceptionMessage", 
                     meta, 
-                    Column('exceptionID', Integer, primary_key=True),
+                    Column('exceptionID', Integer),
                     Column('message', String(225))                
                 )
 
@@ -39,28 +39,57 @@ dbPlanner = Table (
                    Column("email", String(225))
                 )
 
-dbHealthScore = Table (
-                    "HealthScore", 
-                    meta,
-                    Column("material", String(225)),
-                    Column("healthscoredate", DateTime()),
-                    Column("healthstatus", String(225)),
-                    Column("suppliernumber", String(225)),
-                    Column("partdescription", String(225)),
-                    Column("partdescriptioneng", String(225)),
-                    Column("plant", String(225)),
-                    Column("safetystock", Integer),
-                    Column("storagelocation", String(225)) 
-                )
+# dbHealthScore = Table (
+#                     "HealthScore", 
+#                     meta,
+#                     Column("material", String(225)),
+#                     Column("healthscoredate", DateTime()),
+#                     Column("healthstatus", String(225)),
+#                     Column("suppliernumber", String(225)),
+#                     Column("partdescription", String(225)),
+#                     Column("partdescriptioneng", String(225)),
+#                     Column("plant", String(225)),
+#                     Column("safetystock", Integer),
+#                     Column("storagelocation", String(225)) 
+#                 )
+
+# dbExceptionManager = Table (
+#                     "ExceptionManager", 
+#                     meta,
+#                     Column('exceptionID', Integer, primary_key=True),
+#                     Column('message', String(225)),
+#                     Column('count', String(225)),
+#                     Column('percentage', String(225))
+#                 )
+
+
+# dbExceptionManager = Table (
+#                     "Exception", 
+#                     meta,
+#                     Column('exceptionID', Integer, primary_key=True),
+#                     Column('message', String(225)),
+#                     Column('count', String(225)),
+#                     Column('percentage', String(225))
+#                 )
 
 dbExceptionManager = Table (
-                    "ExceptionManager", 
+                    "Exception", 
                     meta,
-                    Column('exceptionID', Integer, primary_key=True),
-                    Column('message', String(225)),
-                    Column('count', String(225)),
-                    Column('percentage', String(225))
-                )
+                    Column('mandt', String(225)),
+                    Column('matnr', String(225)),
+                    Column('aline', String(225)),
+                    Column('cdate', String(225)),
+                    Column('ctime', String(225)),
+                    Column('dat00', String(225)),
+                    Column('delb0', String(225)),
+                    Column('extra', String(225)),
+                    Column('umdat', String(225)),
+                    Column('auskt', Integer),
+                    Column('mng01', String(225)),
+                    Column('mng02', String(225)),
+                    Column('p_ingestday', String(225)),
+                    Column('p_ingesttime', String(225))
+				)
 
 dbmd04 = Table(
             "MD04",

@@ -2,7 +2,6 @@ from fastapi import APIRouter
 from config.db import conn
 from schemas.user import User
 from datetime import datetime, date
-from models.dbschema import dbHealthScore
 import platform
 import os
 import sys

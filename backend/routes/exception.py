@@ -2,6 +2,11 @@ from fastapi import APIRouter
 from models.dbschema import  dbExceptionMessage, dbExceptionManager
 from config.db import conn
 from datetime import datetime, date
+import pandas as pd
+import janitor
+from tabulate import tabulate
+import json
+
 
 
 exception = APIRouter()
@@ -18,106 +23,60 @@ async def get_exception_info(exception_id: int, plant:str = 'MC10'):
     return conn.execute(dbExceptionMessage.select().where(dbExceptionMessage.c.exceptionID == exception_id)).fetchall()
 
 
-@exception.get('/exceptions/{planner_id}/sysviewer/', tags=["Exception Manager"])
+
+# This API will responsible for exception matrix functionality
+# This API will return - a percentage of exceptions in each material in the timeframe of start-date and end-date.
+#@exception.get('/exceptions/{planner_id}/sysviewer/', tags=["Exception Manager"])
+
+@exception.get('/exceptions/{planner_id}/', tags=["Exception Manager"])
 async def get_material_exception_info(planner_id:str, 
-                                      days : int = 45,
-                                      start_date : date = date.today(),
-                                      plant:str = 'MC10'):    
-    return conn.execute(dbExceptionManager.select()).fetchall()
-
-
-# @exception.get('/exceptions/{material_id}', tags=["Exception"])
-# async def get_material_exception_info(material_id: str, 
-#                                       start_date : date = date.today(),
-#                                       end_date : date = date.today(),
-#                                       plant:str = 'MC10'):
-    
-#     # Write a logic that returns a list of exceptions in the specific time range
-#     # material id
-#     # material name
-#     # start date
-#     # end date
-#     # exceptions per date
-    
-#     return {
-#         "material ID" : material_id,
-#         "start date" : start_date,
-#         "end date" : end_date,
-#         "plant" : plant
-#     }
+                                      start_date : str,
+                                      end_date : str,
+                                      plant:str = 'MC10'):
     
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # GET
-# ## This is retrive all the users 
-# @users.get('/')
-# async def fetch_users():
-#     return conn.execute(dbUser.select()).fetchall()
-
-# # # GET
-# # # This is to reterive a single user with id
-# @users.get('/{id}')
-# async def fetch_user(id: int):
-#     return conn.execute(dbUser.select().where(dbUser.c.id == id)).first()
-
-
-# # # POST
-# # # This is to create a single user
-# @users.post('/')
-# async def create_user(user:User):
-#     conn.execute(dbUser.insert().values(
-#         name = user.name,
-#         email = user.email,
-#         password = user.password
-#     ))
-     
-#     return conn.execute(dbUser.select()).fetchall()
-
-
-# # # PUT
-# # # This is to update a user with a id
-# @users.put('/{id}')
-# async def update_user(id:int, user: User):
-#     conn.execute(dbUser.update().values(
-#               name = user.name,
-#               email = user.email,
-#               password = user.password
-#         ).where(dbUser.c.id == id)).fetchall()
+    # Data Reading from MySQL 
+    sql = """SELECT * FROM admin.Exception"""
+    df_exception = pd.DataFrame(conn.execute(sql).fetchall()) 
     
-#     return  conn.execute(dbUser.select()).fetchall()
+    
+    # 1 - matnr, 3 - cdate , 9 - auskt
+    dataframe_exception = pd.concat([df_exception[1], df_exception[3], df_exception[9]], axis=1)
+    
+    #  Data cleaning, replacing NaN with '0'
+    dataframe_exception[9] = dataframe_exception[9].fillna(0)
+    
+    
+     # Data filtering with respect to the start and end date
+    dataframe_exception_filtered = dataframe_exception.filter_date(3, start_date, end_date)
 
+    # Remove row that 'auskt' value has zero
+    data_filter = dataframe_exception_filtered[dataframe_exception_filtered[9] > 0]
 
-# # # DELETE
-# # # This is to delete a user with an id
-# @users.delete('/{id}')
-# async def delete_user(id: int):
-#     conn.execute(dbUser.delete().where(dbUser.c.id == id))
-#     return conn.execute(dbUser.select()).fetchall()
+    # This would display all rows of a panda dataframe
+    pd.set_option('display.max_rows', data_filter.shape[0]+1)
+    
+    
+    # "count" column
+    exception_count = data_filter.groupby(1).count()
+    exception_count.rename(columns = {9:'count'}, inplace = True)
+    exception_count.drop(3, axis =1, inplace = True)
+    
+
+    # 'percentage'
+    exception_percentage = ((exception_count['count'] / len(data_filter))*100).to_frame()
+    exception_percentage.rename(columns = {'count':'percentage'}, inplace = True)
+    
+    # combine "count" and "percentage" column into one Table
+    result = pd.concat([exception_count, exception_percentage], axis=1)
+
+    # reset index
+    result.reset_index(inplace=True)
+    exception_matrix = result.rename(columns = {1:'material'})
+
+    response = {
+        "result": json.loads(json.dumps(list(exception_matrix.T.to_dict().values())))     
+    }
+    
+    return response
 
