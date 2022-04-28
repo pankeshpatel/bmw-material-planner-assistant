@@ -11,6 +11,8 @@ import json
 
 exception = APIRouter()
 
+exceptionlist = []
+
 # Write a logic that returns a list of  exception ID  and exception message
 @exception.get('/exceptions/', tags=["Exception Manager"])
 async def get_all_exception_info(plant:str = 'MC10'):
@@ -61,13 +63,30 @@ async def exception_manager(planner_id:str,
     # reset index
     exception_manager_result.reset_index(inplace=True)
     exception_manager = exception_manager_result.rename(columns = {'auskt':'exception'})
+        
     
-    #print(exception_manager)
+    local_exceptionMsg = []
+    
+    for item in list(exception_manager['exception']):
+        sql = """SELECT * FROM admin.ExceptionMessage where exceptionID = %s"""
+        exceptionMsg = conn.execute(sql, item).fetchall()
+        df_exceptionMsg = pd.DataFrame(exceptionMsg, columns=["exceptionID", "exceptionMsg"])
+        local_exceptionMsg = [
+           df_exceptionMsg["exceptionID"][0],
+            df_exceptionMsg["exceptionMsg"][0]
+        ]
+        exceptionlist.append(local_exceptionMsg)
+        
+
+    df_exceptionlist  = pd.DataFrame(exceptionlist, columns=["exceptionID", "exceptionMsg" ]) 
+    
+
     
     response = {
         "planner" : planner_id,
         "start_date" : start_date,
         "end_date" : end_date,
+        "exceptions": json.loads(json.dumps(list(df_exceptionlist.T.to_dict().values())))  ,
         "result": json.loads(json.dumps(list(exception_manager.T.to_dict().values())))     
     }
     
@@ -84,7 +103,7 @@ async def exception_manager(planner_id:str,
 # http://localhost:8000/exception-matrix/114/?start_date=02/18/22&end_date=04/04/22
 
 @exception.get('/exception-matrix/{planner_id}/', tags=["Exception Manager"])
-async def get_material_exception_matrix(planner_id:str, 
+async def exception_matrix(planner_id:str, 
                                       start_date : str,
                                       end_date : str):
     
@@ -92,9 +111,6 @@ async def get_material_exception_matrix(planner_id:str,
     # Data Reading from MySQL 
     sql = """SELECT * FROM admin.Exception"""
     df_exception = pd.DataFrame(conn.execute(sql).fetchall()) 
-    
-    
-    
     
     # 1 - matnr, 3 - cdate , 9 - auskt
     dataframe_exception = pd.concat([df_exception[1], df_exception[3], df_exception[9]], axis=1)

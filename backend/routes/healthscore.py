@@ -166,13 +166,12 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
   # Other information
   
 # API 
-# http://localhost:8000/healthscore/114/7430935-05?healthdate=05/20/21&plant=MC10
+# http://localhost:8000/healthscore/114/7430935-05?healthdate=05/20/21
 
 @healthscore.get('/healthscore/{planner_id}/{material_id}', tags=["Forecasting Model"])
 async def get_material_healthscore(planner_id:str,
                                   material_id: str, 
-                                  healthdate: str, 
-                                  plant : str = 'MC10'):
+                                  healthdate: str):
   
     material = material_id
     date = healthdate

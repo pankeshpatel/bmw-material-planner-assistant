@@ -56,11 +56,11 @@ It implements various APIs for the development of  MPA Dashboard and AI-based Fo
 tags_metadata = [
     {
         "name" : "Material Planner",
-        "description" : "Operations with Material Planner at MC10."
+        "description" : "Operations with Material Planner."
     },
     {
         "name" : "Material",
-        "description" : "Operations with Material, planned by material planner at MC10."
+        "description" : "Operations with Material, planned by material planner."
     },
      
     {
@@ -70,7 +70,7 @@ tags_metadata = [
       
     {
         "name" : "Exception Manager",
-        "description" : "Operations with Exceptions related to the material at plant MC10."
+        "description" : "Operations with Exceptions related to the material."
     },
     
      
