@@ -236,13 +236,13 @@ async def get_material_healthscore(planner_id:str,
         
     df_total_qty = pd.DataFrame(list_qty, columns = ['material', 'demand_date', 'max', 'min', 'mean', 'safety stock']) 
     print(tabulate(df_total_qty, headers = 'keys', tablefmt = 'psql'))
-    df_total_qty.to_csv("total_qty.csv", index=True, header=True)
+    #df_total_qty.to_csv("total_qty.csv", index=True, header=True)
     
     
     # This would prepare .csv file that contains total_qty_instances
     df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']) 
     print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
-    df_total_qty_instances.to_csv("total_qty_instances.csv", index=True, header=True)
+    #df_total_qty_instances.to_csv("total_qty_instances.csv", index=True, header=True)
     
     
 
