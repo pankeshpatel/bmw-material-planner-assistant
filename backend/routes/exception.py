@@ -11,6 +11,7 @@ import json
 
 exception = APIRouter()
 exceptionlist = []
+materiallist = []
 
 # Write a logic that returns a list of  exception ID  and exception message
 
@@ -149,11 +150,37 @@ async def exception_matrix(planner_id:str,
     # reset index
     result.reset_index(inplace=True)
     exception_matrix = result.rename(columns = {1:'material'})
+     
+    
+    # To find more details about the material
+    
+    local_material = []
+    
+    for item in list(exception_matrix["material"]):
+        
+        sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng FROM admin.MaterialMaster where material_9 = %s"""
+               
+        df_material_master = pd.DataFrame(conn.execute(sql, item).fetchall(), columns=["material", "material_9" , "material_7", "mat_description", "mat_description_eng"])
+                    
+            
+        local_material = [
+            df_material_master["material"][0],
+            df_material_master["material_9"][0],
+            df_material_master["material_7"][0],
+            df_material_master["mat_description"][0],
+            df_material_master["mat_description_eng"][0],
+        ]
+        
+        materiallist.append(local_material)
+            
+    df_materiallist = pd.DataFrame(materiallist,columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng"] )
+        
 
     response = {
         "planner" : planner_id,
         "start_date" : start_date,
         "end_date" : end_date,
+        "materials" : json.loads(json.dumps(list(df_materiallist.T.to_dict().values()))),
         "result": json.loads(json.dumps(list(exception_matrix.T.to_dict().values())))     
     }
     

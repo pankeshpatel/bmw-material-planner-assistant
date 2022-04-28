@@ -34,11 +34,6 @@ async def get_all_material_info(planner_id: str):
     }
     
     return response
-    
-    
-    #return conn.execute(dbMaterialMaster.select()).fetchall()
-  
-    
 
  # Write a logic here that return a material information
     # material ID
@@ -63,12 +58,6 @@ async def get_material_info(planner_id : str,
     }
     
     return response
-    
-    #return conn.execute(dbMaterialMaster.select().where(dbMaterialMaster.c.material == material_id)).first()
-    
-   
-    
-    
- 
+
 
 
