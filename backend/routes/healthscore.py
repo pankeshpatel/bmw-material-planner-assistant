@@ -164,6 +164,9 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
   # Health Score
   # Date
   # Other information
+  
+# API 
+# http://localhost:8000/healthscore/114/7430935-05?healthdate=05/20/21&plant=MC10
 
 @healthscore.get('/healthscore/{planner_id}/{material_id}', tags=["Forecasting Model"])
 async def get_material_healthscore(planner_id:str,
@@ -251,7 +254,9 @@ async def get_material_healthscore(planner_id:str,
     health_score = {
         "Material": material,
         "Date": date,
-        "Health-score": percentage_result      
+        "Health-score": percentage_result,
+        "total_qty_analysis" : json.loads(json.dumps(list(df_total_qty.T.to_dict().values()))),
+        "total_qty_instances": json.loads(json.dumps(list(df_total_qty_instances.T.to_dict().values())))     
     }
 
     return health_score

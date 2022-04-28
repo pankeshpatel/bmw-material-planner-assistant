@@ -74,10 +74,7 @@ tags_metadata = [
     },
     
      
-    {
-        "name" : "Supply Chain",
-        "description" : "Operations with supply chain of a material."
-    },             
+               
     {
         "name" : "Authentication",
         "description" : "Operations with sign-in users, login"
