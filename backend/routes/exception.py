@@ -10,12 +10,14 @@ import json
 
 
 exception = APIRouter()
-
 exceptionlist = []
 
 # Write a logic that returns a list of  exception ID  and exception message
+
+# API call
+# http://localhost:8000/exceptions/
 @exception.get('/exceptions/', tags=["Exception Manager"])
-async def get_all_exception_info(plant:str = 'MC10'):
+async def get_all_exception_info():
     return conn.execute(dbExceptionMessage.select()).fetchall()
 
 
@@ -64,6 +66,8 @@ async def exception_manager(planner_id:str,
     exception_manager_result.reset_index(inplace=True)
     exception_manager = exception_manager_result.rename(columns = {'auskt':'exception'})
         
+    
+    # To find more details about exceptions
     
     local_exceptionMsg = []
     
