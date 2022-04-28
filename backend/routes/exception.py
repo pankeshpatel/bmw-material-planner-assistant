@@ -91,8 +91,8 @@ async def exception_manager(planner_id:str,
         "planner" : planner_id,
         "start_date" : start_date,
         "end_date" : end_date,
-        "exceptions": json.loads(json.dumps(list(df_exceptionlist.T.to_dict().values())))  ,
-        "result": json.loads(json.dumps(list(exception_manager.T.to_dict().values())))     
+        "result": json.loads(json.dumps(list(exception_manager.T.to_dict().values()))),
+         "exceptions": json.loads(json.dumps(list(df_exceptionlist.T.to_dict().values())))    
     }
     
     return response
@@ -180,8 +180,8 @@ async def exception_matrix(planner_id:str,
         "planner" : planner_id,
         "start_date" : start_date,
         "end_date" : end_date,
-        "materials" : json.loads(json.dumps(list(df_materiallist.T.to_dict().values()))),
-        "result": json.loads(json.dumps(list(exception_matrix.T.to_dict().values())))     
+        "result": json.loads(json.dumps(list(exception_matrix.T.to_dict().values()))) , 
+        "materials" : json.loads(json.dumps(list(df_materiallist.T.to_dict().values()))),   
     }
     
     return response

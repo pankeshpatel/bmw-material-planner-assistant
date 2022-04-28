@@ -249,9 +249,17 @@ async def get_material_healthscore(planner_id:str,
     result = sum(avg)/len(avg)
     result = round(result, 2)
     percentage_result = str(result).__add__(' %')
+    
+    # Retrieve material information
+    
+    sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng FROM admin.MaterialMaster where material = %s"""
+    df_material = pd.DataFrame(conn.execute(sql, material_id).fetchall(), columns=["material", "material_9" , "material_7", "mat_description", "mat_description_eng"])
+    
+    
 
     health_score = {
         "Material": material,
+        "material_detail" : json.loads(json.dumps(list(df_material.T.to_dict().values()))),
         "Date": date,
         "Health-score": percentage_result,
         "total_qty_analysis" : json.loads(json.dumps(list(df_total_qty.T.to_dict().values()))),
