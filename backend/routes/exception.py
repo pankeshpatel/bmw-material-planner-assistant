@@ -28,6 +28,12 @@ async def get_all_exception_info():
 # API Call
 # http://localhost:8000/exception-manager/114/?start_date=02/18/22&end_date=04/04/22
 
+# We write "status_code" to change a default behabiour of FastAPI.
+# by default, FastAPI returns "200_OK", when everything is okay. This may be good got GET operation.
+# however, it may not be good for POST operation to create a certain thing, for the POST - create, one need to
+# send "201_Created" , instead of 200_HTTP_OK. 
+# status_code = status.HTTP_201_CREATE would change a default behaviour.
+
 @exception.get('/exception-manager/{planner_id}', tags=["Exception Manager"], status_code = status.HTTP_200_OK)
 async def exception_manager(planner_id:str, 
                                       start_date : str,
@@ -109,6 +115,12 @@ async def exception_manager(planner_id:str,
 
 # API Call
 # http://localhost:8000/exception-matrix/114/?start_date=02/18/22&end_date=04/04/22
+
+# We write "status_code" to change a default behabiour of FastAPI.
+# by default, FastAPI returns "200_OK", when everything is okay. This may be good got GET operation.
+# however, it may not be good for POST operation to create a certain thing, for the POST - create, one need to
+# send "201_Created" , instead of 200_HTTP_OK. 
+# status_code = status.HTTP_201_CREATE would change a default behaviour.
 
 @exception.get('/exception-matrix/{planner_id}/', tags=["Exception Manager"], 
                status_code = status.HTTP_200_OK)

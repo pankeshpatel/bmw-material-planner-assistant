@@ -22,6 +22,12 @@ material = APIRouter()
 # API Call
 # http://localhost:8000/materials/114
 
+# We write "status_code" to change a default behabiour of FastAPI.
+# by default, FastAPI returns "200_OK", when everything is okay. This may be good got GET operation.
+# however, it may not be good for POST operation to create a certain thing, for the POST - create, one need to
+# send "201_Created" , instead of 200_HTTP_OK. 
+# status_code = status.HTTP_201_CREATE would change a default behaviour.
+
 @material.get('/materials/{planner_id}', tags=["Material"], status_code = status.HTTP_200_OK)
 async def get_all_material_info(planner_id: str):
     
@@ -46,6 +52,12 @@ async def get_all_material_info(planner_id: str):
 
 # API Call
 # http://localhost:8000/materials/114/7430935-05
+
+# We write "status_code" to change a default behabiour of FastAPI.
+# by default, FastAPI returns "200_OK", when everything is okay. This may be good got GET operation.
+# however, it may not be good for POST operation to create a certain thing, for the POST - create, one need to
+# send "201_Created" , instead of 200_HTTP_OK. 
+# status_code = status.HTTP_201_CREATE would change a default behaviour.
 
 @material.get('/materials/{planner_id}/{material_id}', tags=["Material"], 
               status_code = status.HTTP_200_OK)

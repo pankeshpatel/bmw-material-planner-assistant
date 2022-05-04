@@ -29,6 +29,15 @@ http://localhost:8000/docs
 
 ```
 
+## database - mysql
+
+```
+/usr/local/mysql/bin/mysql -u root -p
+show databases;
+use admin;
+show tables;
+```
+
 ## frontend
 
 ```

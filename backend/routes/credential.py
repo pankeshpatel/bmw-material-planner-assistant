@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from config.db import conn
 from config.auth import AuthHandler
 from schemas.user import User
@@ -8,8 +8,8 @@ credential = APIRouter()
 auth_handler = AuthHandler()
 
 
-# This API will register material planner
-@credential.post("/register", status_code=201, tags=["Authentication"])
+# This API will register material planner and overwrite FastAPI default status - status.HTTP_200_OK
+@credential.post("/register", status_code=status.HTTP_201_CREATED, tags=["Authentication"])
 async def register(user: User):
     all_users = conn.execute(users.select()).fetchall()
     if any(x['username'] == user.username for x in all_users):
@@ -26,23 +26,33 @@ async def register(user: User):
 
 
 @credential.post("/login", tags=["Authentication"])
-async def login(username: str, password: str):
+async def login(user : User):
     all_users = conn.execute(users.select()).fetchall()
-
-    user = None
+    
+    print("Password", user.password)
+    
+    userNameStr = None
+    userPasswordStr = None
+    
     for x in all_users:
-        if x.username == username:
-            user = x
+        if x.username == user.username:
+            userNameStr = x.username
+            userPasswordStr = x.password
             break
-
-    if(user is None):
+    
+    if(userNameStr is None):
         raise HTTPException(401, "Not user")
-    elif (not auth_handler.verify_password(password, user.password)):
+    elif (not auth_handler.verify_password(user.password, userPasswordStr)):
         raise HTTPException(401, "Invalid username or password")
     else:
         token = auth_handler.encode_token(user.username)
 
         return {"token": token}
+    
+    
+    
+
+
 
 
 # @credential.get("/protected")
