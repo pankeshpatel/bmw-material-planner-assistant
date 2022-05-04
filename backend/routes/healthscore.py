@@ -28,8 +28,8 @@ list_qty_instance = []
 def find_total_quantity_instances(formatted_date: str, material_id: str, safety_stock: int):
     
     sql = """SELECT material, demand_date, total_quantity FROM MD04 WHERE material = %s AND demand_date = %s"""
-     
     data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "demand_date", "total_quantity"])
+    
     
     item=0
     local_list_qty_instance = []
