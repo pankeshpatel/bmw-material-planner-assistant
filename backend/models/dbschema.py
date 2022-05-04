@@ -109,8 +109,8 @@ dbPlanner = Table (
                    "Planner", 
                    meta,
                    Column("material", String(225)),
-                   Column("planner", String(225)),
-                   Column("username", String(225)),
+                   Column("planner_id", String(225)),
+                   Column("planner_name", String(225)),
                    Column("email", String(225))
                 )
 

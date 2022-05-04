@@ -5,6 +5,7 @@ from datetime import datetime, date
 from models.dbschema import dbPlanner
 
 
+
 planner = APIRouter(
     prefix = "/planners",
     tags=["planners"]
@@ -21,7 +22,7 @@ planner = APIRouter(
 # send "201_Created" , instead of 200_HTTP_OK. 
 # status_code = status.HTTP_201_CREATE would change a default behaviour.    
     
-@planner.get('/', tags=["Material Planner"], status_code = status.HTTP_200_OK)
+@planner.get('/',  status_code = status.HTTP_200_OK)
 async def get_all_material_planner_info():
     #cursor = dbPlanner.cursor()
     
@@ -47,10 +48,22 @@ async def get_all_material_planner_info():
 # send "201_Created" , instead of 200_HTTP_OK. 
 # status_code = status.HTTP_201_CREATE would change a default behaviour.
     
-@planner.get('/{planner_id}', tags=["Material Planner"], status_code = status.HTTP_200_OK)
-async def get_material_planner_info(planner_id:str):
+@planner.get('/id',  status_code = status.HTTP_200_OK)
+async def get_material_planner_info(id:str):
     
-    data = conn.execute(dbPlanner.select().where(dbPlanner.c.planner == planner_id)).first()
+    data = conn.execute(dbPlanner.select().where(dbPlanner.c.planner_id == id)).first()
+    
+    if not data:
+         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Items are not found")
+    
+    return data
+
+
+
+@planner.get('/name',  status_code = status.HTTP_200_OK)
+async def get_material_planner_info(name:str):
+        
+    data = conn.execute(dbPlanner.select().where(dbPlanner.c.planner_name == name)).first()
     
     if not data:
          raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Items are not found")

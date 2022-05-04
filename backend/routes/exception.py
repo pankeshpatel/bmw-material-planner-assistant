@@ -38,7 +38,7 @@ async def get_all_exception_info():
 # send "201_Created" , instead of 200_HTTP_OK. 
 # status_code = status.HTTP_201_CREATE would change a default behaviour.
 
-@exception.get('/manager/{planner_id}', tags=["Exception Manager"], status_code = status.HTTP_200_OK)
+@exception.get('/manager/{planner_id}',  status_code = status.HTTP_200_OK)
 async def exception_manager(planner_id:str, 
                                       start_date : str,
                                       end_date : str):
@@ -126,7 +126,7 @@ async def exception_manager(planner_id:str,
 # send "201_Created" , instead of 200_HTTP_OK. 
 # status_code = status.HTTP_201_CREATE would change a default behaviour.
 
-@exception.get('/matrix/{planner_id}/', tags=["Exception Manager"], 
+@exception.get('/matrix/{planner_id}/', 
                status_code = status.HTTP_200_OK)
 async def exception_matrix(planner_id:str, 
                                       start_date : str,
