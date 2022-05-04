@@ -4,7 +4,9 @@ from config.auth import AuthHandler
 from schemas.user import User
 from models.dbschema import users
 
-credential = APIRouter()
+credential = APIRouter(
+    prefix = "/users"
+)
 auth_handler = AuthHandler()
 
 

@@ -15,7 +15,9 @@ from typing import Optional
 import json
 from tabulate import tabulate
 
-healthscore = APIRouter()
+healthscore = APIRouter(
+    prefix = "/healthscore"
+)
 
 saftey_stock : int
 stock: int
@@ -174,7 +176,7 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
 # send "201_Created" , instead of 200_HTTP_OK. 
 # status_code = status.HTTP_201_CREATE would change a default behaviour.
 
-@healthscore.get('/healthscore/{planner_id}/{material_id}', tags=["Forecasting Model"], 
+@healthscore.get('/{planner_id}/{material_id}', tags=["Forecasting Model"], 
                  status_code = status.HTTP_200_OK)
 async def get_material_healthscore(planner_id:str,
                                   material_id: str, 

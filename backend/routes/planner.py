@@ -5,7 +5,9 @@ from datetime import datetime, date
 from models.dbschema import dbPlanner
 
 
-planner = APIRouter()
+planner = APIRouter(
+    prefix = "/planners"
+)
 
 # Write a logic here that list ALL identified planners with information
     # Planner ID
@@ -18,18 +20,20 @@ planner = APIRouter()
 # send "201_Created" , instead of 200_HTTP_OK. 
 # status_code = status.HTTP_201_CREATE would change a default behaviour.    
     
-@planner.get('/planners/', tags=["Material Planner"], status_code = status.HTTP_200_OK)
-async def get_all_material_planner_info(plant : str = 'MC10'):
+@planner.get('/', tags=["Material Planner"], status_code = status.HTTP_200_OK)
+async def get_all_material_planner_info():
     #cursor = dbPlanner.cursor()
+    
     sql = "SELECT * FROM admin.Planner"
     data = conn.execute(sql).fetchall()
     
-    if len(data.columns) == 0:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
+    if not data:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Items are not found")
+    
     
     return conn.execute(sql).fetchall()
 
-  
+
 # Write a logic here that list a planner with the following information
     # Planner ID
     # Planner Name
@@ -42,15 +46,12 @@ async def get_all_material_planner_info(plant : str = 'MC10'):
 # send "201_Created" , instead of 200_HTTP_OK. 
 # status_code = status.HTTP_201_CREATE would change a default behaviour.
     
-@planner.get('/planners/{planner_id}', tags=["Material Planner"], status_code = status.HTTP_200_OK)
-async def get_material_planner_info(
-                    planner_id:str, 
-                    plant : str = 'MC10'):
+@planner.get('/{planner_id}', tags=["Material Planner"], status_code = status.HTTP_200_OK)
+async def get_material_planner_info(planner_id:str):
     
-    data = conn.execute(dbPlanner.select().where(dbPlanner.c.mrpcnt == planner_id)).first()
+    data = conn.execute(dbPlanner.select().where(dbPlanner.c.planner == planner_id)).first()
     
-    if len(data.columns) == 0:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
+    if not data:
+         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Items are not found")
     
-    
-    return conn.execute(dbPlanner.select().where(dbPlanner.c.mrpcnt == planner_id)).first()
+    return data
