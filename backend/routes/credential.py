@@ -25,7 +25,7 @@ async def register(user: User):
     return conn.execute(users.select().where(users.c.username == user.username)).fetchall()
 
 
-@credential.post("/login", tags=["Authentication"])
+@credential.post("/login", status_code=status.HTTP_200_OK, tags=["Authentication"])
 async def login(user : User):
     all_users = conn.execute(users.select()).fetchall()
     
