@@ -10,7 +10,8 @@ import json
 
 
 exception = APIRouter(
-    prefix = "/exceptions"
+    prefix = "/exceptions",
+    tags=["exceptions"],
 )
 
 exceptionlist = []
@@ -20,7 +21,7 @@ materiallist = []
 
 # API call
 # http://localhost:8000/exceptions/
-@exception.get('/', tags=["Exception Manager"], status_code = status.HTTP_200_OK)
+@exception.get('/', status_code = status.HTTP_200_OK)
 async def get_all_exception_info():
     
     return conn.execute(dbExceptionMessage.select()).fetchall()

@@ -1,10 +1,8 @@
 from fastapi import FastAPI
 from models.dbschema import  dbExceptionMessage, dbMaterialMaster
-from routes.supplychain import supplychain
 from routes.planner import planner
 from routes.material import material
 from routes.healthscore import healthscore
-from routes.external import external
 from routes.exception import exception
 from routes.credential import credential
 
@@ -13,45 +11,6 @@ This is a MPA WebServer.
 It implements various APIs for the development of  MPA Dashboard and AI-based Forecasting Model 🚀
 
 """
-
-# #### Material Planner 
-
-# * **get_all_material_planner_info** (implemented).
-# * **get_material_planner_info** (implemented).
-
-# ####  Material 
-
-# * **get_all_material_info** (implemented).
-# * **get_material_info** (implemented).
-
-# ####  Forecasting Model
-
-# * **get_material_healthscore** (_not implemented_).
-
-# ####  Exception
-
-# * **get_all_exception_info** (implemented).
-# * **get_material_exception_info** (_not implemented_).
-
-
-# #### Supply Chain
-
-# * **get_eta_delivery** (_not implemented_).
-# * **get_arrival_probability** (_not implemented_).
-
-# #### External
-
-# * **get_weather_info** (_not implemented_).
-# * **get_traffic_info** (_not implemented_).
-
-# #### Material Transaction
-
-# * **get_material_transaction_info** (_not implemented_).
-
-#  {
-#         "name" : "Material Transaction",
-#         "description" : "MD04 transaction with Material."
-#     },
 
 tags_metadata = [
     {
@@ -82,10 +41,7 @@ tags_metadata = [
      
 ]
 
-#  {
-#         "name" : "External",
-#         "description" : "External APIs of Weather and Traffic to be used for supply chain of material."
-#     }
+
 
 
 app = FastAPI(title="Material Planner Assistant",
@@ -97,5 +53,4 @@ app.include_router(material)
 app.include_router(healthscore)
 app.include_router(exception)
 app.include_router(credential)
-#app.include_router(external)
-#app.include_router(supplychain)
+

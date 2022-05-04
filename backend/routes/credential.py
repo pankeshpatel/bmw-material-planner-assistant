@@ -5,13 +5,14 @@ from schemas.user import User
 from models.dbschema import users
 
 credential = APIRouter(
-    prefix = "/users"
+    prefix = "/users",
+    tags=["users"]
 )
 auth_handler = AuthHandler()
 
 
 # This API will register material planner and overwrite FastAPI default status - status.HTTP_200_OK
-@credential.post("/register", status_code=status.HTTP_201_CREATED, tags=["Authentication"])
+@credential.post("/register", status_code=status.HTTP_201_CREATED)
 async def register(user: User):
     all_users = conn.execute(users.select()).fetchall()
     if any(x['username'] == user.username for x in all_users):
@@ -27,7 +28,7 @@ async def register(user: User):
     return conn.execute(users.select().where(users.c.username == user.username)).fetchall()
 
 
-@credential.post("/login", status_code=status.HTTP_200_OK, tags=["Authentication"])
+@credential.post("/login", status_code=status.HTTP_200_OK)
 async def login(user : User):
     all_users = conn.execute(users.select()).fetchall()
     

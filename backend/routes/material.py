@@ -11,8 +11,8 @@ import json
 
 
 material = APIRouter(
-        prefix = "/materials"
-
+    prefix = "/materials",
+    tags=["materials"]
 )
 
 
@@ -31,7 +31,7 @@ material = APIRouter(
 # send "201_Created" , instead of 200_HTTP_OK. 
 # status_code = status.HTTP_201_CREATE would change a default behaviour.
 
-@material.get('/{planner_id}', tags=["Material"], status_code = status.HTTP_200_OK)
+@material.get('/{planner_id}',  status_code = status.HTTP_200_OK)
 async def get_all_material_info(planner_id: str):
     
     sql = """SELECT DISTINCT material, material_9, material_7, mat_description, 
@@ -62,7 +62,7 @@ async def get_all_material_info(planner_id: str):
 # send "201_Created" , instead of 200_HTTP_OK. 
 # status_code = status.HTTP_201_CREATE would change a default behaviour.
 
-@material.get('/{planner_id}/{material_id}', tags=["Material"], 
+@material.get('/{planner_id}/{material_id}', 
               status_code = status.HTTP_200_OK)
 async def get_material_info(planner_id : str, 
                             material_id:str):

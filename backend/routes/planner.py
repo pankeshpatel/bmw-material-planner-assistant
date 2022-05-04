@@ -6,7 +6,8 @@ from models.dbschema import dbPlanner
 
 
 planner = APIRouter(
-    prefix = "/planners"
+    prefix = "/planners",
+    tags=["planners"]
 )
 
 # Write a logic here that list ALL identified planners with information
