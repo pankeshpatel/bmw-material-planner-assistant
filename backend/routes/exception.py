@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from models.dbschema import  dbExceptionMessage, dbExceptionManager
 from config.db import conn
 from datetime import datetime, date
@@ -17,8 +17,9 @@ materiallist = []
 
 # API call
 # http://localhost:8000/exceptions/
-@exception.get('/exceptions/', tags=["Exception Manager"])
+@exception.get('/exceptions/', tags=["Exception Manager"], status_code = status.HTTP_200_OK)
 async def get_all_exception_info():
+    
     return conn.execute(dbExceptionMessage.select()).fetchall()
 
 
@@ -27,13 +28,14 @@ async def get_all_exception_info():
 # API Call
 # http://localhost:8000/exception-manager/114/?start_date=02/18/22&end_date=04/04/22
 
-@exception.get('/exception-manager/{planner_id}', tags=["Exception Manager"])
+@exception.get('/exception-manager/{planner_id}', tags=["Exception Manager"], status_code = status.HTTP_200_OK)
 async def exception_manager(planner_id:str, 
                                       start_date : str,
                                       end_date : str):
     
     sql = """SELECT * FROM admin.Exception"""
     df_exception_manager = pd.DataFrame(conn.execute(sql).fetchall())
+    
     
       # 1 - matnr, 3 - cdate , 9 - auskt
     dataframe_exception_manager = pd.concat([df_exception_manager[1], df_exception_manager[3], df_exception_manager[9]], axis=1, keys=['matnr', 'cdate', 'auskt' ])
@@ -43,6 +45,7 @@ async def exception_manager(planner_id:str,
     
     # Data filtering with respect to the start and end date
     dataframe_exception_manager_filtered = dataframe_exception_manager.filter_date('cdate', start_date, end_date)
+
 
     # Remove row that 'auskt' value has zero
     dataframe_exception_manager_filter = dataframe_exception_manager_filtered[dataframe_exception_manager_filtered['auskt'] > 0]
@@ -107,7 +110,8 @@ async def exception_manager(planner_id:str,
 # API Call
 # http://localhost:8000/exception-matrix/114/?start_date=02/18/22&end_date=04/04/22
 
-@exception.get('/exception-matrix/{planner_id}/', tags=["Exception Manager"])
+@exception.get('/exception-matrix/{planner_id}/', tags=["Exception Manager"], 
+               status_code = status.HTTP_200_OK)
 async def exception_matrix(planner_id:str, 
                                       start_date : str,
                                       end_date : str):
@@ -115,7 +119,9 @@ async def exception_matrix(planner_id:str,
     
     # Data Reading from MySQL 
     sql = """SELECT * FROM admin.Exception"""
+    
     df_exception = pd.DataFrame(conn.execute(sql).fetchall()) 
+    
     
     # 1 - matnr, 3 - cdate , 9 - auskt
     dataframe_exception = pd.concat([df_exception[1], df_exception[3], df_exception[9]], axis=1)
@@ -126,6 +132,7 @@ async def exception_matrix(planner_id:str,
     
      # Data filtering with respect to the start and end date
     dataframe_exception_filtered = dataframe_exception.filter_date(3, start_date, end_date)
+
 
     # Remove row that 'auskt' value has zero
     data_filter = dataframe_exception_filtered[dataframe_exception_filtered[9] > 0]

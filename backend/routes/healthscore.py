@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status, Response, HTTPException
 from config.db import conn
 from schemas.user import User
 from datetime import datetime, date
@@ -168,10 +168,12 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
 # API 
 # http://localhost:8000/healthscore/114/7430935-05?healthdate=05/20/21
 
-@healthscore.get('/healthscore/{planner_id}/{material_id}', tags=["Forecasting Model"])
+@healthscore.get('/healthscore/{planner_id}/{material_id}', tags=["Forecasting Model"], 
+                 status_code = status.HTTP_200_OK)
 async def get_material_healthscore(planner_id:str,
                                   material_id: str, 
                                   healthdate: str):
+    
   
     material = material_id
     date = healthdate
@@ -180,6 +182,9 @@ async def get_material_healthscore(planner_id:str,
     sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
     data = pd.DataFrame(conn.execute(sql, material_id, healthdate).fetchall())
     #print(data)
+    
+    if len(data.columns) == 0:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
     
     # find a safety stock
     # If we do not find a value of "SafeSt", 
@@ -263,7 +268,7 @@ async def get_material_healthscore(planner_id:str,
         "Date": date,
         "Health-score": percentage_result,
         "total_qty_analysis" : json.loads(json.dumps(list(df_total_qty.T.to_dict().values()))),
-        "total_qty_instances": json.loads(json.dumps(list(df_total_qty_instances.T.to_dict().values())))     
+        "total_qty_instances": json.loads(json.dumps(list(df_total_qty_instances.T.to_dict().values())))    
     }
 
     return health_score

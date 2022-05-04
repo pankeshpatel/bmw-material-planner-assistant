@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status, HTTPException
 from config.db import conn
 from schemas.user import User
 from datetime import datetime, date
@@ -22,11 +22,14 @@ material = APIRouter()
 # API Call
 # http://localhost:8000/materials/114
 
-@material.get('/materials/{planner_id}', tags=["Material"])
+@material.get('/materials/{planner_id}', tags=["Material"], status_code = status.HTTP_200_OK)
 async def get_all_material_info(planner_id: str):
     
-    sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng, safety_stock FROM admin.MaterialMaster WHERE planner = %s"""
+    sql = """SELECT DISTINCT material, material_9, material_7, mat_description, 
+    mat_description_eng, safety_stock FROM admin.MaterialMaster WHERE planner = %s"""
+    
     df_material_master = pd.DataFrame(conn.execute(sql, planner_id).fetchall(), columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng", "safety_stock"])
+    
     
     response = {
         "planner" : planner_id,
@@ -44,12 +47,14 @@ async def get_all_material_info(planner_id: str):
 # API Call
 # http://localhost:8000/materials/114/7430935-05
 
-@material.get('/materials/{planner_id}/{material_id}', tags=["Material"])
+@material.get('/materials/{planner_id}/{material_id}', tags=["Material"], 
+              status_code = status.HTTP_200_OK)
 async def get_material_info(planner_id : str, 
                             material_id:str):
     
     sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng, safety_stock FROM admin.MaterialMaster WHERE planner = %s AND material = %s"""
     df_material_planner_master = pd.DataFrame(conn.execute(sql, planner_id, material_id).fetchall(), columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng", "safety_stock"])
+    
     
     response = {
         "planner" : planner_id,
