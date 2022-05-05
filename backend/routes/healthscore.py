@@ -173,11 +173,7 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
 # API 
 # http://localhost:8000/healthscore/114/7430935-05?healthdate=05/20/21
 
-# We write "status_code" to change a default behabiour of FastAPI.
-# by default, FastAPI returns "200_OK", when everything is okay. This may be good got GET operation.
-# however, it may not be good for POST operation to create a certain thing, for the POST - create, one need to
-# send "201_Created" , instead of 200_HTTP_OK. 
-# status_code = status.HTTP_201_CREATE would change a default behaviour.
+
 
 @healthscore.get('/{planner_id}/{material_id}',  
                  status_code = status.HTTP_200_OK)

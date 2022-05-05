@@ -5,8 +5,6 @@ from config.utils import verify
 from config.oauth2 import create_access_token
 
 
-#from .. import  schemas, models, utils, oauth2
-
 from schemas.user import UserLogin
 from models.dbschema import dbUsers
 

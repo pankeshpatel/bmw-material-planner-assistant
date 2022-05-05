@@ -18,11 +18,7 @@ planner = APIRouter(
     # Planner Name
     # Planner Email 
     
-# We write "status_code" to change a default behabiour of FastAPI.
-# by default, FastAPI returns "200_OK", when everything is okay. This may be good got GET operation.
-# however, it may not be good for POST operation to create a certain thing, for the POST - create, one need to
-# send "201_Created" , instead of 200_HTTP_OK. 
-# status_code = status.HTTP_201_CREATE would change a default behaviour.    
+
     
 @planner.get('/',  status_code = status.HTTP_200_OK)
 async def get_all_material_planner_info(
@@ -45,11 +41,7 @@ async def get_all_material_planner_info(
     # Planner Email
     # Assigned  a list of Materials(Material IDs, Material Name) to the Material Planner
     
-# We write "status_code" to change a default behabiour of FastAPI.
-# by default, FastAPI returns "200_OK", when everything is okay. This may be good got GET operation.
-# however, it may not be good for POST operation to create a certain thing, for the POST - create, one need to
-# send "201_Created" , instead of 200_HTTP_OK. 
-# status_code = status.HTTP_201_CREATE would change a default behaviour.
+
     
 @planner.get('/id',  status_code = status.HTTP_200_OK)
 async def get_material_planner_info(id:str,

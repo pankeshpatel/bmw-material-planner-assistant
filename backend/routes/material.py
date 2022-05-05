@@ -7,20 +7,6 @@ import pandas as pd
 import json
 from config.oauth2 import get_current_user
 
-#from config.oauth2 import oauth2
-
-#import oauth2 
-
-# from config.auth import AuthHandler
-# auth_handler = AuthHandler()
-
-
-
-
-
-
-
-
 
 
 material = APIRouter(
