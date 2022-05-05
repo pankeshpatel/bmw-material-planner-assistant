@@ -1,8 +1,10 @@
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, status, HTTPException, Depends
 from config.db import conn
 from schemas.user import User
 from datetime import datetime, date
 from models.dbschema import dbPlanner
+from config.oauth2 import get_current_user
+
 
 
 
@@ -23,7 +25,8 @@ planner = APIRouter(
 # status_code = status.HTTP_201_CREATE would change a default behaviour.    
     
 @planner.get('/',  status_code = status.HTTP_200_OK)
-async def get_all_material_planner_info():
+async def get_all_material_planner_info(
+                    user_id: int = Depends(get_current_user)):
     #cursor = dbPlanner.cursor()
     
     sql = "SELECT * FROM admin.Planner"
@@ -49,19 +52,21 @@ async def get_all_material_planner_info():
 # status_code = status.HTTP_201_CREATE would change a default behaviour.
     
 @planner.get('/id',  status_code = status.HTTP_200_OK)
-async def get_material_planner_info(id:str):
+async def get_material_planner_info(id:str,
+                    user_id: int = Depends(get_current_user)):
     
     data = conn.execute(dbPlanner.select().where(dbPlanner.c.planner_id == id)).first()
     
     if not data:
-         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Items are not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Items are not found")
     
     return data
 
 
 
 @planner.get('/name',  status_code = status.HTTP_200_OK)
-async def get_material_planner_info(name:str):
+async def get_material_planner_info(name:str,
+                    user_id: int = Depends(get_current_user)):
         
     data = conn.execute(dbPlanner.select().where(dbPlanner.c.planner_name == name)).first()
     

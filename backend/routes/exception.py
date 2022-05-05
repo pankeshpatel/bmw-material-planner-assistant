@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Depends
 from models.dbschema import  dbExceptionMessage, dbExceptionManager
 from config.db import conn
 from datetime import datetime, date
@@ -6,6 +6,8 @@ import pandas as pd
 import janitor
 from tabulate import tabulate
 import json
+from config.oauth2 import get_current_user
+
 
 
 
@@ -22,7 +24,8 @@ materiallist = []
 # API call
 # http://localhost:8000/exceptions/
 @exception.get('/', status_code = status.HTTP_200_OK)
-async def get_all_exception_info():
+async def get_all_exception_info(
+                    user_id: int = Depends(get_current_user)):
     
     return conn.execute(dbExceptionMessage.select()).fetchall()
 
@@ -41,7 +44,8 @@ async def get_all_exception_info():
 @exception.get('/manager/{planner_id}',  status_code = status.HTTP_200_OK)
 async def exception_manager(planner_id:str, 
                                       start_date : str,
-                                      end_date : str):
+                                      end_date : str,
+                    user_id: int = Depends(get_current_user)):
     
     sql = """SELECT * FROM admin.Exception"""
     df_exception_manager = pd.DataFrame(conn.execute(sql).fetchall())
@@ -130,7 +134,8 @@ async def exception_manager(planner_id:str,
                status_code = status.HTTP_200_OK)
 async def exception_matrix(planner_id:str, 
                                       start_date : str,
-                                      end_date : str):
+                                      end_date : str,
+                    user_id: int = Depends(get_current_user)):
     
     
     # Data Reading from MySQL 

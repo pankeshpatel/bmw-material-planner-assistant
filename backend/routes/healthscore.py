@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Response, HTTPException
+from fastapi import APIRouter, status, Response, HTTPException, Depends
 from config.db import conn
 from schemas.user import User
 from datetime import datetime, date
@@ -14,6 +14,8 @@ from typing import List, Tuple, Set, Dict
 from typing import Optional
 import json
 from tabulate import tabulate
+from config.oauth2 import get_current_user
+
 
 healthscore = APIRouter(
     prefix = "/healthscore",
@@ -181,7 +183,8 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
                  status_code = status.HTTP_200_OK)
 async def get_material_healthscore(planner_id:str,
                                   material_id: str, 
-                                  healthdate: str):
+                                  healthdate: str,
+                    user_id: int = Depends(get_current_user)):
     
   
     material = material_id

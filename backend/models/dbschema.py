@@ -3,7 +3,7 @@ from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Date
 from config.db import meta, engine
 
 
-users = Table(
+dbUsers = Table(
     'User',
     meta,   
     Column('username', String(45)),
