@@ -47,7 +47,7 @@ async def get_all_material_planner_info(
 async def get_material_planner_info(id:str,
                     user_id: int = Depends(get_current_user)):
     
-    data = conn.execute(dbPlanner.select().where(dbPlanner.c.planner_id == id)).first()
+    data = conn.execute(dbPlanner.select().where(dbPlanner.c.id == id)).first()
     
     if not data:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Items are not found")
@@ -60,7 +60,7 @@ async def get_material_planner_info(id:str,
 async def get_material_planner_info(name:str,
                     user_id: int = Depends(get_current_user)):
         
-    data = conn.execute(dbPlanner.select().where(dbPlanner.c.planner_name == name)).first()
+    data = conn.execute(dbPlanner.select().where(dbPlanner.c.name == name)).fetchall()
     
     if not data:
          raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Items are not found")

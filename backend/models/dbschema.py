@@ -17,6 +17,14 @@ dbExceptionMessage = Table(
                     Column('message', String(225))                
                 )
 
+dbPlanner = Table(
+                    "Planner", 
+                    meta, 
+                    Column('id', String(225)),
+                    Column('name', String(225)),
+                    Column('email', String(225))               
+                )
+
 # dbMaterialMaster = Table(
 #                         "MaterialMaster", 
 #                         meta, 
@@ -105,14 +113,14 @@ Column('load_timestamp', String(225)),
 Column('_load_date', String(225))
 )
 
-dbPlanner = Table ( 
-                   "Planner", 
-                   meta,
-                   Column("material", String(225)),
-                   Column("planner_id", String(225)),
-                   Column("planner_name", String(225)),
-                   Column("email", String(225))
-                )
+# dbPlanner = Table ( 
+#                    "Planner", 
+#                    meta,
+#                    Column("material", String(225)),
+#                    Column("planner_id", String(225)),
+#                    Column("planner_name", String(225)),
+#                    Column("email", String(225))
+#                 )
 
 # dbHealthScore = Table (
 #                     "HealthScore", 
