@@ -3,9 +3,8 @@ from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from config.db import conn
 from config.utils import verify
 from config.oauth2 import create_access_token
-
-
-from schemas.user import UserLogin
+from passlib.context import CryptContext
+from schemas.user import UserLogin, User
 from models.dbschema import dbUsers
 
 
@@ -13,6 +12,9 @@ authentication = APIRouter(
           prefix = "/users",
           tags=["users"]
           )
+
+
+pwd_context = CryptContext(schemes=["bcrypt"])
 
 
 @authentication.post('/login')
@@ -35,3 +37,24 @@ def login(user_credentials: OAuth2PasswordRequestForm = Depends()):
     access_token = create_access_token(data={"username": user.username})
 
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+def get_password_hash(password):
+     return pwd_context.hash(password)
+
+
+# This API will register material planner and overwrite FastAPI default status - status.HTTP_200_OK
+@authentication.post("/register", status_code=status.HTTP_201_CREATED)
+async def register(user: User):
+    all_users = conn.execute(dbUsers.select()).fetchall()
+    if any(x['username'] == user.username for x in all_users):
+        raise HTTPException(400, 'user name is taken')
+
+    hashed_password = get_password_hash(user.password)
+
+    conn.execute(dbUsers.insert().values(   
+        username=user.username,
+        password=hashed_password
+    ))
+
+    return conn.execute(dbUsers.select().where(dbUsers.c.username == user.username)).fetchall()
