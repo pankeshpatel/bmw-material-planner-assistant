@@ -21,11 +21,6 @@ It implements various APIs for the development of  MPA Dashboard and AI-based Fo
 
 """
 
-
-
-
-
-
 app = FastAPI(title="Material Planner Assistant",
     description=description,
     version="0.0.1")
