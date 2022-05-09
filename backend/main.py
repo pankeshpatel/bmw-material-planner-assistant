@@ -6,6 +6,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # list here all the url on which the frontend is running
 # Create a list of allowed origins (as strings).
+
+# OR the other option is for frontend to add 
+# "proxy" : "http://localhost:8000"
+# this would indicate the url of backend
 origins = [
    "http://localhost:3000"
 ]
