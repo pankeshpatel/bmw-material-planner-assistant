@@ -22,7 +22,7 @@ dbPlanner = Table(
                     meta, 
                     Column('id', String(225)),
                     Column('name', String(225)),
-                    Column('email', String(225))               
+                    Column('email', String(225))              
                 )
 
 # dbMaterialMaster = Table(

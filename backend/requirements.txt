@@ -17,6 +17,7 @@ pymysql
 tabulate
 janitor
 python-jose
+alembic
 
 
 
