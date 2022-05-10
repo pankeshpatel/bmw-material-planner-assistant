@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from routes.index import *
-
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -41,6 +40,16 @@ app.add_middleware(
     allow_methods = ["*"],
     allow_headers = ["*"]
  )
+
+
+   
+   
+   
+   
+   
+   
+   
+
 
 
 
