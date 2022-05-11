@@ -19,6 +19,7 @@ janitor
 python-jose
 alembic
 python-dotenv
+pyjanitor
 
 
 
