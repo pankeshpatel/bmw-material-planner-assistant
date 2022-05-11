@@ -78,6 +78,14 @@ sudo mysql -u root -p
 uvicorn --host 0.0.0.0 main:app --reload
 ```
 
+- If the application is crashed / reboot our machhine, `uvicorn` does not restart automatically.
+  for these feature use we will use process manager -- `gunicorn`
+
+```
+pip install gunicorn
+gunicorn -w 1 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
+```
+
 ## frontend
 
 ```

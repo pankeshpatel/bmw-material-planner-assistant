@@ -20,6 +20,9 @@ python-jose
 alembic
 python-dotenv
 pyjanitor
+gunicorn
+httptools
+uvloop
 
 
 
