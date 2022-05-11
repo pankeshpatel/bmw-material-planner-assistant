@@ -38,6 +38,40 @@ use admin;
 show tables;
 ```
 
+## Installing MySQL on AWS EC2 instance - ubuntu
+
+- mysql installation
+
+```
+sudo apt update
+sudo apt install mysql-server
+```
+
+- status check on mysql server installation
+
+```
+sudo systemctl status mysql
+```
+
+- mysql command prompt
+
+```
+sudo mysql
+```
+
+- set a root password
+  replace your password `your_password_here`
+
+```
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password_here'
+```
+
+- mysql command prompt
+
+```
+sudo mysql -u root -p
+```
+
 ## frontend
 
 ```
