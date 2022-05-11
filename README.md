@@ -72,6 +72,12 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_pas
 sudo mysql -u root -p
 ```
 
+# Running FastAPI Server AWS EC2
+
+```
+uvicorn --host 0.0.0.0 main:app --reload
+```
+
 ## frontend
 
 ```
