@@ -84,6 +84,9 @@ uvicorn --host 0.0.0.0 main:app --reload
 ```
 pip install gunicorn
 gunicorn -w 1 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
+
+# for background
+nohup gunicorn -w 1 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
 ```
 
 ## setup nginx on ec2
