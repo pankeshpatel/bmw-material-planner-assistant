@@ -4,7 +4,11 @@ from config.env import settings
 
 
 
-connect_string = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8mb4'.format(settings.DB_USER, settings.DB_PASSWORD, settings.DB_HOST, settings.DB_PORT, settings.DATABASE)
+connect_string = f'mysql+pymysql://root:root123@localhost:3306/admin?charset=utf8mb4'
+
+
+
+#connect_string = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8mb4'.format(settings.DB_USER, settings.DB_PASSWORD, settings.DB_HOST, settings.DB_PORT, settings.DATABASE)
 
 
 
