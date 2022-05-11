@@ -111,6 +111,15 @@ systemctl start nginx
 
 - make sure that fastapi server is running.
 
+## setup a firewall
+
+```
+sudo ufw status
+sudo ufw allow http  # add rules
+sudo ufw allow ssh   # add rules
+sudo ufw enable # to make the firewall active
+```
+
 ## frontend
 
 ```
