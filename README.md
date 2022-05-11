@@ -72,7 +72,7 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_pas
 sudo mysql -u root -p
 ```
 
-# Running FastAPI Server AWS EC2
+## Running FastAPI Server AWS EC2
 
 ```
 uvicorn --host 0.0.0.0 main:app --reload
@@ -85,6 +85,31 @@ uvicorn --host 0.0.0.0 main:app --reload
 pip install gunicorn
 gunicorn -w 1 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
 ```
+
+## setup nginx on ec2
+
+- nginx installation
+
+```
+sudo-apt install nginx -y
+```
+
+- start the nginx
+
+```
+systemctl start nginx
+```
+
+- check nginx status
+  go to the url `http://<ip-address>`
+  you can also check the status `systemctl status nginx`
+
+- nginx configuration
+  `cd /etc/nginx/sites-available`
+  edit ngix file `default`
+  `systemctl restart nginx`
+
+- make sure that fastapi server is running.
 
 ## frontend
 
