@@ -18,8 +18,6 @@ planner = APIRouter(
     # Planner Name
     # Planner Email 
     
-
-    
 @planner.get('/',  status_code = status.HTTP_200_OK)
 async def get_all_material_planner_info(
                     user_id: int = Depends(get_current_user)):

@@ -5,7 +5,9 @@ FROM python:3.9
 # The WORKDIR command is used to define the working directory 
 # of a Docker container at any given time. The command is specified in the Dockerfile. 
 # Reference : https://www.educative.io/edpresso/what-is-the-workdir-command-in-docker
- WORKDIR '/backend' 
+ # WORKDIR '/backend' 
+WORKDIR /usr/src/app
+
 
 
 # COPY is a dockerfile command that copies files from a local source location
@@ -16,9 +18,9 @@ FROM python:3.9
 
 # This command will copy "requirements.txt" file to the /requirements.
 # COPY <src> <dest>
-COPY ./requirements.txt  ./
+COPY requirements.txt  ./
 # Download and install dependencies 
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 
 #COPY ./app  /code/app
@@ -26,8 +28,8 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 COPY .  .   
 
 # 
-#CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-CMD ["uvicorn", "main:app"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+#CMD ["uvicorn", "main:app"]
 
 
 

@@ -2,9 +2,18 @@ from sqlalchemy import create_engine, MetaData
 from config.env import settings
 
 
+connect_string = f'mysql+pymysql://root:root123@0.0.0.0:3306/admin?charset=utf8mb4'
 
 
-connect_string = f'mysql+pymysql://root:root123@localhost:3306/admin?charset=utf8mb4'
+# DB_USER="root"
+# DB_PASSWORD="root123"
+# DB_HOST="mysql"
+# DB_PORT="3306"
+# DATABASE="admin"
+
+
+# connect_string = 'mysql+pymysql://{}:{}@{}/{}?port={}?charset=utf8'.format(DB_USER, DB_PASSWORD, DB_HOST, DATABASE, DB_PORT)
+
 
 
 

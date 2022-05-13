@@ -24,5 +24,7 @@ gunicorn
 httptools
 uvloop
 
+psycopg2-binary
+
 
 
