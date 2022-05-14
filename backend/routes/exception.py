@@ -205,4 +205,3 @@ async def exception_matrix(planner_id:str,
     }
     
     return response
-

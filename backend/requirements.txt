@@ -8,7 +8,7 @@ python-multipart
 pyclean
 pyjwt
 typing
-pandas
+pandas==1.3.5
 datetime
 openpyxl
 python-math
@@ -24,7 +24,6 @@ gunicorn
 httptools
 uvloop
 
-psycopg2-binary
 
 
 

@@ -24,27 +24,18 @@ IGNORE 1 ROWS;
 
 LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_741788607-1.csv' INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_742065710-1.csv' INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_743093505-1.csv'
-INTO TABLE MD04
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
-
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_809198305-1.csv'
-INTO TABLE MD04
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
-
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_742065710-1.csv'
-INTO TABLE MD04
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_743093505-1.csv' INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
 LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_807165907-1.csv'
-INTO TABLE MD04
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_809198305-1.csv'
+INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+
+
+        
 
 		
 	
@@ -55,22 +46,10 @@ IGNORE 1 ROWS;
 
 LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/02-Exception/exhist_741788607.csv' INTO TABLE Exception FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/02-Exception/exhist_743093505.csv'
-INTO TABLE Exception
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/02-Exception/exhist_743093505.csv' INTO TABLE Exception FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/02-Exception/exhist_809198305.csv'
-INTO TABLE Exception
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/02-Exception/exhist_809198305.csv' INTO TABLE Exception FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/02-Exception/exhist_742065710.csv'
-INTO TABLE Exception
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/02-Exception/exhist_742065710.csv' INTO TABLE Exception FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/02-Exception/exhist_807165907.csv'
-INTO TABLE Exception
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/02-Exception/exhist_807165907.csv' INTO TABLE Exception FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
