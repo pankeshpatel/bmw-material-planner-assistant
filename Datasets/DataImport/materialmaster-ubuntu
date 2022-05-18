@@ -1,0 +1,112 @@
+# Alec 
+
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv' INTO TABLE MaterialMaster FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+
+
+# Ben
+
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+
+# Justin
+
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+
+# Liliana
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
+INTO TABLE MaterialMaster
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
