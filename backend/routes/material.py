@@ -39,9 +39,7 @@ async def get_all_material_info(
     mat_description_eng, safety_stock FROM admin.MaterialMaster WHERE planner = %s"""
     
     df_material_master = pd.DataFrame(conn.execute(sql, planner_id).fetchall(), columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng", "safety_stock"])
-    
-    print(df_material_master)
-    
+        
     
     response = {
         "planner" : planner_id,
