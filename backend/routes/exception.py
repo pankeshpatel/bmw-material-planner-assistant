@@ -11,6 +11,7 @@ from config.oauth2 import get_current_user
 
 
 
+
 exception = APIRouter(
     prefix = "/exceptions",
     tags=["exceptions"],
@@ -43,12 +44,52 @@ async def exception_manager(planner_id:str,
                                       end_date : str,
                     user_id: int = Depends(get_current_user)):
     
+    sql_planner = """SELECT DISTINCT(material_9) from admin.materialmaster where planner = %s group by material_9"""
+    
+    df_list_manager = pd.DataFrame(conn.execute(sql_planner, planner_id).fetchall())
+    
+    #list_manager = conn.execute(sql_planner, planner_id).fetchall()
+    #print("**********************df_list_manager*******************")
+    #print("***dataframe****")
+    #print(df_list_manager)
+    #print("***list conversion****")
+    
+    list_manager = df_list_manager[0].values.tolist()
+    #print(list_manager)
+
+    
+    # select Distinct(material_9) from admin.materialmaster   where planner = '594' group by material_9;
+    
+    
     sql = """SELECT * FROM admin.Exception"""
     df_exception_manager = pd.DataFrame(conn.execute(sql).fetchall())
     
+    if df_exception_manager.empty:
+        
+        response = {
+        "planner" : planner_id,
+        "start_date" : start_date,
+        "end_date" : end_date,
+        "result": json.loads(json.dumps(list(df_exception_manager.T.to_dict().values())))
+    }
+    
+        return response
+        
     
       # 1 - matnr, 3 - cdate , 9 - auskt
     dataframe_exception_manager = pd.concat([df_exception_manager[1], df_exception_manager[3], df_exception_manager[9]], axis=1, keys=['matnr', 'cdate', 'auskt' ])
+    
+    #print("**********************Before*******************")
+    #print(dataframe_exception_manager)
+    
+    
+    dataframe_exception_manager = dataframe_exception_manager[dataframe_exception_manager['matnr'].isin(list_manager)]
+    
+    
+    #print("**********************After*******************")
+    #print(dataframe_exception_manager)
+
+    
     
     #  Data cleaning, replacing NaN with '0'
     dataframe_exception_manager['auskt'] = dataframe_exception_manager['auskt'].fillna(0)
@@ -134,6 +175,19 @@ async def exception_matrix(planner_id:str,
     sql = """SELECT * FROM admin.Exception"""
     
     df_exception = pd.DataFrame(conn.execute(sql).fetchall()) 
+    
+    if df_exception.empty:
+        
+        response = {
+        "planner" : planner_id,
+        "start_date" : start_date,
+        "end_date" : end_date,
+        "result": json.loads(json.dumps(list(df_exception.T.to_dict().values())))
+    }
+    
+        return response
+
+        
     
     
     # 1 - matnr, 3 - cdate , 9 - auskt
