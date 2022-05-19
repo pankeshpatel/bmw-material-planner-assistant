@@ -170,6 +170,16 @@ async def exception_matrix(planner_id:str,
                                       end_date : str,
                     user_id: int = Depends(get_current_user)):
     
+    # Reteriving materials
+    
+    sql_planner = """SELECT DISTINCT(material_9) from admin.materialmaster where planner = %s group by material_9"""
+    
+    df_list_manager = pd.DataFrame(conn.execute(sql_planner, planner_id).fetchall())
+    
+    list_manager = df_list_manager[0].values.tolist()
+    print(list_manager)
+    
+    
     
     # Data Reading from MySQL 
     sql = """SELECT * FROM admin.Exception"""
@@ -192,6 +202,11 @@ async def exception_matrix(planner_id:str,
     
     # 1 - matnr, 3 - cdate , 9 - auskt
     dataframe_exception = pd.concat([df_exception[1], df_exception[3], df_exception[9]], axis=1)
+    
+    
+    dataframe_exception = dataframe_exception[dataframe_exception[1].isin(list_manager)]
+    
+    print(dataframe_exception)
     
     #  Data cleaning, replacing NaN with '0'
     dataframe_exception[9] = dataframe_exception[9].fillna(0)
