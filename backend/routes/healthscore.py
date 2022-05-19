@@ -40,15 +40,29 @@ def find_total_quantity_instances(formatted_date: str, material_id: str, safety_
     local_list_qty_instance = []
     global list_qty_instance
     
-    while(item < len(data)):
+    print("*******data*********")
+    print(len(data))
+    
+    if(len(data) == 0):
         local_list_qty_instance = [
-            data["material"][item],
-            data["demand_date"][item],
-            data["total_quantity"][item],
+            material_id,
+            formatted_date,
+            0,
             safety_stock
         ]
         list_qty_instance.append(local_list_qty_instance)        
-        item = item + 1
+        
+    else:
+        while(item < len(data)):
+            local_list_qty_instance = [
+                data["material"][item],
+                data["demand_date"][item],
+                data["total_quantity"][item],
+                safety_stock
+            ]
+            
+            list_qty_instance.append(local_list_qty_instance)        
+            item = item + 1
 
 
 
@@ -59,13 +73,22 @@ def find_total_quantity_summary(formatted_date: str, material_id: str, safety_st
     
     data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "demand_date", "total_quantity"])
     
+    # max value
+    if(len(data["total_quantity"]) == 0):
+        max, min, mean = 0,0,0
+    else:
+        max = data["total_quantity"].max()
+        min = data["total_quantity"].min()
+        mean = data["total_quantity"].mean()
+
+    
     local_list_qty = []    
     local_list_qty = [
         material_id, 
         formatted_date, 
-        data["total_quantity"].max(), 
-        data["total_quantity"].min(), 
-        round(data["total_quantity"].mean(),2), 
+        max, 
+        min, 
+        round(mean,2), 
         safety_stock
         ]
             
@@ -82,7 +105,8 @@ def find_stock(date: str, formatted_date: str, material_id: str) -> int:
     # Data is not available in DB
     if(len(data) == 0):
         print("No data found for", formatted_date)
-        return None 
+        return 0
+        #return None 
     
         
     if "Stock" in data.values:
@@ -175,20 +199,16 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
 
 
 
-@healthscore.get('/{planner_id}/{material_id}',  
-                 status_code = status.HTTP_200_OK)
-async def get_material_healthscore(planner_id:str,
-                                  material_id: str, 
-                                  healthdate: str,
-                    user_id: int = Depends(get_current_user)):
+@healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
+async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
     
   
     material = material_id
     date = healthdate
     num_days = 10    
     
-    sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
-    data = pd.DataFrame(conn.execute(sql, material_id, healthdate).fetchall())
+    sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s AND planner = %s""" 
+    data = pd.DataFrame(conn.execute(sql, material_id, healthdate, planner_id).fetchall())
     #print(data)
     
     if len(data.columns) == 0:
@@ -212,6 +232,7 @@ async def get_material_healthscore(planner_id:str,
                    data_safety_stock[data_safety_stock[3] == "SafeSt"], saftey_stock
         )
 
+ 
     
     #avg_stock_change: float = calc_avg_stock_change(data)
 
@@ -225,7 +246,7 @@ async def get_material_healthscore(planner_id:str,
     avg: List = []  # List to keep track of health scores
     
     
-
+    # This loop will get 
     for i in range(int(num_days)):
         td = datetime.timedelta(days=i)
         new_date = date_obj + td
@@ -233,6 +254,7 @@ async def get_material_healthscore(planner_id:str,
         
         # # ASSUME DATA SORTED ALREADY
         stock = find_stock(format_date(new_date), formatted_date, material)
+        
         
         # Total Quantity
         find_total_quantity_summary(formatted_date, material, saftey_stock) 

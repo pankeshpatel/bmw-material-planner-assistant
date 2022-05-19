@@ -34,7 +34,7 @@ LOAD DATA LOCAL INFILE '/Users/pankeshpatel/Desktop/bmw-material-planner-assista
 
 LOAD DATA LOCAL INFILE '/Users/pankeshpatel/Desktop/bmw-material-planner-assistant/Datasets/03-MD04/justin/MD04_8075179-08.csv' INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '/Users/pankeshpatel/Desktop/bmw-material-planner-assistant/Datasets/03-MD04/justin/MD04_8746967-10.csv INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/Users/pankeshpatel/Desktop/bmw-material-planner-assistant/Datasets/03-MD04/justin/MD04_8746967-10.csv' INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
 LOAD DATA LOCAL INFILE '/Users/pankeshpatel/Desktop/bmw-material-planner-assistant/Datasets/03-MD04/justin/MD04_8075177-10.csv' INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
