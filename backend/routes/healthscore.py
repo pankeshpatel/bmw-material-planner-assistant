@@ -39,8 +39,6 @@ def find_total_quantity_instances(formatted_date: str, material_id: str, safety_
     local_list_qty_instance = []
     global list_qty_instance
     
-    print("*******data*********")
-    print(len(data))
     
     if(len(data) == 0):
         local_list_qty_instance = [
@@ -101,6 +99,9 @@ def find_stock(date: str, formatted_date: str, material_id: str) -> int:
     sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
     data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
     
+    print("*****************find_stock****************************")
+    print(data)
+    
     # Data is not available in DB
     if(len(data) == 0):
         print("No data found for", formatted_date)
@@ -109,24 +110,28 @@ def find_stock(date: str, formatted_date: str, material_id: str) -> int:
     
         
     if "Stock" in data.values:
-        data_stock = data[data[3] == "Stock"]
+        print("I am in if..........")
+        data_stock = data[data["mrp_element"] == "Stock"]
         for index, row in data_stock.iterrows(): 
             if date == row[2]:
-                return row[5]
+                return row["total_quantity"]
     else:
+        print("I am in else..........")
         # # If else no concrete "Stock" data present just take stock for first entry of that day
-        data_date = data[data[2] == formatted_date]
+        data_date = data[data["demand_date"] == formatted_date]
+        print("*********data_date******", data_date)
         for index, row in data_date.iterrows():
             # Assuming data sorted, returning first total_quantity entry for that data
-            return row[5]
+            return row["total_quantity"]
 
 
 
 
 def find_saftey_stock(date: datetime, data: pd.DataFrame(), saftey_stock: int) -> int:
+    
     for index, row in data.iterrows():   
-        safety_stock_qty = abs(row[4])    
-        return abs(row[4])  # Change due to removal of saftey stock, assumed const
+        safety_stock_qty = abs(row["change_quantity"])    
+        return abs(row["change_quantity"])  # Change due to removal of saftey stock, assumed const
 
     # Else
     safety_stock_qty = abs(saftey_stock)   
@@ -199,8 +204,9 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
 
 
 @healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
-async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
-    
+#async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
+async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str):
+
   
     material = material_id
     date = healthdate
@@ -228,7 +234,7 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
     
     saftey_stock = find_saftey_stock(
                    format_date(healthdate), 
-                   data_safety_stock[data_safety_stock[3] == "SafeSt"], saftey_stock)
+                   data_safety_stock[data_safety_stock["mrp_element"] == "SafeSt"], saftey_stock)
 
  
     
@@ -258,7 +264,10 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
         find_total_quantity_summary(formatted_date, material, saftey_stock) 
         
         # to find each instances of total quantity instances
-        find_total_quantity_instances(formatted_date, material, saftey_stock)        
+        find_total_quantity_instances(formatted_date, material, saftey_stock)  
+        
+        print("****Stock", stock)
+        print("Safety Stock", saftey_stock)      
         
         health = get_health_score(stock, saftey_stock, k_val=0.8)            
         if health != None:

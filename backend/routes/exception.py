@@ -25,8 +25,8 @@ materiallist = []
 # API call
 # http://localhost:8000/exceptions/
 @exception.get('/', status_code = status.HTTP_200_OK)
-async def get_all_exception_info(
-                    user_id: int = Depends(get_current_user)):
+# async def get_all_exception_info(user_id: int = Depends(get_current_user)):
+async def get_all_exception_info():
     
     return conn.execute(dbExceptionMessage.select()).fetchall()
 
@@ -41,26 +41,16 @@ async def get_all_exception_info(
 @exception.get('/manager/{planner_id}',  status_code = status.HTTP_200_OK)
 async def exception_manager(planner_id:str, 
                                       start_date : str,
-                                      end_date : str,
-                    user_id: int = Depends(get_current_user)):
+                                      end_date : str):
+                    #user_id: int = Depends(get_current_user)):
     
     sql_planner = """SELECT DISTINCT(material_9) from admin.materialmaster where planner = %s group by material_9"""
     
     df_list_manager = pd.DataFrame(conn.execute(sql_planner, planner_id).fetchall())
     
-    #list_manager = conn.execute(sql_planner, planner_id).fetchall()
-    #print("**********************df_list_manager*******************")
-    #print("***dataframe****")
-    #print(df_list_manager)
-    #print("***list conversion****")
-    
-    list_manager = df_list_manager[0].values.tolist()
-    #print(list_manager)
+    list_manager = df_list_manager["material_9"].values.tolist()
 
-    
-    # select Distinct(material_9) from admin.materialmaster   where planner = '594' group by material_9;
-    
-    
+
     sql = """SELECT * FROM admin.Exception"""
     df_exception_manager = pd.DataFrame(conn.execute(sql).fetchall())
     
@@ -77,20 +67,16 @@ async def exception_manager(planner_id:str,
         
     
       # 1 - matnr, 3 - cdate , 9 - auskt
-    dataframe_exception_manager = pd.concat([df_exception_manager[1], df_exception_manager[3], df_exception_manager[9]], axis=1, keys=['matnr', 'cdate', 'auskt' ])
+    # dataframe_exception_manager = pd.concat([df_exception_manager[1], df_exception_manager[3], df_exception_manager[9]], axis=1, keys=['matnr', 'cdate', 'auskt' ])
     
-    #print("**********************Before*******************")
-    #print(dataframe_exception_manager)
+    dataframe_exception_manager = pd.concat([df_exception_manager["matnr"], df_exception_manager["cdate"], df_exception_manager["auskt"]], axis=1, keys=['matnr', 'cdate', 'auskt' ])
+
+    
     
     
     dataframe_exception_manager = dataframe_exception_manager[dataframe_exception_manager['matnr'].isin(list_manager)]
     
-    
-    #print("**********************After*******************")
-    #print(dataframe_exception_manager)
 
-    
-    
     #  Data cleaning, replacing NaN with '0'
     dataframe_exception_manager['auskt'] = dataframe_exception_manager['auskt'].fillna(0)
     
@@ -163,70 +149,65 @@ async def exception_manager(planner_id:str,
 
 
 
-@exception.get('/matrix/{planner_id}/', 
-               status_code = status.HTTP_200_OK)
+@exception.get('/matrix/{planner_id}/', status_code = status.HTTP_200_OK)
 async def exception_matrix(planner_id:str, 
                                       start_date : str,
-                                      end_date : str,
-                    user_id: int = Depends(get_current_user)):
+                                      end_date : str):
+                    #user_id: int = Depends(get_current_user)):
     
     # Reteriving materials
     
     sql_planner = """SELECT DISTINCT(material_9) from admin.materialmaster where planner = %s group by material_9"""
-    
     df_list_manager = pd.DataFrame(conn.execute(sql_planner, planner_id).fetchall())
-    
-    list_manager = df_list_manager[0].values.tolist()
-    print(list_manager)
-    
-    
+    list_manager = df_list_manager["material_9"].values.tolist()
     
     # Data Reading from MySQL 
     sql = """SELECT * FROM admin.Exception"""
-    
     df_exception = pd.DataFrame(conn.execute(sql).fetchall()) 
     
     if df_exception.empty:
-        
         response = {
         "planner" : planner_id,
         "start_date" : start_date,
         "end_date" : end_date,
         "result": json.loads(json.dumps(list(df_exception.T.to_dict().values())))
-    }
+        }
     
         return response
 
-        
     
     
     # 1 - matnr, 3 - cdate , 9 - auskt
-    dataframe_exception = pd.concat([df_exception[1], df_exception[3], df_exception[9]], axis=1)
+    dataframe_exception = pd.concat([df_exception["matnr"], df_exception["cdate"], df_exception["auskt"]], axis=1)
+    dataframe_exception = dataframe_exception[dataframe_exception["matnr"].isin(list_manager)]
     
-    
-    dataframe_exception = dataframe_exception[dataframe_exception[1].isin(list_manager)]
-    
-    print(dataframe_exception)
+   
     
     #  Data cleaning, replacing NaN with '0'
-    dataframe_exception[9] = dataframe_exception[9].fillna(0)
+    dataframe_exception["auskt"] = dataframe_exception["auskt"].fillna(0)
+    
+    print("***************dataframe_exception***************")
+    print(dataframe_exception)
+    print("***************dataframe_exception***************")
+
+    
     
     
      # Data filtering with respect to the start and end date
-    dataframe_exception_filtered = dataframe_exception.filter_date(3, start_date, end_date)
+    dataframe_exception_filtered = dataframe_exception.filter_date("cdate", start_date=start_date, end_date=end_date)
 
 
     # Remove row that 'auskt' value has zero
-    data_filter = dataframe_exception_filtered[dataframe_exception_filtered[9] > 0]
+    data_filter = dataframe_exception_filtered[dataframe_exception_filtered["auskt"] > 0]
 
     # This would display all rows of a panda dataframe
     pd.set_option('display.max_rows', data_filter.shape[0]+1)
     
     
     # "count" column
-    exception_count = data_filter.groupby(1).count()
-    exception_count.rename(columns = {9:'count'}, inplace = True)
-    exception_count.drop(3, axis =1, inplace = True)
+    exception_count = data_filter.groupby("matnr").count()
+    exception_count.rename(columns = {"auskt":'count'}, inplace = True)
+    exception_count.drop("cdate", axis =1, inplace = True)
     
 
     # 'percentage'
@@ -245,7 +226,7 @@ async def exception_matrix(planner_id:str,
     
     local_material = []
     
-    for item in list(exception_matrix["material"]):
+    for item in list(exception_matrix["matnr"]):
         
         sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng FROM admin.MaterialMaster where material_9 = %s"""
                
