@@ -125,7 +125,7 @@ async def exception_manager(planner_id:str,
 
     df_exceptionlist  = pd.DataFrame(exceptionlist, columns=["exceptionID", "exceptionMsg" ]) 
     
-
+    exceptionlist.clear()
     
     response = {
         "planner" : planner_id,
@@ -186,12 +186,6 @@ async def exception_matrix(planner_id:str,
     #  Data cleaning, replacing NaN with '0'
     dataframe_exception["auskt"] = dataframe_exception["auskt"].fillna(0)
     
-    print("***************dataframe_exception***************")
-    print(dataframe_exception)
-    print("***************dataframe_exception***************")
-
-    
-    
     
      # Data filtering with respect to the start and end date
     dataframe_exception_filtered = dataframe_exception.filter_date("cdate", start_date=start_date, end_date=end_date)
@@ -245,7 +239,8 @@ async def exception_matrix(planner_id:str,
             
     df_materiallist = pd.DataFrame(materiallist,columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng"] )
         
-
+    materiallist.clear()
+    
     response = {
         "planner" : planner_id,
         "start_date" : start_date,

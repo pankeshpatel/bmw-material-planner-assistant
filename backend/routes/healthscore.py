@@ -25,7 +25,7 @@ saftey_stock : int
 stock: int
 avg_stock_change: float
 list_qty = []
-list_qty_instance = []
+list_qty_instance = []  # This is a global
 
 
 # This function constructs an individual instances of total Quantity fields
@@ -99,8 +99,6 @@ def find_stock(date: str, formatted_date: str, material_id: str) -> int:
     sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
     data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
     
-    print("*****************find_stock****************************")
-    print(data)
     
     # Data is not available in DB
     if(len(data) == 0):
@@ -110,16 +108,13 @@ def find_stock(date: str, formatted_date: str, material_id: str) -> int:
     
         
     if "Stock" in data.values:
-        print("I am in if..........")
         data_stock = data[data["mrp_element"] == "Stock"]
         for index, row in data_stock.iterrows(): 
             if date == row[2]:
                 return row["total_quantity"]
     else:
-        print("I am in else..........")
         # # If else no concrete "Stock" data present just take stock for first entry of that day
         data_date = data[data["demand_date"] == formatted_date]
-        print("*********data_date******", data_date)
         for index, row in data_date.iterrows():
             # Assuming data sorted, returning first total_quantity entry for that data
             return row["total_quantity"]
@@ -265,10 +260,7 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
         
         # to find each instances of total quantity instances
         find_total_quantity_instances(formatted_date, material, saftey_stock)  
-        
-        print("****Stock", stock)
-        print("Safety Stock", saftey_stock)      
-        
+                
         health = get_health_score(stock, saftey_stock, k_val=0.8)            
         if health != None:
              avg.append(health)
@@ -280,13 +272,21 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
     print(tabulate(df_total_qty, headers = 'keys', tablefmt = 'psql'))
     #df_total_qty.to_csv("total_qty.csv", index=True, header=True)
     
+    # destruct this global variable
+    
     
     # This would prepare .csv file that contains total_qty_instances
     df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']) 
     print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
     #df_total_qty_instances.to_csv("total_qty_instances.csv", index=True, header=True)
     
+    # destruct this global variable
+    #list_qty_instance = []
+    #list_qty = []
+    list_qty_instance.clear()
+    list_qty.clear()
     
+
 
     result = sum(avg)/len(avg)
     result = round(result, 2)
