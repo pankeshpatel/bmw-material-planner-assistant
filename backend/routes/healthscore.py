@@ -6,7 +6,6 @@ import platform
 import os
 import sys
 import math
-import openpyxl
 import datetime  # one of the functions doesnt work unless I have this line, idk
 from datetime import date
 import pandas as pd
@@ -229,8 +228,7 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
     
     saftey_stock = find_saftey_stock(
                    format_date(healthdate), 
-                   data_safety_stock[data_safety_stock[3] == "SafeSt"], saftey_stock
-        )
+                   data_safety_stock[data_safety_stock[3] == "SafeSt"], saftey_stock)
 
  
     

@@ -8,9 +8,8 @@ python-multipart
 pyclean
 pyjwt
 typing
-pandas==1.3.5
+pandas==1.4.2
 datetime
-openpyxl
 python-math
 pydantic>=1.8.0,<2.0.0
 pymysql
@@ -23,7 +22,4 @@ pyjanitor
 gunicorn
 httptools
 uvloop
-
-
-
 
