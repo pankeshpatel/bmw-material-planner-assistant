@@ -179,15 +179,31 @@ dbmd04 = Table(
             meta,
             Column("material", String(225)),
             Column("plant", String(225)),
+            Column("mrp_area", String(225)),
             Column("demand_date", String(225)),
+            Column("mrp_element_cd", String(225)),
+            Column("shipping_notification", String(225)),
+            Column("container_info", String(225)),
             Column("mrp_element", String(225)),
             Column("change_quantity", Integer),
             Column("total_quantity", Integer),
             Column("storage_location", String(225)),
             Column("supplier_nr", String(225)),
             Column("planner", String(225)),
-            Column("line_index", String(225))  
+            Column("split_indicator", String(225)),
+            Column("line_index", String(225)),
+            Column("document_uuid", String(225)),
+            Column("sid_client", String(225)),
+            Column("snapdate", String(225)),
+            Column("snaptime", String(225)),
+            Column("load_date", String(225)),
+            Column("load_timestamp", String(225)),
+            Column("_load_date", String(225)),
     )
+
+
+
+
 
                   
 meta.create_all(engine) 

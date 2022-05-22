@@ -6,7 +6,6 @@ import platform
 import os
 import sys
 import math
-import openpyxl
 import datetime  # one of the functions doesnt work unless I have this line, idk
 from datetime import date
 import pandas as pd
@@ -26,7 +25,7 @@ saftey_stock : int
 stock: int
 avg_stock_change: float
 list_qty = []
-list_qty_instance = []
+list_qty_instance = []  # This is a global
 
 
 # This function constructs an individual instances of total Quantity fields
@@ -40,15 +39,27 @@ def find_total_quantity_instances(formatted_date: str, material_id: str, safety_
     local_list_qty_instance = []
     global list_qty_instance
     
-    while(item < len(data)):
+    
+    if(len(data) == 0):
         local_list_qty_instance = [
-            data["material"][item],
-            data["demand_date"][item],
-            data["total_quantity"][item],
+            material_id,
+            formatted_date,
+            0,
             safety_stock
         ]
         list_qty_instance.append(local_list_qty_instance)        
-        item = item + 1
+        
+    else:
+        while(item < len(data)):
+            local_list_qty_instance = [
+                data["material"][item],
+                data["demand_date"][item],
+                data["total_quantity"][item],
+                safety_stock
+            ]
+            
+            list_qty_instance.append(local_list_qty_instance)        
+            item = item + 1
 
 
 
@@ -59,13 +70,22 @@ def find_total_quantity_summary(formatted_date: str, material_id: str, safety_st
     
     data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "demand_date", "total_quantity"])
     
+    # max value
+    if(len(data["total_quantity"]) == 0):
+        max, min, mean = 0,0,0
+    else:
+        max = data["total_quantity"].max()
+        min = data["total_quantity"].min()
+        mean = data["total_quantity"].mean()
+
+    
     local_list_qty = []    
     local_list_qty = [
         material_id, 
         formatted_date, 
-        data["total_quantity"].max(), 
-        data["total_quantity"].min(), 
-        round(data["total_quantity"].mean(),2), 
+        max, 
+        min, 
+        round(mean,2), 
         safety_stock
         ]
             
@@ -79,31 +99,34 @@ def find_stock(date: str, formatted_date: str, material_id: str) -> int:
     sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
     data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
     
+    
     # Data is not available in DB
     if(len(data) == 0):
         print("No data found for", formatted_date)
-        return None 
+        return 0
+        #return None 
     
         
     if "Stock" in data.values:
-        data_stock = data[data[3] == "Stock"]
+        data_stock = data[data["mrp_element"] == "Stock"]
         for index, row in data_stock.iterrows(): 
             if date == row[2]:
-                return row[5]
+                return row["total_quantity"]
     else:
         # # If else no concrete "Stock" data present just take stock for first entry of that day
-        data_date = data[data[2] == formatted_date]
+        data_date = data[data["demand_date"] == formatted_date]
         for index, row in data_date.iterrows():
             # Assuming data sorted, returning first total_quantity entry for that data
-            return row[5]
+            return row["total_quantity"]
 
 
 
 
 def find_saftey_stock(date: datetime, data: pd.DataFrame(), saftey_stock: int) -> int:
+    
     for index, row in data.iterrows():   
-        safety_stock_qty = abs(row[4])    
-        return abs(row[4])  # Change due to removal of saftey stock, assumed const
+        safety_stock_qty = abs(row["change_quantity"])    
+        return abs(row["change_quantity"])  # Change due to removal of saftey stock, assumed const
 
     # Else
     safety_stock_qty = abs(saftey_stock)   
@@ -175,20 +198,17 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
 
 
 
-@healthscore.get('/{planner_id}/{material_id}',  
-                 status_code = status.HTTP_200_OK)
-async def get_material_healthscore(planner_id:str,
-                                  material_id: str, 
-                                  healthdate: str,
-                    user_id: int = Depends(get_current_user)):
-    
+@healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
+#async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
+async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str):
+
   
     material = material_id
     date = healthdate
     num_days = 10    
     
-    sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
-    data = pd.DataFrame(conn.execute(sql, material_id, healthdate).fetchall())
+    sql = """SELECT * FROM admin.MD04 WHERE material = %s AND demand_date = %s AND planner = %s""" 
+    data = pd.DataFrame(conn.execute(sql, material_id, healthdate, planner_id).fetchall())
     #print(data)
     
     if len(data.columns) == 0:
@@ -209,9 +229,9 @@ async def get_material_healthscore(planner_id:str,
     
     saftey_stock = find_saftey_stock(
                    format_date(healthdate), 
-                   data_safety_stock[data_safety_stock[3] == "SafeSt"], saftey_stock
-        )
+                   data_safety_stock[data_safety_stock["mrp_element"] == "SafeSt"], saftey_stock)
 
+ 
     
     #avg_stock_change: float = calc_avg_stock_change(data)
 
@@ -225,7 +245,7 @@ async def get_material_healthscore(planner_id:str,
     avg: List = []  # List to keep track of health scores
     
     
-
+    # This loop will get 
     for i in range(int(num_days)):
         td = datetime.timedelta(days=i)
         new_date = date_obj + td
@@ -234,12 +254,13 @@ async def get_material_healthscore(planner_id:str,
         # # ASSUME DATA SORTED ALREADY
         stock = find_stock(format_date(new_date), formatted_date, material)
         
+        
         # Total Quantity
         find_total_quantity_summary(formatted_date, material, saftey_stock) 
         
         # to find each instances of total quantity instances
-        find_total_quantity_instances(formatted_date, material, saftey_stock)        
-        
+        find_total_quantity_instances(formatted_date, material, saftey_stock)  
+                
         health = get_health_score(stock, saftey_stock, k_val=0.8)            
         if health != None:
              avg.append(health)
@@ -251,13 +272,21 @@ async def get_material_healthscore(planner_id:str,
     print(tabulate(df_total_qty, headers = 'keys', tablefmt = 'psql'))
     #df_total_qty.to_csv("total_qty.csv", index=True, header=True)
     
+    # destruct this global variable
+    
     
     # This would prepare .csv file that contains total_qty_instances
     df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']) 
     print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
     #df_total_qty_instances.to_csv("total_qty_instances.csv", index=True, header=True)
     
+    # destruct this global variable
+    #list_qty_instance = []
+    #list_qty = []
+    list_qty_instance.clear()
+    list_qty.clear()
     
+
 
     result = sum(avg)/len(avg)
     result = round(result, 2)
