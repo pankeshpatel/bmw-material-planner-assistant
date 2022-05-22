@@ -208,7 +208,7 @@ def long_run(part_number, planner_id):
 # 1. Markov probability (standard bar graph)
 # 2. Long-run probability (horizontal 100% stacked bar graph)
 @ranking.get('/{planner_id}/{material_id}',status_code = status.HTTP_200_OK)
-def part_probabilities(planner_id: str, material_id: str):
+def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends(get_current_user)):
     markov_probabilities = markov(material_id, planner_id)
     
     long_run_probabilities = long_run(material_id, planner_id)

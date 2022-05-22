@@ -25,8 +25,8 @@ materiallist = []
 # API call
 # http://localhost:8000/exceptions/
 @exception.get('/', status_code = status.HTTP_200_OK)
-# async def get_all_exception_info(user_id: int = Depends(get_current_user)):
-async def get_all_exception_info():
+async def get_all_exception_info(user_id: int = Depends(get_current_user)):
+#async def get_all_exception_info():
     
     return conn.execute(dbExceptionMessage.select()).fetchall()
 
@@ -41,7 +41,7 @@ async def get_all_exception_info():
 @exception.get('/manager/{planner_id}',  status_code = status.HTTP_200_OK)
 async def exception_manager(planner_id:str, 
                                       start_date : str,
-                                      end_date : str):
+                                      end_date : str, user_id: int = Depends(get_current_user)):
                     #user_id: int = Depends(get_current_user)):
     
     sql_planner = """SELECT DISTINCT(material_9) from admin.materialmaster where planner = %s group by material_9"""
@@ -152,8 +152,8 @@ async def exception_manager(planner_id:str,
 @exception.get('/matrix/{planner_id}/', status_code = status.HTTP_200_OK)
 async def exception_matrix(planner_id:str, 
                                       start_date : str,
-                                      end_date : str):
-                    #user_id: int = Depends(get_current_user)):
+                                      end_date : str,
+                    user_id: int = Depends(get_current_user)):
     
     # Reteriving materials
     

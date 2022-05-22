@@ -19,7 +19,7 @@ planner = APIRouter(
     # Planner Email 
     
 @planner.get('/',  status_code = status.HTTP_200_OK)
-async def get_all_material_planner_info():
+async def get_all_material_planner_info(user_id: int = Depends(get_current_user)):
                     #user_id: int = Depends(get_current_user)):
     #cursor = dbPlanner.cursor()
     
@@ -42,7 +42,7 @@ async def get_all_material_planner_info():
 
     
 @planner.get('/id',  status_code = status.HTTP_200_OK)
-async def get_material_planner_info(id:str):
+async def get_material_planner_info(id:str, user_id: int = Depends(get_current_user)):
                     #user_id: int = Depends(get_current_user)):
     
     data = conn.execute(dbPlanner.select().where(dbPlanner.c.id == id)).first()
@@ -55,7 +55,7 @@ async def get_material_planner_info(id:str):
 
 
 @planner.get('/name',  status_code = status.HTTP_200_OK)
-async def get_material_planner_info(name:str):
+async def get_material_planner_info(name:str, user_id: int = Depends(get_current_user)):
                     #user_id: int = Depends(get_current_user)):
         
     data = conn.execute(dbPlanner.select().where(dbPlanner.c.name == name)).fetchall()

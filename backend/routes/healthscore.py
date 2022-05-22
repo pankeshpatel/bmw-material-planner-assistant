@@ -199,8 +199,8 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
 
 
 @healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
-#async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
-async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str):
+async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
+#async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str):
 
   
     material = material_id
