@@ -28,7 +28,9 @@ export const DashboardLayout = (props) => {
 
   useEffect(() => {
     if(typeof(window) != "undefined"){
-      localStorage.getItem("loggedIn") == "true" ? null : router.push('/login')
+      if((localStorage.getItem("token")==null )){
+        router.push("/login")
+      }
     }  
   }, [])
 

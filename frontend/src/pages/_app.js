@@ -8,6 +8,7 @@ import { createEmotionCache } from '../utils/create-emotion-cache';
 import { theme } from '../theme';
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import {ToastContainer} from "react-toastify"
 config.autoAddCss = false
 
 const clientSideEmotionCache = createEmotionCache();
@@ -34,7 +35,7 @@ const App = (props) => {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {getLayout(<Component {...pageProps} />)}
+          {getLayout(<><ToastContainer /><Component {...pageProps} /></>)}
         </ThemeProvider>
       </LocalizationProvider>
     </CacheProvider>

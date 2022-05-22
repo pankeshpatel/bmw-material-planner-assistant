@@ -5,12 +5,12 @@ import { TrafficByDevice } from '../components/healthscore/traffic-by-device';
 import { DashboardLayout } from '../components/common/dashboard-layout';
 import React from 'react';
 import { useState } from 'react';
-
-
+import { useEffect } from 'react';
 
 const Dashboard = () => {
 
   const [healthGuage,setHealthGuage]=useState(10)
+
 
   return(
   <>

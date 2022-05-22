@@ -22,7 +22,7 @@ import {exceptionViewer} from '../../../Exception-Viewer-Widget-Datasheet';
 
 import { useState } from 'react';
 import { useEffect } from 'react';
-
+import { ExceptionMatrixCall } from 'src/utils/apihelper';
 
 
 const orders = [
@@ -372,9 +372,61 @@ export const LatestOrders = (props) => {
 )};
 
 
+
+
+
+
+
 export const ExceptionMatrix = (props) => {
  const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
  const [matrixData,setMatrixData] = useState(exceptionViewer)
+
+  const [go, setgo] = useState(false);
+ useEffect(() => {
+   if (go === false){
+    getMatrixDataAPI();
+    setgo(true);
+   }
+ })
+
+
+ const [DataValues, setDataValues] = useState([]);
+ const [TotalMatrixData, setTotalMatrixData] = useState([]);
+ const [DataLabels, setDataLabels] = useState([]);
+
+
+
+  async function getMatrixDataAPI() {   // use axios instead of fetch
+
+    let t = localStorage.getItem('token');
+    var sd = '02/18/22';
+    var ed = '04/04/22';    
+
+    // const response = await fetch('http://localhost:8000/exceptions/matrix/114/?start_date=02/18/22&end_date=04/04/22', {
+    //   method: 'GET',
+    //   headers: {
+    //     'Authorization' : `Bearer ${t}`,
+    //     'Content-Type': 'application/json',
+    //   }
+    // });
+
+    const data = await ExceptionMatrixCall("114", "02/18/22", "04/04/22");
+    data = data.data
+
+    if (data.status === 403) {
+      router.push("/404");
+    }
+    console.log("Matrix API: " , data.result);
+    
+    setDataValues(data.result);
+    setDataLabels(data.materials);  
+
+    const zip = (a1, a2) => a1.map((x, i) => [x, a2[i]]);
+    let combinedJSONData = zip(data.result, data.materials);
+    setTotalMatrixData(combinedJSONData);
+
+    return data;
+  }
 
  return(<Card {...props}>
     <CardHeader title="Part Exception Matrix" />
@@ -385,6 +437,12 @@ export const ExceptionMatrix = (props) => {
             <TableRow>
               <TableCell>
                 Material ID
+              </TableCell>
+              <TableCell>
+                Material_7
+              </TableCell>
+              <TableCell>
+                Material_9
               </TableCell>
               <TableCell>
               ExceptionCount
@@ -417,27 +475,44 @@ export const ExceptionMatrix = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {matrixData.map((order) => (
+            {/* {matrixData.map((order) => ( */}
+              {TotalMatrixData.map((order) => (
               <TableRow
                 hover
-                key={order.MaterialID}
+                // key={order.MaterialID}
+                key={order[0].material}
               >
                  <TableCell>
-                 {order.MaterialID}
+                  {/* {order.MaterialID} */}
+                  {order[0].material}
                 </TableCell>
 
+
                 <TableCell>
-                 {order.ExceptionCount}
+                  {/* {order.MaterialID} */}
+                  {order[1].material_7}
                 </TableCell>
                 <TableCell>
-                  {(order.Percentage*100).toString().slice(0,4) + "%"}
+                  {/* {order.MaterialID} */}
+                  {order[1].material_9}
+                </TableCell>
+
+                <TableCell style={{textAlign:"center"}}>
+                 {/* {order.ExceptionCount} */}
+                 {order[0].count}
+                </TableCell>
+                <TableCell style={{textAlign:"center"}}>
+                  {/* {(order.Percentage*100).toString().slice(0,4) + "%"} */}
+                  {(order[0].percentage).toString().slice(0,4) + " %"}
                 </TableCell>
                 <TableCell >
-                  {order.PartDescription}
+                  {/* {order.PartDescription} */}
+                  {order[1].mat_description} 
                 </TableCell>
 
                 <TableCell>
-                  {order.PartDescriptionEng}
+                  {/* {order.PartDescriptionEng} */}
+                  {order[1].mat_description_eng} 
                 </TableCell>
 
             

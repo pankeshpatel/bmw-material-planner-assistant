@@ -1,11 +1,94 @@
+import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
-
+import { setDate } from 'date-fns';
+import axios from 'axios';
+import { ExceptionManagerCall } from 'src/utils/apihelper';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
 export const ExceptionManager = (props) => {
   const theme = useTheme();
 
+  const [resultBool, setResultBool] = useState(false);
+  const [GraphValues, setGraphValues] = useState([]);
+  const [GraphLabels, setGraphLabels] = useState([]);
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
+  let array2 = [];
+  let array2_Exceptions = [];
+  let arrayLabels = [];
+
+
+  useEffect( async () => {
+
+    if (resultBool === false){
+      let data = await ExceptionManagerCall("115", "02/18/22", "04/04/22");
+      data = data.data;
+      for ( let i = 0; i < data.result.length; i++) {
+        array2.push(parseFloat(data.result[i].percentage));
+        array2_Exceptions.push(parseInt(data.result[i].exception));
+      }
+
+      for (let i = 0; i < data.exceptions.length; i++){
+        if (array2_Exceptions[i] === data.exceptions[i].exceptionID){
+          arrayLabels.push(data.exceptions[i].exceptionMsg);
+        }
+      }
+          
+      array2.push(100);
+      setGraphValues(array2);
+      setGraphLabels(arrayLabels);
+      setResultBool(true);
+    }
+  });
+
+  let token = '';
+  let headers = '';
+
+
+
+
+// const ExceptionManagerCall = (plannerId,startDate,EndDate) => {
+//   const apiUrl = `http://18.208.171.25`;
+//   const url = `${apiUrl}/exceptions/manager/${plannerId}?start_date=${startDate}&end_date=${EndDate}`
+
+//   return new Promise((resolve,reject)=>{
+//   const header = getHeader();
+//           axios
+//               .get(url,header)
+//               .then((res)=>{
+//                   resolve(res)
+//               })
+//               .catch((err) => {
+//                   reject((err))
+//               })
+//           })
+// }
+
+
+  
+
+
+
+
   const data = {
+    // getEPDataAPI();
     datasets: [
       {
         backgroundColor: '#D24D4D',
@@ -13,18 +96,25 @@ export const ExceptionManager = (props) => {
         barThickness: 20,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: [18, 50, 40, 32,100],
+        // data: [18, 50, 40, 32,100],     // Connect Values to API
+        data: GraphValues,
         label: '',
         maxBarThickness: 100
       },
-   
     ],
-    labels: ['Postponed order', 'Potential Shortage Rqmt Increase', 'Firmed oder is late', 'No bill of material selected']
+   // labels: ['Postponed order', 'Potential Shortage Rqmt Increase', 'Firmed oder is late', 'No bill of material selected']
+   labels: GraphLabels
   };
+    
+    
+
+
+
 
   const options = {
     animation: false,
     cornerRadius: 20,
+    // color=['red','blue'],
     layout: { padding: 0 },
     legend: { display: false },
     maintainAspectRatio: false,
@@ -36,7 +126,7 @@ export const ExceptionManager = (props) => {
           fontColor: theme.palette.text.secondary
         },
         gridLines: {
-          display: false,
+          display:false,
           drawBorder: false
         }
       }
@@ -69,7 +159,8 @@ export const ExceptionManager = (props) => {
       intersect: false,
       mode: 'index',
       titleFontColor: theme.palette.text.primary
-    }
+    },
+ 
   };
 
   return (
@@ -105,6 +196,7 @@ export const ExceptionManager = (props) => {
           <Bar
             data={data}
             options={options}
+            
           />
         </Box>
       </CardContent>

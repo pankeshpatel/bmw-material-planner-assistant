@@ -17,18 +17,18 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 
 const items = [
+  // {
+  //   href: '/',
+  //   icon: (<ChartBarIcon fontSize="small" />),
+  //   title: 'Dashboard'
+  // },
+  // {
+  //   href: '/materials',
+  //   icon: (<FontAwesomeIcon  icon={faBook} />),
+  //   title: 'Materials'
+  // },
   {
-    href: '/',
-    icon: (<ChartBarIcon fontSize="small" />),
-    title: 'Dashboard'
-  },
-  {
-    href: '/materials',
-    icon: (<FontAwesomeIcon  icon={faBook} />),
-    title: 'Materials'
-  },
-  {
-    href: '/healthscore',
+    href: '/healthScore',
     icon: (<FontAwesomeIcon icon={faBriefcaseMedical} />),
     title: 'Health Score'
   },
@@ -42,11 +42,11 @@ const items = [
     icon: (<FontAwesomeIcon icon={faRankingStar} />),
     title: 'Part Ranking'
   },
-  {
-    href: '/account',
-    icon: (<FontAwesomeIcon icon={faUser} />),
-    title: 'Account'
-  },
+  // {
+  //   href: '/account',
+  //   icon: (<FontAwesomeIcon icon={faUser} />),
+  //   title: 'Account'
+  // },
   {
     href: '/login',
     icon: (<UserAddIcon fontSize="small" />),
