@@ -198,8 +198,36 @@ dbmd04 = Table(
             Column("snaptime", String(225)),
             Column("load_date", String(225)),
             Column("load_timestamp", String(225)),
-            Column("_load_date", String(225)),
+            Column("_load_date", String(225))
     )
+
+dbZgrve = Table(
+        "Zgrve",
+        meta,
+        Column("mandt", String(225)),
+        Column("lifnr", String(225)),
+        Column("delnote", String(225)),
+        Column("trailer", String(225)),
+        Column("matnr", String(225)),
+        Column("mblnr", String(225)),
+        Column("itmno", String(225)),
+        Column("erdat", String(225)),
+        Column("erfmg", String(225)),
+        Column("meins", String(225)),
+        Column("ebeln", String(225)),
+        Column("ebelp", String(225)),
+        Column("werks", String(225)),
+        Column("lgort", String(225)),
+        Column("bwart", String(225)),
+        Column("rct_ident", String(225)),
+        Column("crttime", String(225)),
+        Column("status", String(225)),
+        Column("shkzg", String(225)),
+        Column("vbeln", String(225)),
+        Column("bolnr", String(225)),
+        Column("p_ingestday", String(225)),
+        Column("p_ingesttime", String(225))
+)
 
 
 

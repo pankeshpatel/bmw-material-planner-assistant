@@ -15,7 +15,7 @@ from tabulate import tabulate
 
 
 ranking = APIRouter(
-    prefix = "/rannking",
+    prefix = "/ranking",
     tags=["ranking"]
 )
 
@@ -47,9 +47,13 @@ def data(part_number, planner_id):
     
     # Accessing data from Zgrev
     
+    sql_zgrve = """SELECT * from Zgrve WHERE matnr = %s"""
+    file2 = pd.DataFrame(conn.execute(sql_zgrve, part_number).fetchall())
     
-    file2 = pd.read_csv('/Users/pankeshpatel/Desktop/colab-data/Zgrve.csv')
-    #print(file2)
+    
+    #file2 = pd.read_csv('/Users/pankeshpatel/Desktop/colab-data/Zgrve.csv')
+    print(file2)
+    
     md04 = pd.DataFrame(file1, columns=['material','demand_date','shipping_notification'])
     zgrve = pd.DataFrame(file2, columns=['matnr','erdat','vbeln'])
 
@@ -114,7 +118,7 @@ def markov_values(part_number, part_data, planner_id):
     pre_val = -999
     val = -999
     part_data = data(part_number, planner_id)
-    print(part_data)
+    #print(part_data)
 
     for i in range(len(part_data)):
         expected = part_data[i][0]
@@ -209,6 +213,7 @@ def long_run(part_number, planner_id):
 # 2. Long-run probability (horizontal 100% stacked bar graph)
 @ranking.get('/{planner_id}/{material_id}',status_code = status.HTTP_200_OK)
 def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends(get_current_user)):
+        
     markov_probabilities = markov(material_id, planner_id)
     
     long_run_probabilities = long_run(material_id, planner_id)

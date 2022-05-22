@@ -41,7 +41,7 @@ async def get_all_material_planner_info(user_id: int = Depends(get_current_user)
     
 
     
-@planner.get('/id',  status_code = status.HTTP_200_OK)
+@planner.get('/planner-id/{id}',  status_code = status.HTTP_200_OK)
 async def get_material_planner_info(id:str, user_id: int = Depends(get_current_user)):
                     #user_id: int = Depends(get_current_user)):
     
@@ -54,7 +54,7 @@ async def get_material_planner_info(id:str, user_id: int = Depends(get_current_u
 
 
 
-@planner.get('/name',  status_code = status.HTTP_200_OK)
+@planner.get('/planner-name/{name}',  status_code = status.HTTP_200_OK)
 async def get_material_planner_info(name:str, user_id: int = Depends(get_current_user)):
                     #user_id: int = Depends(get_current_user)):
         
