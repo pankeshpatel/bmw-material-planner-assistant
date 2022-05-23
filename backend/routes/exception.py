@@ -44,7 +44,7 @@ async def exception_manager(planner_id:str,
                                       end_date : str, user_id: int = Depends(get_current_user)):
                     #user_id: int = Depends(get_current_user)):
     
-    sql_planner = """SELECT DISTINCT(material_9) from admin.materialmaster where planner = %s group by material_9"""
+    sql_planner = """SELECT DISTINCT(material_9) from admin.MaterialMaster where planner = %s group by material_9"""
     
     df_list_manager = pd.DataFrame(conn.execute(sql_planner, planner_id).fetchall())
     
@@ -157,7 +157,7 @@ async def exception_matrix(planner_id:str,
     
     # Reteriving materials
     
-    sql_planner = """SELECT DISTINCT(material_9) from admin.materialmaster where planner = %s group by material_9"""
+    sql_planner = """SELECT DISTINCT(material_9) from admin.MaterialMaster where planner = %s group by material_9"""
     df_list_manager = pd.DataFrame(conn.execute(sql_planner, planner_id).fetchall())
     list_manager = df_list_manager["material_9"].values.tolist()
     
