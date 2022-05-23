@@ -1,23 +1,14 @@
 # Planner
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/05-Planner/planner.csv'
-INTO TABLE Planner
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/05-Planner/planner.csv' INTO TABLE Planner FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
 # Exception Message
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/04-ExceptionMessage/ExceptionMessage.csv'
-INTO TABLE ExceptionMessage
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/04-ExceptionMessage/ExceptionMessage.csv' INTO TABLE ExceptionMessage FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
 # Material Master
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv'
-INTO TABLE MaterialMaster
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/01-MaterialMaster/materialmaster-combine.csv' INTO TABLE MaterialMaster FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
 
 # MD04
@@ -28,17 +19,10 @@ LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-
 
 LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_743093505-1.csv' INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_807165907-1.csv'
-INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_807165907-1.csv' INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_809198305-1.csv'
-INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/03-MD04/md04_809198305-1.csv' INTO TABLE MD04 FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
-
-        
-
-		
-	
 
 
 

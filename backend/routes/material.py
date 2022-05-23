@@ -36,9 +36,9 @@ async def get_all_material_info(
                     user_id: int = Depends(get_current_user)):
     
     sql = """SELECT DISTINCT material, material_9, material_7, mat_description, 
-    mat_description_eng, safety_stock FROM admin.MaterialMaster WHERE planner = %s"""
+    mat_description_eng, safety_stock, plant, lot_size FROM admin.MaterialMaster WHERE planner = %s"""
     
-    df_material_master = pd.DataFrame(conn.execute(sql, planner_id).fetchall(), columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng", "safety_stock"])
+    df_material_master = pd.DataFrame(conn.execute(sql, planner_id).fetchall(), columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng", "safety_stock", "plant", "lot_size"])
         
     
     response = {
@@ -69,8 +69,8 @@ async def get_material_info(planner_id : str,
                             material_id:str,
                            user_id: int = Depends(get_current_user)):
     
-    sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng, safety_stock FROM admin.MaterialMaster WHERE planner = %s AND material = %s"""
-    df_material_planner_master = pd.DataFrame(conn.execute(sql, planner_id, material_id).fetchall(), columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng", "safety_stock"])
+    sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng, safety_stock, plant, lot_size FROM admin.MaterialMaster WHERE planner = %s AND material = %s"""
+    df_material_planner_master = pd.DataFrame(conn.execute(sql, planner_id, material_id).fetchall(), columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng", "safety_stock", "plant", "lot_size" ])
     
     
     response = {
