@@ -1,23 +1,46 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
+import { useState } from 'react';
 import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
-
+import { loginCall } from 'src/utils/apihelper';
 
 const Login = () => {
+
+  const [username,setUsername]= useState("")
+  const [password,setPassword]=useState("")
+
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: '',
       password: ''
-    },
-   
-    onSubmit: () => {
-
-      localStorage.setItem("loggedIn","true")
-      router.push('/');
     }
   });
+
+  const submit = async ()=>{
+
+    const body = new FormData();
+
+    body.append("username",username)
+    body.append("password",password)
+
+    // const body={
+    //   username:username,
+    //   password:password
+    // }
+    const LoginResponse = await loginCall(body);
+    console.log("response",LoginResponse)
+    if(LoginResponse.status=="200"){
+      localStorage.setItem("token",LoginResponse.data.access_token)
+      router.push("/healthScore")
+    }
+    else{
+      alert("error")
+    }
+
+    
+  }
 
   return (
     <>
@@ -113,39 +136,40 @@ const Login = () => {
               </Typography>
             </Box>
             <TextField
-              error={Boolean(formik.touched.email && formik.errors.email)}
+              // error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
               helperText={formik.touched.email && formik.errors.email}
               label="User name"
               margin="normal"
               name="email"
               onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
+              onChange={(e)=>{setUsername(e.target.value)}}
               type="text"
-              value={formik.values.email}
+              value={username}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.password && formik.errors.password)}
+              // error={Boolean(formik.touched.password && formik.errors.password)}
               fullWidth
               helperText={formik.touched.password && formik.errors.password}
               label="Password"
               margin="normal"
               name="password"
               onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
+              onChange={(e)=>{setPassword(e.target.value)}}
               type="password"
-              value={formik.values.password}
+              value={password}
               variant="outlined"
             />
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
-                disabled={formik.isSubmitting}
+                disabled={false}
                 fullWidth
                 size="large"
                 type="submit"
                 variant="contained"
+                onClick={submit}
               >
                 Sign In Now
               </Button>

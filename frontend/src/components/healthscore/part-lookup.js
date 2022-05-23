@@ -11,9 +11,23 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  Tooltip,
   Slider
 } from '@mui/material';
+import { healthScoreCall,ExceptionManagerCall } from '../../utils/apihelper';
+
+// import {
+//   Chart as ChartJS,
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   Title,
+//   Tooltip,
+//   Legend,
+// } from 'chart.js';
+import { Line } from 'react-chartjs-2';
+
+import Modal from '@mui/material/Modal';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { SeverityPill } from '../severity-pill';
 
@@ -22,6 +36,8 @@ import {exceptionViewer} from '../../../Exception-Viewer-Widget-Datasheet';
 
 import { useState } from 'react';
 import { useEffect } from 'react';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 
@@ -101,22 +117,131 @@ function sortByProperty(property){
 
 export const PartLookUp = (props) => {
 
+  const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
   const [healthData,sethealthData]=useState(healthScore.slice(0,healthScore.length-1))
   // let healthData=healthScore;
   const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
   const [value, setValue] = useState([0, 200]);
 
+  const [materialResponse,setMaterialResponse]=useState([]);
+
+  const [showmodal,SetShowmodal]= useState(false)
+  const style = {
+  
+    transform: 'translate(40%, 10%)',
+    width: "60%",
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    height:"550px",
+    overflow:"scroll",
+    textAlign:"center"
+  };
+
+   const options1 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        // position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Health Score Analysis of Material',
+      },
+    },
+  };
+
+  const options2 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        // position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Health Score Analysis of Material',
+      },
+    },
+  };
+
+
+  const labels = materialResponse?.total_qty_analysis?.slice(0,20).map((val)=>{
+    return val.demand_date
+  })
+
+  const data1 = {
+    labels,
+    datasets: [
+      {
+        label: 'Min of Total Quantity',
+        data:  materialResponse?.total_qty_analysis?.slice(0,20).map((val)=>{return val.min}),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Max of Total Quantity',
+        data:materialResponse?.total_qty_analysis?.slice(0,20).map((val)=>{return val.max}),
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+      {
+        label: 'Mean of Total Quantity',
+        data:materialResponse?.total_qty_analysis?.slice(0,50).map((val)=>{return val.mean}),
+        borderColor: 'rgb(3, 155, 0)',
+        backgroundColor: 'rgba(3, 155, 0, 0.5)',
+      },
+      {
+        label: 'Safety Stock',
+        data:materialResponse?.total_qty_analysis?.slice(0,50).map((val)=>{return val["safety stock"]}),
+        borderColor: 'rgb(233, 155, 0)',
+        backgroundColor: 'rgba(233, 155, 0, 0.5)',
+      },
+    ],
+  };
+
+  const data2 = {
+    labels,
+    datasets: [
+      {
+        label: 'Total Quantity',
+        data:  materialResponse?.total_qty_instances?.slice(0,20).map((val)=>{return val.total_quantity}),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Safety Stock',
+        data:materialResponse?.total_qty_instances?.slice(0,50).map((val)=>{return val["safety stock"]}),
+        borderColor: 'rgb(233, 155, 0)',
+        backgroundColor: 'rgba(233, 155, 0, 0.5)',
+      },
+    ],
+  };
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    props.setHealthGuage(healthScore[0].healthstatus)
+
   
+
+  
+  useEffect( async () => {
+
+    const healthScoreResponse = await healthScoreCall("114","7430935-05","05/20/21")
+    // const ExceptionManagerResponse = await ExceptionManagerCall("115","02/18/22","04/04/22")
+    setMaterialResponse(healthScoreResponse.data)
+    
+
   }, [])
   
+  useEffect(() => {
 
+    if(materialResponse["Health-score"]){
+      console.log("HealthScore",(materialResponse["Health-score"].slice(0,4)))
+      props.setHealthGuage( Number(materialResponse["Health-score"].slice(0,4) ))
+    }
 
+  }, [materialResponse])
 
 
   const returnColor = (status)=>{
@@ -178,19 +303,16 @@ export const PartLookUp = (props) => {
         marginTop:"-7%",
         paddingBottom:"2%",
         justifyContent: 'flex-end',
-      
-        // p: 2
+        p: 2
       }}
     >
-     <Slider
-      // color="primary"
+     {/* <Slider
+
        sx={{
         display: 'flex',
         width:"300px",
         justifyContent: 'flex-end',
         marginRight:"5%"
-      
-        // p: 2
       }}
       value={value}
       aria-valuetext="sdasd"
@@ -201,7 +323,29 @@ export const PartLookUp = (props) => {
       getAriaValueText={valuetext}
      >
 
-     </Slider>
+     </Slider> */}
+     <div style={{position:"absolute",zIndex:"100" ,top:100}}>
+       <span>Please Select a Date: &nbsp;
+          {/* <DatePicker  selected={startDate} onChange={(date) => setStartDate(date)} /> */}
+          <input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
+       </span>
+     </div>
+    </Box>
+    <Box
+    sx={{
+      display: 'flex',
+      marginTop:"-7%",
+      paddingBottom:"2%",
+      justifyContent: 'center',
+      p: 3 
+    }}
+      >
+
+    <Button onClick={()=>{SetShowmodal(true)}}>Show Graphs</Button>
+
+
+
+
     </Box>
     <PerfectScrollbar>
       <Box sx={{ minWidth: 800,height:"400px" ,overflow:"scroll"}}>
@@ -239,7 +383,23 @@ export const PartLookUp = (props) => {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody> 
+
+        <Modal
+        open={showmodal}
+        onClose={()=>{SetShowmodal(false)}}
+        >
+         <Box sx={style}>
+           <h2>Graph 1</h2>
+           <Line options={options1} data={data1} />
+           <h2>Graph 2</h2>
+           <Line options={options2} data={data2} />
+
+
+            
+
+         </Box>
+      </Modal>
             
             {healthData.map((order,index)=>{
               return(
