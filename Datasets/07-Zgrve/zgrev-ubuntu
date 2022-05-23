@@ -40,7 +40,7 @@ LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/07-
 
 LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/07-Zgrve/justin/Zgrve_8097479-03.csv' INTO TABLE Zgrve FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/07-Zgrve/justin/Zgrve_874667-10.csv' INTO TABLE Zgrve FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/home/ubuntu/bmw-material-planner-assistant/Datasets/07-Zgrve/justin/Zgrve_8746967-10.csv' INTO TABLE Zgrve FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
 
 
