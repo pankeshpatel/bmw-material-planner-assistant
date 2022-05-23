@@ -43,6 +43,10 @@ def data(part_number, planner_id):
     # Accessing data from MD04
     sql_md04 = """SELECT * FROM MD04 WHERE material = %s AND planner = %s"""
     file1 = pd.DataFrame(conn.execute(sql_md04, part_number2, planner_id).fetchall())
+    
+    if len(file1.columns) == 0:
+         print("*******MD04************************************")
+         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
 
     
     # Accessing data from Zgrev
@@ -50,28 +54,34 @@ def data(part_number, planner_id):
     sql_zgrve = """SELECT * from Zgrve WHERE matnr = %s"""
     file2 = pd.DataFrame(conn.execute(sql_zgrve, part_number).fetchall())
     
+    if len(file2.columns) == 0:
+         print("*******Zgrve************************************")
+         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
+    
     
     #file2 = pd.read_csv('/Users/pankeshpatel/Desktop/colab-data/Zgrve.csv')
-    print(file2)
+    #print(file2)
     
-    md04 = pd.DataFrame(file1, columns=['material','demand_date','shipping_notification'])
+    md04 = pd.DataFrame(file1, columns=['material','demand_date','shipping_notification','mrp_element'])
     zgrve = pd.DataFrame(file2, columns=['matnr','erdat','vbeln'])
 
     # lists the relevant data
     material = list(md04['material'])
     demand_date = list(md04['demand_date'])
     ship_not = list(md04['shipping_notification'])
+    mrp_element = list(md04['mrp_element'])
+    
 
     matnr = list(zgrve['matnr'])
     erdat = list(zgrve['erdat'])
     vbeln = list(zgrve['vbeln'])
 
-    # adds the proper dates into a list
+   # adds the proper dates into a list
     for i in range(len(material)):
         matches = 0
-        if material[i] == part_number2:
+        if mrp_element[i] == 'ShipNt' and material[i] == part_number2:
             for j in range(len(zgrve)):
-                if part_number == int(matnr[j]) and matches == 0 and notification_match(ship_not[i],vbeln[j]):
+                if part_number == str(matnr[j]) and matches == 0 and notification_match(ship_not[i],vbeln[j]):
                     date = demand_date[i].split('/')
                     date = datetime.date(int(date[2]),int(date[0]),int(date[1]))
                     date2 = erdat[j].split('/')
@@ -118,7 +128,6 @@ def markov_values(part_number, part_data, planner_id):
     pre_val = -999
     val = -999
     part_data = data(part_number, planner_id)
-    #print(part_data)
 
     for i in range(len(part_data)):
         expected = part_data[i][0]
