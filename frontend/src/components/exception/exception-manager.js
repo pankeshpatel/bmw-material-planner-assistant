@@ -38,7 +38,7 @@ export const ExceptionManager = (props) => {
   useEffect( async () => {
 
     if (resultBool === false){
-      let data = await ExceptionManagerCall("115", "02/18/22", "04/04/22");
+      let data = await ExceptionManagerCall("M11", "02/18/22", "04/04/22");
       data = data.data;
       for ( let i = 0; i < data.result.length; i++) {
         array2.push(parseFloat(data.result[i].percentage));

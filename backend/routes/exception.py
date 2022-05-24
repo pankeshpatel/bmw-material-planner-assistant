@@ -47,6 +47,8 @@ async def exception_manager(planner_id:str,
     sql_planner = """SELECT DISTINCT(material_9) from admin.MaterialMaster where planner = %s group by material_9"""
     
     df_list_manager = pd.DataFrame(conn.execute(sql_planner, planner_id).fetchall())
+
+    print("df_list_manager",df_list_manager)
     
     list_manager = df_list_manager["material_9"].values.tolist()
 

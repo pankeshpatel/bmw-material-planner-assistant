@@ -87,6 +87,8 @@ const loginCall = (body) =>{
 
 const healthScoreCall = (plannerId,materialId,healthDate) => {
     const url = `${apiUrl}/healthscore/${plannerId}/${materialId}?healthdate=${healthDate}`
+    console.log("url",url)
+    // http://localhost:8000/exceptions/healthscore/115/?start_date=02/18/22&end_date=04/04/22
     return new Promise((resolve,reject)=>{
     const header = getHeader();
             axios
