@@ -12,6 +12,10 @@ import numpy as np
 import pandas as pd
 from tabulate import tabulate
 
+from config.profiler import profiler
+
+my_profiler = profiler()
+
 
 
 ranking = APIRouter(
@@ -222,7 +226,9 @@ def long_run(part_number, planner_id):
 # 2. Long-run probability (horizontal 100% stacked bar graph)
 @ranking.get('/{planner_id}/{material_id}',status_code = status.HTTP_200_OK)
 def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends(get_current_user)):
-        
+    
+    my_profiler.start("part probabilities")
+     
     markov_probabilities = markov(material_id, planner_id)
     
     long_run_probabilities = long_run(material_id, planner_id)
@@ -243,6 +249,10 @@ def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends
                     {'on time':long_run_probabilities[1]},
                     {'late':long_run_probabilities[2]}]
     }
+    
+    my_profiler.end("part probabilities")
+    my_profiler.log("print")
+
 
     return json.loads(json.dumps(json_output, indent=4))
    

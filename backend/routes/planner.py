@@ -53,7 +53,6 @@ async def get_material_planner_info(id:str, user_id: int = Depends(get_current_u
     return data
 
 
-
 @planner.get('/planner-name/{name}',  status_code = status.HTTP_200_OK)
 async def get_material_planner_info(name:str, user_id: int = Depends(get_current_user)):
                     #user_id: int = Depends(get_current_user)):
