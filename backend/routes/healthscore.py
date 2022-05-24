@@ -68,8 +68,6 @@ def find_total_quantity_instances(formatted_date: str, material_id: str, safety_
             item = item + 1
 
 
-
-
 # This function  constructs a summary (avg, min, max) dataframe total Quantity
 def find_total_quantity_summary(formatted_date: str, material_id: str, safety_stock: int, data:pd.DataFrame()):
     
@@ -99,8 +97,8 @@ def find_total_quantity_summary(formatted_date: str, material_id: str, safety_st
             
     # construct a list
     list_qty.append(local_list_qty)
-    
-    
+
+
 # This function is to find stock
 def find_stock(date: str, formatted_date: str, material_id: str, data:pd.DataFrame()) -> int:
             
@@ -113,7 +111,6 @@ def find_stock(date: str, formatted_date: str, material_id: str, data:pd.DataFra
         return 0
         #return None 
     
-        
     if "Stock" in data.values:
         data_stock = data[data["mrp_element"] == "Stock"]
         for index, row in data_stock.iterrows(): 
@@ -125,7 +122,6 @@ def find_stock(date: str, formatted_date: str, material_id: str, data:pd.DataFra
         for index, row in data_date.iterrows():
             # Assuming data sorted, returning first total_quantity entry for that data
             return row["total_quantity"]
-    
 
 
 def find_saftey_stock(date: datetime, data: pd.DataFrame(), saftey_stock: int) -> int:
@@ -142,7 +138,7 @@ def find_saftey_stock(date: datetime, data: pd.DataFrame(), saftey_stock: int) -
 
 
 def format_date(date: datetime) -> str:
-      return datetime.date.strftime(date, "%x")
+    return datetime.date.strftime(date, "%x")
 
 
 def calc_avg_stock_change(data: pd.DataFrame()) -> float:
@@ -198,30 +194,34 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
 @healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
 async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
 
-    #my_profiler.start("health-score")
+    my_profiler.start("health-score")
     
-    material = material_id
+    #material = material_id
     date = healthdate
     num_days = 10  
     
     
-    sql = """SELECT material  FROM admin.MD04 WHERE material = %s AND demand_date = %s AND planner = %s""" 
-    data = pd.DataFrame(conn.execute(sql, material_id, healthdate, planner_id).fetchall())
+    #sql = """SELECT material  FROM admin.MD04 WHERE material = %s AND demand_date = %s AND planner = %s""" 
+    #data = pd.DataFrame(conn.execute(sql, material_id, healthdate, planner_id).fetchall())
     
     
-    if len(data.columns) == 0:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
+    # if len(data.columns) == 0:
+    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
     
     mm, dd, yyyy = map(int, date.split('/'))
     healthdate = datetime.datetime(yyyy, mm, dd)
 
-    sql = """SELECT mrp_element, change_quantity FROM admin.MD04 where material = %s"""
-    data_safety_stock = pd.DataFrame(conn.execute(sql, material_id).fetchall())  
-      
+    sql = """SELECT mrp_element, change_quantity FROM admin.MD04 where material = %s AND planner=%s"""
+    data_safety_stock = pd.DataFrame(conn.execute(sql, material_id, planner_id).fetchall())  
+    
+    if len(data_safety_stock.columns) == 0:
+         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
+
+
     saftey_stock = 0 # default value 
-    
-    
-    saftey_stock = find_saftey_stock(format_date(healthdate), data_safety_stock[data_safety_stock["mrp_element"] == "SafeSt"], saftey_stock)
+    # saftey_stock = find_saftey_stock(format_date(healthdate), data_safety_stock[data_safety_stock["mrp_element"] == "SafeSt"], saftey_stock)
+    saftey_stock = find_saftey_stock(healthdate, data_safety_stock[data_safety_stock["mrp_element"] == "SafeSt"], saftey_stock)
+
 
     #avg_stock_change: float = calc_avg_stock_change(data)
 
@@ -234,6 +234,7 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
     for i in range(int(num_days)):
         td = datetime.timedelta(days=i)
         new_date = date_obj + td
+        
         formatted_date = format_date(date=new_date)
         
         sql = """SELECT material, mrp_element, total_quantity, demand_date  FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
@@ -241,35 +242,31 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
         
         
         # # ASSUME DATA SORTED ALREADY
-        stock = find_stock(format_date(new_date), formatted_date, material, data)
+        #stock = find_stock(format_date(new_date), formatted_date, material_id, data)
+        stock = find_stock(new_date, formatted_date, material_id, data)
+
         
 
         # Total Quantity
-        find_total_quantity_summary(formatted_date, material, saftey_stock, data) 
+        find_total_quantity_summary(formatted_date, material_id, saftey_stock, data) 
         
         # to find each instances of total quantity instances
-        find_total_quantity_instances(formatted_date, material, saftey_stock, data)  
+        find_total_quantity_instances(formatted_date, material_id, saftey_stock, data)  
         
-        my_profiler.start("get_health_score")
         
         health = get_health_score(stock, saftey_stock, k_val=0.8)   
-        
-        my_profiler.end("get_health_score") 
-        my_profiler.log("print")
         
         if health != None:
              avg.append(health)
 
-        
-        #print_values(health, stock, avg_stock_change, material, formatted_date)
-        
+
     df_total_qty = pd.DataFrame(list_qty, columns = ['material', 'demand_date', 'max', 'min', 'mean', 'safety stock']) 
-    print(tabulate(df_total_qty, headers = 'keys', tablefmt = 'psql'))
+    #print(tabulate(df_total_qty, headers = 'keys', tablefmt = 'psql'))
     
     
     # This would prepare .csv file that contains total_qty_instances
     df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']) 
-    print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
+    #print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
     
     # destruct this global variable
     list_qty_instance.clear()
@@ -288,7 +285,7 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
 
 
     health_score = {
-        "Material": material,
+        "Material": material_id,
         "material_detail" : json.loads(json.dumps(list(df_material.T.to_dict().values()))),
         "Date": date,
         "Health-score": percentage_result,
@@ -296,7 +293,7 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
         "total_qty_instances": json.loads(json.dumps(list(df_total_qty_instances.T.to_dict().values())))    
     }
     
-    #my_profiler.end("health-score")
-    #my_profiler.log("print")
+    my_profiler.end("health-score")
+    my_profiler.log("print")
 
     return health_score
