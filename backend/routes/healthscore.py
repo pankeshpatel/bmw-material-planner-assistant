@@ -35,10 +35,10 @@ list_qty_instance = []  # This is a global
 
 
 # This function constructs an individual instances of total Quantity fields
-def find_total_quantity_instances(formatted_date: str, material_id: str, safety_stock: int):
+def find_total_quantity_instances(formatted_date: str, material_id: str, safety_stock: int, data:pd.DataFrame()):
     
-    sql = """SELECT material, demand_date, total_quantity FROM MD04 WHERE material = %s AND demand_date = %s"""
-    data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "demand_date", "total_quantity"])
+    # sql = """SELECT material, demand_date, total_quantity FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
+    # data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "demand_date", "total_quantity"])
     
     
     item=0
@@ -71,10 +71,11 @@ def find_total_quantity_instances(formatted_date: str, material_id: str, safety_
 
 
 # This function  constructs a summary (avg, min, max) dataframe total Quantity
-def find_total_quantity_summary(formatted_date: str, material_id: str, safety_stock: int):
+def find_total_quantity_summary(formatted_date: str, material_id: str, safety_stock: int, data:pd.DataFrame()):
     
-    sql = """SELECT material, demand_date, total_quantity FROM MD04 WHERE material = %s AND demand_date = %s"""
-    data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "demand_date", "total_quantity"])
+    # sql = """SELECT material, demand_date, total_quantity FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
+    # data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "demand_date", "total_quantity"])
+    print(data)
     
     # max value
     if(len(data["total_quantity"]) == 0):
@@ -100,10 +101,10 @@ def find_total_quantity_summary(formatted_date: str, material_id: str, safety_st
     
     
 # This function is to find stock
-def find_stock(date: str, formatted_date: str, material_id: str) -> int:
+def find_stock(date: str, formatted_date: str, material_id: str, data:pd.DataFrame()) -> int:
             
-    sql = """SELECT mrp_element, total_quantity, demand_date  FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
-    data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
+    # sql = """SELECT mrp_element, total_quantity, demand_date  FROM admin.MD04 WHERE material = %s AND demand_date = %s""" 
+    # data = pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall())
     
     # Data is not available in DB
     if(len(data) == 0):
@@ -141,7 +142,6 @@ def find_saftey_stock(date: datetime, data: pd.DataFrame(), saftey_stock: int) -
 
 def format_date(date: datetime) -> str:
       return datetime.date.strftime(date, "%x")
-
 
 
 def calc_avg_stock_change(data: pd.DataFrame()) -> float:
@@ -197,7 +197,7 @@ def print_values(health: float, stock: int, avg_stock_change: float, material: s
 @healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
 async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
 
-    #my_profiler.start("health-score")
+    my_profiler.start("health-score")
     
     material = material_id
     date = healthdate
@@ -235,24 +235,23 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
         new_date = date_obj + td
         formatted_date = format_date(date=new_date)
         
+        sql = """SELECT material, mrp_element, total_quantity, demand_date  FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
+        data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "mrp_element", "total_quantity", "demand_date" ])
+        
+        
         # # ASSUME DATA SORTED ALREADY
-        stock = find_stock(format_date(new_date), formatted_date, material)
+        stock = find_stock(format_date(new_date), formatted_date, material, data)
         
 
         # Total Quantity
-        find_total_quantity_summary(formatted_date, material, saftey_stock) 
+        find_total_quantity_summary(formatted_date, material, saftey_stock, data) 
         
 
         # to find each instances of total quantity instances
-        find_total_quantity_instances(formatted_date, material, saftey_stock)  
+        find_total_quantity_instances(formatted_date, material, saftey_stock, data)  
         
-        my_profiler.start("get_health_score")
-        #print("stock", stock)
-        #print("safety_stock", saftey_stock)
         health = get_health_score(stock, saftey_stock, k_val=0.8)    
         
-        my_profiler.end("get_health_score")
-        my_profiler.log("print")  
               
         if health != None:
              avg.append(health)
@@ -293,7 +292,7 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
         "total_qty_instances": json.loads(json.dumps(list(df_total_qty_instances.T.to_dict().values())))    
     }
     
-    #my_profiler.end("health-score")
-    #my_profiler.log("print")
+    my_profiler.end("health-score")
+    my_profiler.log("print")
 
     return health_score
