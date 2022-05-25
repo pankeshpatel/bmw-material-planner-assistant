@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect ,useState} from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
@@ -13,7 +13,7 @@ import { faPeopleRoof } from '@fortawesome/free-solid-svg-icons';
 import { faRankingStar } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-
+import { plannerIdCall } from 'src/utils/apihelper';
 
 
 const items = [
@@ -60,6 +60,9 @@ const items = [
 ];
 
 export const DashboardSidebar = (props) => {
+
+  const [username,setUsername] = useState("");
+
   const { open, onClose } = props;
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'), {
@@ -80,6 +83,15 @@ export const DashboardSidebar = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.asPath]
   );
+
+  useEffect(async () => {
+
+    const plannerIdResponse = await plannerIdCall ();
+    console.log("plannerIdResponse",plannerIdResponse)
+    setUsername(plannerIdResponse.data.name)
+  
+  }, [])
+  
 
   const content = (
     <>
@@ -134,7 +146,7 @@ export const DashboardSidebar = (props) => {
                   color="inherit"
                   variant="subtitle1"
                 >
-                  Liliana.Banda
+                  {username.split(" ").join(".")}
                   <br/>
                   {Date(Date.now()).slice(4,15)}
                 </Typography>
@@ -164,6 +176,9 @@ export const DashboardSidebar = (props) => {
         <Box sx={{ flexGrow: 1 }}>
           {items.map((item) => (
             <NavItem
+
+             onClick={()=>{item.title == 'Log out' ? localStorage.clear() :null}}
+
               key={item.title}
               icon={item.icon}
               href={item.href}

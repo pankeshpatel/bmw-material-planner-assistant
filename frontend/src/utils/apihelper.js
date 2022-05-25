@@ -1,8 +1,7 @@
 import axios from 'axios'
-import {apiUrl} from './constants'
+import {apiUrl, plannerId} from './constants'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 let token = "";
 let headers= "";
@@ -14,7 +13,7 @@ const getHeader = ()=>{
         return headers = {
             headers: {
                 Authorization: `${token ?`Bearer ${token}` : ""}`,
-                "Content-Type": "multipart/form-data",
+                // "Content-Type": "multipart/form-data",
             },
         };
     }
@@ -85,8 +84,10 @@ const loginCall = (body) =>{
 
     }
 
-const healthScoreCall = (plannerId,materialId,healthDate) => {
-    const url = `${apiUrl}/healthscore/${plannerId}/${materialId}?healthdate=${healthDate}`
+const healthScoreCall = (materialId,healthDate) => {
+    const url = `${apiUrl}/healthscore/${eval(plannerId)}/${materialId}?healthdate=${healthDate}`
+    console.log("url",url)
+    // http://localhost:8000/exceptions/healthscore/115/?start_date=02/18/22&end_date=04/04/22
     return new Promise((resolve,reject)=>{
     const header = getHeader();
             axios
@@ -102,8 +103,8 @@ const healthScoreCall = (plannerId,materialId,healthDate) => {
             })
 }
 
-const ExceptionManagerCall = (plannerId,startDate,EndDate) => {
-    const url = `${apiUrl}/exceptions/manager/${plannerId}?start_date=${startDate}&end_date=${EndDate}`
+const ExceptionManagerCall = (startDate,EndDate) => {
+    const url = `${apiUrl}/exceptions/manager/${eval(plannerId)}?start_date=${startDate}&end_date=${EndDate}`
     // http://localhost:8000/exceptions/manager/115/?start_date=02/18/22&end_date=04/04/22
     return new Promise((resolve,reject)=>{
     const header = getHeader();
@@ -120,8 +121,8 @@ const ExceptionManagerCall = (plannerId,startDate,EndDate) => {
             })
 }
 
-const ExceptionMatrixCall = (plannerId,startDate,EndDate) => {
-    const url = `${apiUrl}/exceptions/matrix/${plannerId}?start_date=${startDate}&end_date=${EndDate}`
+const ExceptionMatrixCall = (startDate,EndDate) => {
+    const url = `${apiUrl}/exceptions/matrix/${eval(plannerId)}?start_date=${startDate}&end_date=${EndDate}`
     // http://localhost:8000/exceptions/manager/115/?start_date=02/18/22&end_date=04/04/22
     return new Promise((resolve,reject)=>{
     const header = getHeader();
@@ -138,6 +139,41 @@ const ExceptionMatrixCall = (plannerId,startDate,EndDate) => {
             })
 }
 
+const plannerIdCall = () =>{
+    const url = `${apiUrl}/planners/planner-id/${eval(plannerId)}`
+    return new Promise((resolve,reject)=>{
+    const header = getHeader();
+            axios
+                .get(url,header)
+                .then((res)=>{
+                    resolve(res)
+        
+                })
+                .catch((err) => {
+                    reject(handleError(err))
+                })
+                
+            })
+    
+}
+
+const matetrialCall = ()=>{
+    const url = `${apiUrl}/materials/${eval(plannerId)}`
+    return new Promise((resolve,reject)=>{
+    const header = getHeader();
+            axios
+                .get(url,header)
+                .then((res)=>{
+                    resolve(res)
+        
+                })
+                .catch((err) => {
+                    reject(handleError(err))
+                })
+                
+            })
+
+}
 
 
-export {loginCall,healthScoreCall,ExceptionManagerCall,ExceptionMatrixCall}
+export {loginCall,healthScoreCall,ExceptionManagerCall,ExceptionMatrixCall,plannerIdCall,matetrialCall}

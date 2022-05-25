@@ -410,7 +410,7 @@ export const ExceptionMatrix = (props) => {
     //   }
     // });
 
-    const data = await ExceptionMatrixCall("114", "02/18/22", "04/04/22");
+    const data = await ExceptionMatrixCall("02/18/22", "04/04/22");
     data = data.data
 
     if (data.status === 403) {
@@ -431,7 +431,7 @@ export const ExceptionMatrix = (props) => {
  return(<Card {...props}>
     <CardHeader title="Part Exception Matrix" />
     <PerfectScrollbar>
-      <Box sx={{ minWidth: 800,height:"600px" ,overflow:"scroll"}}>
+      <Box sx={{height:"600px" ,overflow:"scroll"}}>
         <Table stickyHeader={true}>
           <TableHead>
             <TableRow>
@@ -484,7 +484,7 @@ export const ExceptionMatrix = (props) => {
               >
                  <TableCell>
                   {/* {order.MaterialID} */}
-                  {order[0].material}
+                  {order[1].material}
                 </TableCell>
 
 
