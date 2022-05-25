@@ -23,7 +23,8 @@ const Dashboard = () => {
       component="main"
       sx={{
         flexGrow: 1,
-        py: 0
+        py: 0,
+        marginTop:"-4%"
       }}
     >
       <Container maxWidth={false}>
@@ -67,7 +68,7 @@ const Dashboard = () => {
           >
             <TotalProfit sx={{ height: '100%' }} />
           </Grid> */}
-             <Grid
+             {/* <Grid
             item
             lg={4}
             md={6}
@@ -75,17 +76,16 @@ const Dashboard = () => {
             xs={12}
           >
             <TrafficByDevice healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100%' }}   />
-          </Grid>
+          </Grid> */}
+
           <Grid
             item
-            lg={8}
+            lg={12}
             md={12}
             xl={9}
             xs={12}
           >
-            <PartLookUp healthGuage={healthGuage} setHealthGuage={setHealthGuage}
-            
-             />
+            <PartLookUp healthGuage={healthGuage} setHealthGuage={setHealthGuage}/>
           </Grid>
           {/* <Grid
             item

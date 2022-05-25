@@ -13,7 +13,9 @@ import {
   TableSortLabel,
   Slider
 } from '@mui/material';
-import { healthScoreCall,ExceptionManagerCall } from '../../utils/apihelper';
+import { healthScoreCall,matetrialCall } from '../../utils/apihelper';
+import { TrafficByDevice } from '../../components/healthscore/traffic-by-device';
+
 
 // import {
 //   Chart as ChartJS,
@@ -118,14 +120,18 @@ function sortByProperty(property){
 export const PartLookUp = (props) => {
 
   const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
-  const [healthData,sethealthData]=useState(healthScore.slice(0,healthScore.length-1))
-  // let healthData=healthScore;
-  const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
-  const [value, setValue] = useState([0, 200]);
+  const [healthData,sethealthData]=useState([])
+  const [selectedMaterial,setSelectedMaterial] = useState([]);
+  // const [value, setValue] = useState([0, 200]);
 
-  const [materialResponse,setMaterialResponse]=useState([]);
+  const [healthGuage,setHealthGuage]=useState(10)
 
+
+  // const [healthResponse,setHealthResponse] = useState([]);
+  const [healthResponse,sethealthResponse]=useState([]);
   const [showmodal,SetShowmodal]= useState(false)
+
+  const [materialResponse,setMaterialResponse] = useState([]);
   const style = {
   
     transform: 'translate(40%, 10%)',
@@ -165,7 +171,7 @@ export const PartLookUp = (props) => {
   };
 
 
-  const labels = materialResponse?.total_qty_analysis?.slice(0,20).map((val)=>{
+  const labels = healthResponse?.total_qty_analysis?.map((val)=>{
     return val.demand_date
   })
 
@@ -174,25 +180,25 @@ export const PartLookUp = (props) => {
     datasets: [
       {
         label: 'Min of Total Quantity',
-        data:  materialResponse?.total_qty_analysis?.slice(0,20).map((val)=>{return val.min}),
+        data:  healthResponse?.total_qty_analysis?.map((val)=>{return val.min}),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
       {
         label: 'Max of Total Quantity',
-        data:materialResponse?.total_qty_analysis?.slice(0,20).map((val)=>{return val.max}),
+        data:healthResponse?.total_qty_analysis?.map((val)=>{return val.max}),
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       },
       {
         label: 'Mean of Total Quantity',
-        data:materialResponse?.total_qty_analysis?.slice(0,50).map((val)=>{return val.mean}),
+        data:healthResponse?.total_qty_analysis?.map((val)=>{return val.mean}),
         borderColor: 'rgb(3, 155, 0)',
         backgroundColor: 'rgba(3, 155, 0, 0.5)',
       },
       {
         label: 'Safety Stock',
-        data:materialResponse?.total_qty_analysis?.slice(0,50).map((val)=>{return val["safety stock"]}),
+        data:healthResponse?.total_qty_analysis?.map((val)=>{return val["safety stock"]}),
         borderColor: 'rgb(233, 155, 0)',
         backgroundColor: 'rgba(233, 155, 0, 0.5)',
       },
@@ -204,13 +210,13 @@ export const PartLookUp = (props) => {
     datasets: [
       {
         label: 'Total Quantity',
-        data:  materialResponse?.total_qty_instances?.slice(0,20).map((val)=>{return val.total_quantity}),
+        data:  healthResponse?.total_qty_instances?.map((val)=>{return val.total_quantity}),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
       {
         label: 'Safety Stock',
-        data:materialResponse?.total_qty_instances?.slice(0,50).map((val)=>{return val["safety stock"]}),
+        data:healthResponse?.total_qty_instances?.map((val)=>{return val["safety stock"]}),
         borderColor: 'rgb(233, 155, 0)',
         backgroundColor: 'rgba(233, 155, 0, 0.5)',
       },
@@ -222,26 +228,33 @@ export const PartLookUp = (props) => {
   };
 
 
-  
-
-  
   useEffect( async () => {
 
-    const healthScoreResponse = await healthScoreCall("114","7430935-05","05/20/21")
-    // const ExceptionManagerResponse = await ExceptionManagerCall("115","02/18/22","04/04/22")
-    setMaterialResponse(healthScoreResponse.data)
-    
+    const matetrialCallResponse = await matetrialCall();
+    setMaterialResponse(matetrialCallResponse)
 
   }, [])
+
+  useEffect(async () => {
+
+    const healthScoreResponse = await healthScoreCall("7430935-05","05/20/21")
+    sethealthResponse(healthScoreResponse.data)
+ 
+  }, [])
+  
+  
+
+  
+
   
   useEffect(() => {
 
-    if(materialResponse["Health-score"]){
-      console.log("HealthScore",(materialResponse["Health-score"].slice(0,4)))
-      props.setHealthGuage( Number(materialResponse["Health-score"].slice(0,4) ))
+    if(healthResponse["Health-score"]){
+      console.log("HealthScore",(healthResponse["Health-score"].slice(0,4)))
+      setHealthGuage( Number(healthResponse["Health-score"].slice(0,4) ))
     }
 
-  }, [materialResponse])
+  }, [healthResponse])
 
 
   const returnColor = (status)=>{
@@ -292,6 +305,7 @@ export const PartLookUp = (props) => {
   function valuetext(value) {
     return `${Date(value)}`;
   }
+  
 
   return(
     <>
@@ -300,7 +314,7 @@ export const PartLookUp = (props) => {
     <Box
       sx={{
         display: 'flex',
-        marginTop:"-7%",
+        // marginTop:"-7%",
         paddingBottom:"2%",
         justifyContent: 'flex-end',
         p: 2
@@ -324,14 +338,14 @@ export const PartLookUp = (props) => {
      >
 
      </Slider> */}
-     <div style={{position:"absolute",zIndex:"100" ,top:100}}>
+     <div style={{marginTop:"-7%" }}>
        <span>Please Select a Date: &nbsp;
           {/* <DatePicker  selected={startDate} onChange={(date) => setStartDate(date)} /> */}
           <input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
        </span>
      </div>
     </Box>
-    <Box
+    {/* <Box
     sx={{
       display: 'flex',
       marginTop:"-7%",
@@ -346,9 +360,9 @@ export const PartLookUp = (props) => {
 
 
 
-    </Box>
+    </Box> */}
     <PerfectScrollbar>
-      <Box sx={{ minWidth: 800,height:"400px" ,overflow:"scroll"}}>
+      <Box sx={{ minHeight:"100px" ,overflow:"scroll" }}>
      
         <Table stickyHeader={true} >
           <TableHead>
@@ -373,13 +387,24 @@ export const PartLookUp = (props) => {
                 </Tooltip>
               </TableCell> */}
               <TableCell>
-                Supplier Number
+                Material_9
               </TableCell>
               <TableCell onClick={()=>{sethealthData(healthScore.sort(sortByProperty("healthstatus")))}}>
-                Health Score
+                Material_7
               </TableCell>
               <TableCell>
                 Material Description
+              </TableCell>
+              <TableCell>
+                Material Description Eng
+              </TableCell>
+
+              <TableCell style={{textAlign:"center"}}>
+               Health Status
+              </TableCell>
+
+              <TableCell>
+                Graphs
               </TableCell>
             </TableRow>
           </TableHead>
@@ -401,29 +426,64 @@ export const PartLookUp = (props) => {
          </Box>
       </Modal>
             
-            {healthData.map((order,index)=>{
+            {healthResponse?.material_detail?.map((order,index)=>{
               return(
                 <TableRow
                 hover
                 key={Math.random()}
-                onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
+                // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
               >
                 <TableCell>
-                 {order.materialID}
+                 {order.material}
                 </TableCell>
                 <TableCell>
-                  {order.healthscoredate}
+                 {healthResponse.Date}
                 </TableCell>
                 <TableCell>
-                  {order.suppliernumber}
+                  {order.material_9}
+                </TableCell>
+                <TableCell>
+                  {order.material_7}
                 </TableCell>
 
-                <TableCell>
+                {/* <TableCell>
                  <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
+                </TableCell> */}
+
+                <TableCell>
+                  {order.mat_description}
                 </TableCell>
 
                 <TableCell>
-                  {order.partdescriptioneng}
+                  {order.mat_description_eng}
+                </TableCell>
+
+                <TableCell style={{textAlign:"center"}}>
+            <TrafficByDevice healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100px' }}   />
+
+                </TableCell>
+
+                <TableCell>
+
+                  
+
+              <Box
+                sx={{
+                  // display: 'flex',
+                  // marginTop:"-7%",
+                  // paddingBottom:"2%",
+                  // justifyContent: 'center',
+                  // p: 3 
+                }}
+                  >
+
+                <Button onClick={()=>{SetShowmodal(true)}}>Show Graphs</Button>
+
+
+
+
+                </Box>
+                 
                 </TableCell>
           
               </TableRow>
@@ -453,15 +513,15 @@ export const PartLookUp = (props) => {
   <Card {...props}>
     <CardHeader title="Part Detailed  Description" />
     <PerfectScrollbar>
-      <Box sx={{ minWidth: 800 }}>
+      <Box sx={{ overflow:"scroll",height:"300px" }}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>
-                Material ID
+                Material
               </TableCell>
               <TableCell>
-                Safety Stock
+              Material_9
               </TableCell>
               {/* <TableCell sortDirection="desc">
                 <Tooltip
@@ -477,30 +537,55 @@ export const PartLookUp = (props) => {
                 </Tooltip>
               </TableCell> */}
               <TableCell>
-                Part Description Eng
+              Material_7
               </TableCell>
+              <TableCell>
+                Material Description
+              </TableCell>
+              <TableCell>
+                Material Description Eng
+              </TableCell>
+
+              <TableCell>
+                Safety Stock
+              </TableCell>
+
               <TableCell>
                 Plant
               </TableCell>
+
               <TableCell>
-                Storage Location
+                Lot Size
               </TableCell>
+
+
             </TableRow>
           </TableHead>
           <TableBody>
-            {selectedMaterial.map((order) => (
+            {materialResponse?.data?.result.map((order) => (
               <TableRow
                 hover
-                key={order.materialID}
+                key={Math.random()}
               >
                 <TableCell>
-                 {order.materialID}
+                 {order.material}
                 </TableCell>
                 <TableCell>
-                  {order.safetystock}
+                  {order.material_9}
+                </TableCell>
+                <TableCell>
+                  {order.material_7}
                 </TableCell>
                 <TableCell >
-                  {order.partdescriptioneng}
+                  {order.mat_description}
+                </TableCell>
+
+                <TableCell>
+                  {order.mat_description_eng}
+                </TableCell>
+
+                <TableCell>
+                  {order.safety_stock}
                 </TableCell>
 
                 <TableCell>
@@ -508,9 +593,10 @@ export const PartLookUp = (props) => {
                 </TableCell>
 
                 <TableCell>
-                  {order.storagelocation}
+                  {order.lot_size}
                 </TableCell>
           
+
               </TableRow>
             ))}
           </TableBody>

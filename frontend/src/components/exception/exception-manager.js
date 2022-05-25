@@ -4,6 +4,7 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@
 import { setDate } from 'date-fns';
 import axios from 'axios';
 import { ExceptionManagerCall } from 'src/utils/apihelper';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,7 +15,10 @@ import {
   Legend,
 } from 'chart.js';
 
+
+
 export const ExceptionManager = (props) => {
+  // ChartJS.register(ChartDataLabels);
   const theme = useTheme();
 
   const [resultBool, setResultBool] = useState(false);
@@ -37,8 +41,9 @@ export const ExceptionManager = (props) => {
 
   useEffect( async () => {
 
+
     if (resultBool === false){
-      let data = await ExceptionManagerCall("M11", "02/18/22", "04/04/22");
+      let data = await ExceptionManagerCall("02/18/22", "04/04/22");
       data = data.data;
       for ( let i = 0; i < data.result.length; i++) {
         array2.push(parseFloat(data.result[i].percentage));
@@ -89,20 +94,24 @@ export const ExceptionManager = (props) => {
 
   const data = {
     // getEPDataAPI();
+    plugins: {
+      datalabels: {
+         display: true,
+         color: 'white'
+      }
+   },
     datasets: [
       {
-        backgroundColor: '#D24D4D',
         barPercentage: 0.5,
-        barThickness: 20,
+        barThickness: 40,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        // data: [18, 50, 40, 32,100],     // Connect Values to API
+        backgroundColor: ["#232323", "#28587b", "#253021", "#4C3B4D"],
         data: GraphValues,
         label: '',
-        maxBarThickness: 100
+        maxBarThickness: 100,
       },
     ],
-   // labels: ['Postponed order', 'Potential Shortage Rqmt Increase', 'Firmed oder is late', 'No bill of material selected']
    labels: GraphLabels
   };
     
@@ -113,13 +122,31 @@ export const ExceptionManager = (props) => {
 
   const options = {
     animation: false,
-    cornerRadius: 20,
+    cornerRadius: 20, 
     // color=['red','blue'],
     layout: { padding: 0 },
-    legend: { display: false },
+    // legend: { display: true },
     maintainAspectRatio: false,
     responsive: true,
     indexAxis: 'y',
+    scales: {
+      y: {
+        ticks: { color: 'black', beginAtZero: true }
+        
+      
+      },
+ 
+    x: {
+      ticks: { color: 'black', beginAtZero: true },
+      
+      title: {
+        display: true,
+        text: 'Percantages',
+        color:"black" 
+      }
+      
+    }
+  },
     yAxes: [
       {
         ticks: {
@@ -149,6 +176,7 @@ export const ExceptionManager = (props) => {
         }
       }
     ],
+
     tooltips: {
       backgroundColor: theme.palette.background.paper,
       bodyFontColor: theme.palette.text.secondary,
@@ -158,7 +186,7 @@ export const ExceptionManager = (props) => {
       footerFontColor: theme.palette.text.secondary,
       intersect: false,
       mode: 'index',
-      titleFontColor: theme.palette.text.primary
+      titleFontColor: theme.palette.text.primary.at
     },
  
   };
@@ -172,13 +200,9 @@ export const ExceptionManager = (props) => {
             size="small"
           >
             <select>
-              <option value="" key="">last 5 days</option>
-              <option value="" key="">last 10 days</option>
-              <option value="" key="">last 20 days</option>
-              <option value="" key="">last 30 days</option>
-              <option value="" key="">last 40 days</option>
+            
               <option value="" key="">last 45 days</option>
-              <option value="" key="">last 60 days</option>
+       
 
             </select>
           </Button>

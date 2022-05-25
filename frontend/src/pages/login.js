@@ -25,14 +25,13 @@ const Login = () => {
     body.append("username",username)
     body.append("password",password)
 
-    // const body={
-    //   username:username,
-    //   password:password
-    // }
+
+
     const LoginResponse = await loginCall(body);
     console.log("response",LoginResponse)
     if(LoginResponse.status=="200"){
       localStorage.setItem("token",LoginResponse.data.access_token)
+      localStorage.setItem("plannerId",username)
       router.push("/healthScore")
     }
     else{
