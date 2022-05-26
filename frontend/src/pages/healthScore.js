@@ -14,10 +14,12 @@ const Dashboard = () => {
 
   return(
   <>
+   
     <Head>
-      {/* <title>
-        Dashboard | Material Kit
-      </title> */}
+        <title>
+        BMW Material Planner
+        </title>
+        <link rel="icon" type="image/x-icon" href="https://pngimg.com/uploads/bmw_logo/bmw_logo_PNG19714.png"></link>
     </Head>
     <Box
       component="main"

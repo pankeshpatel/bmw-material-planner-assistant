@@ -264,10 +264,9 @@ export const PartLookUp = (props) => {
 
   useEffect(async () => {
     // SetTable1Loading(true)
-    const healthScoreResponse = await healthScoreCall("7430935-05", "05/20/21");
-    sethealthResponse(healthScoreResponse.data);
+    const healthScoreResponse = await healthScoreCall("7430935-05","05/20/21")
     // SetTable1Loading(false)
-  }, []);
+    sethealthResponse(healthScoreResponse.data)
 
   useEffect(() => {
     if (healthResponse["Health-score"]) {
