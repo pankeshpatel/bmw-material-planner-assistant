@@ -259,18 +259,18 @@ export const PartLookUp = (props) => {
 
   useEffect( async () => {
 
-    SetTable2Loading(true)
+    // SetTable2Loading(true)
     const matetrialCallResponse = await matetrialCall();
     setMaterialResponse(matetrialCallResponse)
-    SetTable2Loading(false)
+    // SetTable2Loading(false)
 
   }, [])
 
   useEffect(async () => {
 
-    SetTable1Loading(true)
+    // SetTable1Loading(true)
     const healthScoreResponse = await healthScoreCall("7430935-05","05/20/21")
-    SetTable1Loading(false)
+    // SetTable1Loading(false)
     sethealthResponse(healthScoreResponse.data)
 
  
