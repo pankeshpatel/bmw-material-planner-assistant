@@ -4,6 +4,7 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@
 import { setDate } from 'date-fns';
 import axios from 'axios';
 import { ExceptionManagerCall } from 'src/utils/apihelper';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import {
   Chart as ChartJS,
@@ -33,6 +34,8 @@ export const ExceptionManager = (props) => {
     Tooltip,
     Legend
   );
+
+ 
 
   let array2 = [];
   let array2_Exceptions = [];
@@ -129,6 +132,28 @@ export const ExceptionManager = (props) => {
     maintainAspectRatio: false,
     responsive: true,
     indexAxis: 'y',
+    plugins: {
+      tooltip:false,
+      legend:{
+        display:false
+      },
+      datalabels: {
+        formatter: function(value, context) {
+          return value.toString().slice(0,5)
+        },
+
+        color:'black',
+        align: 0,
+        anchor: "end",
+        offset:5,
+     
+        clip: true,
+        font: {
+          size: "18",
+          weight: "bold"
+        }
+      }
+    },
     scales: {
       y: {
         ticks: { color: 'black', beginAtZero: true }
@@ -177,17 +202,7 @@ export const ExceptionManager = (props) => {
       }
     ],
 
-    tooltips: {
-      backgroundColor: theme.palette.background.paper,
-      bodyFontColor: theme.palette.text.secondary,
-      borderColor: theme.palette.divider,
-      borderWidth: 1,
-      enabled: true,
-      footerFontColor: theme.palette.text.secondary,
-      intersect: false,
-      mode: 'index',
-      titleFontColor: theme.palette.text.primary.at
-    },
+  
  
   };
 
@@ -220,6 +235,7 @@ export const ExceptionManager = (props) => {
           <Bar
             data={data}
             options={options}
+            plugins={[ChartDataLabels]}
             
           />
         </Box>
