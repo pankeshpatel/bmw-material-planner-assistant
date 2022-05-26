@@ -60,7 +60,7 @@ export const TrafficByDevice = (props) => {
     <>
     <GaugeChart
     id="gauge-chart9"
-    // style={chartStyle}
+    // style={{width:"90%"}}
     nrOfLevels={420}
     arcsLength={arcs}
     colors={[ '#EA4228','#F5CD19','#5BE12C', ]}

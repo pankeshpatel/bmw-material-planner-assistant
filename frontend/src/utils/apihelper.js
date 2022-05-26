@@ -13,7 +13,7 @@ const getHeader = ()=>{
         return headers = {
             headers: {
                 Authorization: `${token ?`Bearer ${token}` : ""}`,
-                // "Content-Type": "multipart/form-data",
+                "Content-Type": "multipart/form-data"
             },
         };
     }
@@ -38,6 +38,11 @@ const notify = (message , status) =>{
 
 const handleError = (err)=>{
     console.log("erros",err)
+    // if(err){
+    // notify("Something went wrong please try again","error")
+
+    // }
+    // return
 
      if(err.response.status == 401){ // 
          notify(JSON.stringify(err.response.data.detail),"error")

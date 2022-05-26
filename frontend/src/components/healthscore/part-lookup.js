@@ -41,6 +41,10 @@ import { useEffect } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import Shimmer from "react-shimmer-effect";
+
+
 
 
 // const orders = [
@@ -132,6 +136,12 @@ export const PartLookUp = (props) => {
   const [showmodal,SetShowmodal]= useState(false)
 
   const [materialResponse,setMaterialResponse] = useState([]);
+
+  const [table2Loading,SetTable2Loading] = useState(false)
+  const [table1Loading,SetTable1Loading] = useState(false)
+
+  
+
   const style = {
   
     transform: 'translate(40%, 10%)',
@@ -150,6 +160,16 @@ export const PartLookUp = (props) => {
       legend: {
         // position: 'top' as const,
       },
+      datalabels:{
+        offset: 0,
+        anchor: "center",
+        align:"top",
+        font: {
+          size: "15",
+          weight: "bold"
+        },
+      },
+      
       title: {
         display: true,
         text: 'Health Score Analysis of Material',
@@ -162,6 +182,15 @@ export const PartLookUp = (props) => {
     plugins: {
       legend: {
         // position: 'top' as const,
+      },
+      datalabels:{
+        offset: 5,
+        anchor: "center",
+        align:"top",
+        font: {
+          size: "15",
+          weight: "bold"
+        },
       },
       title: {
         display: true,
@@ -230,15 +259,20 @@ export const PartLookUp = (props) => {
 
   useEffect( async () => {
 
+    // SetTable2Loading(true)
     const matetrialCallResponse = await matetrialCall();
     setMaterialResponse(matetrialCallResponse)
+    // SetTable2Loading(false)
 
   }, [])
 
   useEffect(async () => {
 
+    // SetTable1Loading(true)
     const healthScoreResponse = await healthScoreCall("7430935-05","05/20/21")
     sethealthResponse(healthScoreResponse.data)
+    // SetTable1Loading(false)
+
  
   }, [])
   
@@ -310,7 +344,7 @@ export const PartLookUp = (props) => {
   return(
     <>
     <Card {...props} >
-    <CardHeader title="Part Lookup" />
+    <CardHeader title="Health Score" />
     <Box
       sx={{
         display: 'flex',
@@ -338,12 +372,12 @@ export const PartLookUp = (props) => {
      >
 
      </Slider> */}
-     <div style={{marginTop:"-7%" }}>
+     {/* <div style={{marginTop:"-7%" }}>
        <span>Please Select a Date: &nbsp;
-          {/* <DatePicker  selected={startDate} onChange={(date) => setStartDate(date)} /> */}
+          <DatePicker  selected={startDate} onChange={(date) => setStartDate(date)} />
           <input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
        </span>
-     </div>
+     </div> */}
     </Box>
     {/* <Box
     sx={{
@@ -367,7 +401,7 @@ export const PartLookUp = (props) => {
         <Table stickyHeader={true} >
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell style={{width:"10%"}}>
                 Material ID
               </TableCell>
               <TableCell>
@@ -415,10 +449,11 @@ export const PartLookUp = (props) => {
         onClose={()=>{SetShowmodal(false)}}
         >
          <Box sx={style}>
-           <h2>Graph 1</h2>
-           <Line options={options1} data={data1} />
-           <h2>Graph 2</h2>
-           <Line options={options2} data={data2} />
+           <h2>Summary of Material availability for next 10 days</h2>
+           <Line options={options1} data={data1} plugins={[ChartDataLabels]} />
+           <br/>
+           <h2> Detail Information of Material availability for next 10 days</h2>
+           <Line options={options2} data={data2} plugins={[ChartDataLabels]} />
 
 
             
@@ -428,65 +463,73 @@ export const PartLookUp = (props) => {
             
             {healthResponse?.material_detail?.map((order,index)=>{
               return(
-                <TableRow
-                hover
-                key={Math.random()}
-                // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
-              >
-                <TableCell>
-                 {order.material}
-                </TableCell>
-                <TableCell>
-                 {healthResponse.Date}
-                </TableCell>
-                <TableCell>
-                  {order.material_9}
-                </TableCell>
-                <TableCell>
-                  {order.material_7}
-                </TableCell>
-
-                {/* <TableCell>
-                 <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
-                </TableCell> */}
-
-                <TableCell>
-                  {order.mat_description}
-                </TableCell>
-
-                <TableCell>
-                  {order.mat_description_eng}
-                </TableCell>
-
-                <TableCell style={{textAlign:"center"}}>
-            <TrafficByDevice healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100px' }}   />
-
-                </TableCell>
-
-                <TableCell>
-
-                  
-
-              <Box
-                sx={{
-                  // display: 'flex',
-                  // marginTop:"-7%",
-                  // paddingBottom:"2%",
-                  // justifyContent: 'center',
-                  // p: 3 
-                }}
-                  >
-
-                <Button onClick={()=>{SetShowmodal(true)}}>Show Graphs</Button>
-
-
-
-
-                </Box>
-                 
-                </TableCell>
-          
-              </TableRow>
+                <>
+                {
+                  !table1Loading ? <TableRow
+                  hover
+                  key={Math.random()}
+                  // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
+                >
+                  <TableCell style={{width:"10%"}}>
+                   {order.material}
+                  </TableCell>
+                  <TableCell>
+                   {/* {healthResponse.Date} */}
+                  <input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
+  
+                  </TableCell>
+                  <TableCell>
+                    {order.material_9}
+                  </TableCell>
+                  <TableCell>
+                    {order.material_7}
+                  </TableCell>
+  
+                  {/* <TableCell>
+                   <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
+                  </TableCell> */}
+  
+                  <TableCell>
+                    {order.mat_description}
+                  </TableCell>
+  
+                  <TableCell>
+                    {order.mat_description_eng}
+                  </TableCell>
+  
+                  <TableCell style={{textAlign:"center"}}>
+              <TrafficByDevice healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100px' }}   />
+  
+                  </TableCell>
+  
+                  <TableCell>
+  
+                    
+  
+                <Box
+                  sx={{
+                    // display: 'flex',
+                    // marginTop:"-7%",
+                    // paddingBottom:"2%",
+                    // justifyContent: 'center',
+                    // p: 3 
+                  }}
+                    >
+  
+                  <Button onClick={()=>{SetShowmodal(true)}}>Show Graphs</Button>
+  
+  
+  
+  
+                  </Box>
+                   
+                  </TableCell>
+            
+                </TableRow>
+      : 
+      Array.from({ length: 10 }, (_, i) => ( <tr key = {i}><td colspan="8"><Shimmer><div style={{width:"100%"}}>&nbsp;</div></Shimmer></td></tr>))
+                }
+                </>
               )
             })}
           </TableBody>
@@ -514,10 +557,11 @@ export const PartLookUp = (props) => {
     <CardHeader title="Part Detailed  Description" />
     <PerfectScrollbar>
       <Box sx={{ overflow:"scroll",height:"300px" }}>
-        <Table>
+        <Table >
           <TableHead>
+            
             <TableRow>
-              <TableCell>
+              <TableCell style={{width:"10%"}}>
                 Material
               </TableCell>
               <TableCell>
@@ -560,14 +604,21 @@ export const PartLookUp = (props) => {
 
 
             </TableRow>
+          
           </TableHead>
+
           <TableBody>
-            {materialResponse?.data?.result.map((order) => (
+
+           
+
+            { !table2Loading ?
+            materialResponse?.data?.result.map((order) => (
+
               <TableRow
                 hover
                 key={Math.random()}
               >
-                <TableCell>
+                <TableCell style={{width:"10%"}}>
                  {order.material}
                 </TableCell>
                 <TableCell>
@@ -584,7 +635,7 @@ export const PartLookUp = (props) => {
                   {order.mat_description_eng}
                 </TableCell>
 
-                <TableCell>
+                <TableCell style={{textAlign:"center"}}>
                   {order.safety_stock}
                 </TableCell>
 
@@ -592,13 +643,18 @@ export const PartLookUp = (props) => {
                   {order.plant}
                 </TableCell>
 
-                <TableCell>
+                <TableCell style={{textAlign:"center"}}>
                   {order.lot_size}
                 </TableCell>
           
 
               </TableRow>
-            ))}
+            ))
+          : 
+        
+          Array.from({ length: 10 }, (_, i) => ( <tr key = {i}><td colspan="8"><Shimmer><div style={{width:"100%"}}>&nbsp;</div></Shimmer></td></tr>))
+
+          }
           </TableBody>
         </Table>
       </Box>

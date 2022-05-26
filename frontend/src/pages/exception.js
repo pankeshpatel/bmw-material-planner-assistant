@@ -9,9 +9,9 @@ import {ExceptionMatrix} from '../components/exception/exception-matrix';
 const Dashboard = () => (
   <>
     <Head>
-      <title>
+      {/* <title>
         Exception Manager 
-      </title>
+      </title> */}
     </Head>
     <Box
       component="main"
