@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # "proxy" : "http://localhost:8000"
 # this would indicate the url of backend
 origins = [
-   "http://localhost:3000"
+   "*"
 ]
 
 
