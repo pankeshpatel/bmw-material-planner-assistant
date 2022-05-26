@@ -47,7 +47,8 @@ export const ExceptionManager = (props) => {
 
     if (resultBool === false){
       let data = await ExceptionManagerCall("02/18/22", "04/04/22");
-      data = data.data;
+      // data = data.data;
+      console.log("data",data)
       for ( let i = 0; i < data.result.length; i++) {
         array2.push(parseFloat(data.result[i].percentage));
         array2_Exceptions.push(parseInt(data.result[i].exception));

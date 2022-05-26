@@ -29,14 +29,12 @@ const Login = () => {
 
     const LoginResponse = await loginCall(body);
     console.log("response",LoginResponse)
-    if(LoginResponse.status=="200"){
-      localStorage.setItem("token",LoginResponse.data.access_token)
+
+      localStorage.setItem("token",LoginResponse.access_token)
       localStorage.setItem("plannerId",username)
       router.push("/healthScore")
-    }
-    else{
-      alert("error")
-    }
+    
+
 
     
   }
@@ -47,7 +45,7 @@ const Login = () => {
         <title>
         BMW Material Planner
         </title>
-        <link rel="icon" type="image/x-icon" href="https://pngimg.com/uploads/bmw_logo/bmw_logo_PNG19714.png"></link>
+        <link rel="icon" type="image/png"  href="bmw_logo_PNG19714.png"></link>
     </Head>
       <Box
         component="main"

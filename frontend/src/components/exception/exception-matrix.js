@@ -411,7 +411,7 @@ export const ExceptionMatrix = (props) => {
     // });
 
     const data = await ExceptionMatrixCall("02/18/22", "04/04/22");
-    data = data.data
+    // data = data.data
 
     if (data.status === 403) {
       router.push("/404");

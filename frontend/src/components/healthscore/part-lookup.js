@@ -187,6 +187,7 @@ export const PartLookUp = (props) => {
         offset: 5,
         anchor: "center",
         align:"top",
+        clamp:true,
         font: {
           size: "15",
           weight: "bold"
@@ -199,12 +200,12 @@ export const PartLookUp = (props) => {
     },
   };
 
-
+{
   const labels = healthResponse?.total_qty_analysis?.map((val)=>{
     return val.demand_date
   })
 
-  const data1 = {
+  var data1 = {
     labels,
     datasets: [
       {
@@ -233,8 +234,15 @@ export const PartLookUp = (props) => {
       },
     ],
   };
+}
+  console.log("healthResponse?.total_qty_instances?.map((val)=>{return val.total_quantity})",healthResponse?.total_qty_instances?.map((val)=>{return val.total_quantity }))
 
-  const data2 = {
+  {
+    const labels = healthResponse?.total_qty_instances?.map((val)=>{
+      return val.demand_date
+    })
+
+  var data2 = {
     labels,
     datasets: [
       {
@@ -243,6 +251,7 @@ export const PartLookUp = (props) => {
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
+      
       {
         label: 'Safety Stock',
         data:healthResponse?.total_qty_instances?.map((val)=>{return val["safety stock"]}),
@@ -251,6 +260,7 @@ export const PartLookUp = (props) => {
       },
     ],
   };
+}
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -259,19 +269,21 @@ export const PartLookUp = (props) => {
 
   useEffect( async () => {
 
-    // SetTable2Loading(true)
+    SetTable2Loading(true)
     const matetrialCallResponse = await matetrialCall();
-    setMaterialResponse(matetrialCallResponse)
-    // SetTable2Loading(false)
+    setMaterialResponse(matetrialCallResponse.result)
+    SetTable2Loading(false)
+    console.log("materialCallResponse",matetrialCallResponse)
 
   }, [])
 
   useEffect(async () => {
 
-    // SetTable1Loading(true)
+    SetTable1Loading(true)
     const healthScoreResponse = await healthScoreCall("7430935-05","05/20/21")
-    // SetTable1Loading(false)
-    sethealthResponse(healthScoreResponse.data)
+    SetTable1Loading(false)
+  
+    sethealthResponse(healthScoreResponse)
 
  
   }, [])
@@ -445,6 +457,7 @@ export const PartLookUp = (props) => {
           <TableBody> 
 
         <Modal
+     
         open={showmodal}
         onClose={()=>{SetShowmodal(false)}}
         >
@@ -460,12 +473,13 @@ export const PartLookUp = (props) => {
 
          </Box>
       </Modal>
-            
-            {healthResponse?.material_detail?.map((order,index)=>{
+
+        <>
+         {
+         !table1Loading ?   
+         healthResponse?.material_detail?.map((order,index)=>{
               return(
-                <>
-                {
-                  !table1Loading ? <TableRow
+               <TableRow
                   hover
                   key={Math.random()}
                   // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
@@ -517,21 +531,18 @@ export const PartLookUp = (props) => {
                     >
   
                   <Button onClick={()=>{SetShowmodal(true)}}>Show Graphs</Button>
-  
-  
-  
-  
                   </Box>
-                   
                   </TableCell>
-            
                 </TableRow>
-      : 
-      Array.from({ length: 10 }, (_, i) => ( <tr key = {i}><td colspan="8"><Shimmer><div style={{width:"100%"}}>&nbsp;</div></Shimmer></td></tr>))
-                }
-                </>
+ 
               )
-            })}
+            })
+            
+            :
+          Array.from({ length: 10 }, (_, i) => ( <tr key = {i}><td colspan="8"><Shimmer><div style={{width:"100%"}}>&nbsp;</div></Shimmer></td></tr>))
+            
+          }
+            </>
           </TableBody>
         </Table>
       </Box>
@@ -612,7 +623,7 @@ export const PartLookUp = (props) => {
            
 
             { !table2Loading ?
-            materialResponse?.data?.result.map((order) => (
+            materialResponse?.map((order) => (
 
               <TableRow
                 hover

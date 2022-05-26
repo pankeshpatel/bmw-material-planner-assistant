@@ -88,7 +88,7 @@ export const DashboardSidebar = (props) => {
 
     const plannerIdResponse = await plannerIdCall ();
     console.log("plannerIdResponse",plannerIdResponse)
-    setUsername(plannerIdResponse.data.name)
+    setUsername(plannerIdResponse.name)
   
   }, [])
   
@@ -115,7 +115,7 @@ export const DashboardSidebar = (props) => {
                     width: 42
                   }}
                 /> */}
-                <img height={62} width={62}  src="https://pngimg.com/uploads/bmw_logo/bmw_logo_PNG19714.png" alt="" />
+                <img height={62} width={62}  src="bmw_logo_PNG19714.png?v=2" alt="" />
 
 
               </a>
