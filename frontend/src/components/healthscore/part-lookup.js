@@ -1,5 +1,4 @@
-
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   Box,
   Button,
@@ -11,11 +10,10 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  Slider
-} from '@mui/material';
-import { healthScoreCall,matetrialCall } from '../../utils/apihelper';
-import { TrafficByDevice } from '../../components/healthscore/traffic-by-device';
-
+  Slider,
+} from "@mui/material";
+import { healthScoreCall, matetrialCall } from "../../utils/apihelper";
+import { TrafficByDevice } from "../../components/healthscore/traffic-by-device";
 
 // import {
 //   Chart as ChartJS,
@@ -27,25 +25,22 @@ import { TrafficByDevice } from '../../components/healthscore/traffic-by-device'
 //   Tooltip,
 //   Legend,
 // } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { Line } from "react-chartjs-2";
 
-import Modal from '@mui/material/Modal';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { SeverityPill } from '../severity-pill';
+import Modal from "@mui/material/Modal";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import { SeverityPill } from "../severity-pill";
 
-import {healthScore} from '../../../health-score';
-import {exceptionViewer} from '../../../Exception-Viewer-Widget-Datasheet';
+import { healthScore } from "../../../health-score";
+import { exceptionViewer } from "../../../Exception-Viewer-Widget-Datasheet";
 
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState } from "react";
+import { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import Shimmer from "react-shimmer-effect";
-
-
-
 
 // const orders = [
 //   {
@@ -110,69 +105,62 @@ import Shimmer from "react-shimmer-effect";
 //   }
 // ];
 
-function sortByProperty(property){  
-  return function(a,b){  
-     if(Number(a[property]) < Number(b[property]))  
-        return 1;  
-     else if(Number(a[property]) > Number(b[property]))  
-        return -1;  
- 
-     return 0;  
-  }  
+function sortByProperty(property) {
+  return function (a, b) {
+    if (Number(a[property]) < Number(b[property])) return 1;
+    else if (Number(a[property]) > Number(b[property])) return -1;
+
+    return 0;
+  };
 }
 
 export const PartLookUp = (props) => {
-
   const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
-  const [healthData,sethealthData]=useState([])
-  const [selectedMaterial,setSelectedMaterial] = useState([]);
+  const [healthData, sethealthData] = useState([]);
+  const [selectedMaterial, setSelectedMaterial] = useState([]);
   // const [value, setValue] = useState([0, 200]);
 
-  const [healthGuage,setHealthGuage]=useState(10)
-
+  const [healthGuage, setHealthGuage] = useState(10);
 
   // const [healthResponse,setHealthResponse] = useState([]);
-  const [healthResponse,sethealthResponse]=useState([]);
-  const [showmodal,SetShowmodal]= useState(false)
+  const [healthResponse, sethealthResponse] = useState([]);
+  const [showmodal, SetShowmodal] = useState(false);
 
-  const [materialResponse,setMaterialResponse] = useState([]);
+  const [materialResponse, setMaterialResponse] = useState([]);
 
-  const [table2Loading,SetTable2Loading] = useState(false)
-  const [table1Loading,SetTable1Loading] = useState(false)
-
-  
+  const [table2Loading, SetTable2Loading] = useState(false);
+  const [table1Loading, SetTable1Loading] = useState(false);
 
   const style = {
-  
-    transform: 'translate(40%, 10%)',
+    transform: "translate(40%, 10%)",
     width: "60%",
-    bgcolor: 'background.paper',
+    bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
-    height:"550px",
-    overflow:"scroll",
-    textAlign:"center"
+    height: "550px",
+    overflow: "scroll",
+    textAlign: "center",
   };
 
-   const options1 = {
+  const options1 = {
     responsive: true,
     plugins: {
       legend: {
         // position: 'top' as const,
       },
-      datalabels:{
+      datalabels: {
         offset: 0,
         anchor: "center",
-        align:"top",
+        align: "top",
         font: {
           size: "15",
-          weight: "bold"
+          weight: "bold",
         },
       },
-      
+
       title: {
         display: true,
-        text: 'Health Score Analysis of Material',
+        text: "Health Score Analysis of Material",
       },
     },
   };
@@ -183,53 +171,60 @@ export const PartLookUp = (props) => {
       legend: {
         // position: 'top' as const,
       },
-      datalabels:{
+      datalabels: {
         offset: 5,
         anchor: "center",
-        align:"top",
+        align: "top",
         font: {
           size: "15",
-          weight: "bold"
+          weight: "bold",
         },
       },
       title: {
         display: true,
-        text: 'Health Score Analysis of Material',
+        text: "Health Score Analysis of Material",
       },
     },
   };
 
-
-  const labels = healthResponse?.total_qty_analysis?.map((val)=>{
-    return val.demand_date
-  })
+  const labels = healthResponse?.total_qty_analysis?.map((val) => {
+    return val.demand_date;
+  });
 
   const data1 = {
     labels,
     datasets: [
       {
-        label: 'Min of Total Quantity',
-        data:  healthResponse?.total_qty_analysis?.map((val)=>{return val.min}),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        label: "Min of Total Quantity",
+        data: healthResponse?.total_qty_analysis?.map((val) => {
+          return val.min;
+        }),
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
-        label: 'Max of Total Quantity',
-        data:healthResponse?.total_qty_analysis?.map((val)=>{return val.max}),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        label: "Max of Total Quantity",
+        data: healthResponse?.total_qty_analysis?.map((val) => {
+          return val.max;
+        }),
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
       {
-        label: 'Mean of Total Quantity',
-        data:healthResponse?.total_qty_analysis?.map((val)=>{return val.mean}),
-        borderColor: 'rgb(3, 155, 0)',
-        backgroundColor: 'rgba(3, 155, 0, 0.5)',
+        label: "Mean of Total Quantity",
+        data: healthResponse?.total_qty_analysis?.map((val) => {
+          return val.mean;
+        }),
+        borderColor: "rgb(3, 155, 0)",
+        backgroundColor: "rgba(3, 155, 0, 0.5)",
       },
       {
-        label: 'Safety Stock',
-        data:healthResponse?.total_qty_analysis?.map((val)=>{return val["safety stock"]}),
-        borderColor: 'rgb(233, 155, 0)',
-        backgroundColor: 'rgba(233, 155, 0, 0.5)',
+        label: "Safety Stock",
+        data: healthResponse?.total_qty_analysis?.map((val) => {
+          return val["safety stock"];
+        }),
+        borderColor: "rgb(233, 155, 0)",
+        backgroundColor: "rgba(233, 155, 0, 0.5)",
       },
     ],
   };
@@ -238,16 +233,20 @@ export const PartLookUp = (props) => {
     labels,
     datasets: [
       {
-        label: 'Total Quantity',
-        data:  healthResponse?.total_qty_instances?.map((val)=>{return val.total_quantity}),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        label: "Total Quantity",
+        data: healthResponse?.total_qty_instances?.map((val) => {
+          return val.total_quantity;
+        }),
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
-        label: 'Safety Stock',
-        data:healthResponse?.total_qty_instances?.map((val)=>{return val["safety stock"]}),
-        borderColor: 'rgb(233, 155, 0)',
-        backgroundColor: 'rgba(233, 155, 0, 0.5)',
+        label: "Safety Stock",
+        data: healthResponse?.total_qty_instances?.map((val) => {
+          return val["safety stock"];
+        }),
+        borderColor: "rgb(233, 155, 0)",
+        backgroundColor: "rgba(233, 155, 0, 0.5)",
       },
     ],
   };
@@ -256,105 +255,80 @@ export const PartLookUp = (props) => {
     setValue(newValue);
   };
 
-
-  useEffect( async () => {
-
+  useEffect(async () => {
     // SetTable2Loading(true)
     const matetrialCallResponse = await matetrialCall();
-    setMaterialResponse(matetrialCallResponse)
+    setMaterialResponse(matetrialCallResponse);
     // SetTable2Loading(false)
-
-  }, [])
+  }, []);
 
   useEffect(async () => {
-
     // SetTable1Loading(true)
-    const healthScoreResponse = await healthScoreCall("7430935-05","05/20/21")
-    sethealthResponse(healthScoreResponse.data)
+    const healthScoreResponse = await healthScoreCall("7430935-05", "05/20/21");
+    sethealthResponse(healthScoreResponse.data);
     // SetTable1Loading(false)
+  }, []);
 
- 
-  }, [])
-  
-  
-
-  
-
-  
   useEffect(() => {
+    if (healthResponse["Health-score"]) {
+      console.log("HealthScore", healthResponse["Health-score"].slice(0, 4));
+      setHealthGuage(Number(healthResponse["Health-score"].slice(0, 4)));
+    }
+  }, [healthResponse]);
 
-    if(healthResponse["Health-score"]){
-      console.log("HealthScore",(healthResponse["Health-score"].slice(0,4)))
-      setHealthGuage( Number(healthResponse["Health-score"].slice(0,4) ))
+  const returnColor = (status) => {
+    const yellow = {
+      color: "black",
+      backgroundColor: "yellow",
+      padding: "5px 20px",
+      borderRadius: "25px 25px",
+    };
+
+    const green = {
+      color: "white",
+      backgroundColor: "green",
+      padding: "5px 20px",
+      borderRadius: "25px 25px",
+    };
+
+    const maroon = {
+      color: "white",
+      backgroundColor: "maroon",
+      padding: "5px 20px",
+      borderRadius: "25px 25px",
+    };
+
+    if (status < 20) {
+      return maroon;
     }
 
-  }, [healthResponse])
-
-
-  const returnColor = (status)=>{
-
-    const yellow ={
-    
-      color:"black",
-      backgroundColor:"yellow",
-      padding:"5px 20px",
-      borderRadius:"25px 25px"
-  
-    }
-  
-    const green ={
-      
-      color:"white",
-      backgroundColor:"green",
-      padding:"5px 20px",
-      borderRadius:"25px 25px"
-  
-    }
-  
-    const maroon ={
-      
-      color:"white",
-      backgroundColor:"maroon",
-      padding:"5px 20px",
-      borderRadius:"25px 25px"
-  
+    if (status > 20 && status < 60) {
+      return yellow;
     }
 
-    if (status<20 ) {
-      return maroon
+    if (status > 60) {
+      return green;
     }
-
-    if (status>20  && status <60) {
-      return yellow
-    }
-
-    if (status >60) {
-      return green
-    }
-
-
-
-  }
+  };
 
   function valuetext(value) {
     return `${Date(value)}`;
   }
-  
 
-  return(
+  return (
     <>
-    <Card {...props} >
-    <CardHeader title="Health Score" />
-    <Box
-      sx={{
-        display: 'flex',
-        // marginTop:"-7%",
-        paddingBottom:"2%",
-        justifyContent: 'flex-end',
-        p: 2
-      }}
-    >
-     {/* <Slider
+      <Card {...props}>
+        <CardHeader title="Health Score" />
+        <Box
+          sx={{
+            display: "flex",
+            // marginTop:"-7%",
+            paddingBottom: "2%",
+            justifyContent: "flex-end",
+            p: 2,
+          }}
+        >
+          {/* <Slider
 
        sx={{
         display: 'flex',
@@ -372,14 +346,14 @@ export const PartLookUp = (props) => {
      >
 
      </Slider> */}
-     {/* <div style={{marginTop:"-7%" }}>
+          {/* <div style={{marginTop:"-7%" }}>
        <span>Please Select a Date: &nbsp;
           <DatePicker  selected={startDate} onChange={(date) => setStartDate(date)} />
           <input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
        </span>
      </div> */}
-    </Box>
-    {/* <Box
+        </Box>
+        {/* <Box
     sx={{
       display: 'flex',
       marginTop:"-7%",
@@ -395,19 +369,14 @@ export const PartLookUp = (props) => {
 
 
     </Box> */}
-    <PerfectScrollbar>
-      <Box sx={{ minHeight:"100px" ,overflow:"scroll" }}>
-     
-        <Table stickyHeader={true} >
-          <TableHead>
-            <TableRow>
-              <TableCell style={{width:"10%"}}>
-                Material ID
-              </TableCell>
-              <TableCell>
-                Date
-              </TableCell>
-              {/* <TableCell sortDirection="desc">
+        <PerfectScrollbar>
+          <Box sx={{ minHeight: "100px", overflow: "scroll" }}>
+            <Table stickyHeader={true}>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ width: "10%" }}>Material ID</TableCell>
+                  <TableCell>Date</TableCell>
+                  {/* <TableCell sortDirection="desc">
                 <Tooltip
                   enterDelay={300}
                   title="Sort"
@@ -420,123 +389,116 @@ export const PartLookUp = (props) => {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell> */}
-              <TableCell>
-                Material_9
-              </TableCell>
-              <TableCell onClick={()=>{sethealthData(healthScore.sort(sortByProperty("healthstatus")))}}>
-                Material_7
-              </TableCell>
-              <TableCell>
-                Material Description
-              </TableCell>
-              <TableCell>
-                Material Description Eng
-              </TableCell>
+                  <TableCell>Material_9</TableCell>
+                  <TableCell
+                    onClick={() => {
+                      sethealthData(healthScore.sort(sortByProperty("healthstatus")));
+                    }}
+                  >
+                    Material_7
+                  </TableCell>
+                  <TableCell>Material Description</TableCell>
+                  <TableCell>Material Description Eng</TableCell>
 
-              <TableCell style={{textAlign:"center"}}>
-               Health Status
-              </TableCell>
+                  <TableCell style={{ textAlign: "center" }}>Health Status</TableCell>
 
-              <TableCell>
-                Graphs
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody> 
-
-        <Modal
-        open={showmodal}
-        onClose={()=>{SetShowmodal(false)}}
-        >
-         <Box sx={style}>
-           <h2>Summary of Material availability for next 10 days</h2>
-           <Line options={options1} data={data1} plugins={[ChartDataLabels]} />
-           <br/>
-           <h2> Detail Information of Material availability for next 10 days</h2>
-           <Line options={options2} data={data2} plugins={[ChartDataLabels]} />
-
-
-            
-
-         </Box>
-      </Modal>
-            
-            {healthResponse?.material_detail?.map((order,index)=>{
-              return(
-                <>
-                {
-                  !table1Loading ? <TableRow
-                  hover
-                  key={Math.random()}
-                  // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
+                  <TableCell>Graphs</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <Modal
+                  open={showmodal}
+                  onClose={() => {
+                    SetShowmodal(false);
+                  }}
                 >
-                  <TableCell style={{width:"10%"}}>
-                   {order.material}
-                  </TableCell>
-                  <TableCell>
-                   {/* {healthResponse.Date} */}
-                  <input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
-  
-                  </TableCell>
-                  <TableCell>
-                    {order.material_9}
-                  </TableCell>
-                  <TableCell>
-                    {order.material_7}
-                  </TableCell>
-  
-                  {/* <TableCell>
+                  <Box sx={style}>
+                    <h2>Summary of Material availability for next 10 days</h2>
+                    <Line options={options1} data={data1} plugins={[ChartDataLabels]} />
+                    <br />
+                    <h2> Detail Information of Material availability for next 10 days</h2>
+                    <Line options={options2} data={data2} plugins={[ChartDataLabels]} />
+                  </Box>
+                </Modal>
+
+                {healthResponse?.material_detail?.map((order, index) => {
+                  return (
+                    <>
+                      {!table1Loading ? (
+                        <TableRow
+                          hover
+                          key={Math.random()}
+                          // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
+                        >
+                          <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                          <TableCell>
+                            {/* {healthResponse.Date} */}
+                            <input
+                              type="date"
+                              value={startDate}
+                              onChange={(e) => setStartDate(e.target.value)}
+                            />
+                          </TableCell>
+                          <TableCell>{order.material_9}</TableCell>
+                          <TableCell>{order.material_7}</TableCell>
+
+                          {/* <TableCell>
                    <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                   </TableCell> */}
-  
-                  <TableCell>
-                    {order.mat_description}
-                  </TableCell>
-  
-                  <TableCell>
-                    {order.mat_description_eng}
-                  </TableCell>
-  
-                  <TableCell style={{textAlign:"center"}}>
-              <TrafficByDevice healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100px' }}   />
-  
-                  </TableCell>
-  
-                  <TableCell>
-  
-                    
-  
-                <Box
-                  sx={{
-                    // display: 'flex',
-                    // marginTop:"-7%",
-                    // paddingBottom:"2%",
-                    // justifyContent: 'center',
-                    // p: 3 
-                  }}
-                    >
-  
-                  <Button onClick={()=>{SetShowmodal(true)}}>Show Graphs</Button>
-  
-  
-  
-  
-                  </Box>
-                   
-                  </TableCell>
-            
-                </TableRow>
-      : 
-      Array.from({ length: 10 }, (_, i) => ( <tr key = {i}><td colspan="8"><Shimmer><div style={{width:"100%"}}>&nbsp;</div></Shimmer></td></tr>))
-                }
-                </>
-              )
-            })}
-          </TableBody>
-        </Table>
-      </Box>
-    </PerfectScrollbar>
-    {/* <Box
+
+                          <TableCell>{order.mat_description}</TableCell>
+
+                          <TableCell>{order.mat_description_eng}</TableCell>
+
+                          <TableCell style={{ textAlign: "center" }}>
+                            <TrafficByDevice
+                              healthGuage={healthGuage}
+                              setHealthGuage={setHealthGuage}
+                              sx={{ height: "100px" }}
+                            />
+                          </TableCell>
+
+                          <TableCell>
+                            <Box
+                              sx={
+                                {
+                                  // display: 'flex',
+                                  // marginTop:"-7%",
+                                  // paddingBottom:"2%",
+                                  // justifyContent: 'center',
+                                  // p: 3
+                                }
+                              }
+                            >
+                              <Button
+                                onClick={() => {
+                                  SetShowmodal(true);
+                                }}
+                              >
+                                Show Graphs
+                              </Button>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        Array.from({ length: 10 }, (_, i) => (
+                          <tr key={i}>
+                            <td colspan="8">
+                              <Shimmer>
+                                <div style={{ width: "100%" }}>&nbsp;</div>
+                              </Shimmer>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </Box>
+        </PerfectScrollbar>
+        {/* <Box
       sx={{
         display: 'flex',
         justifyContent: 'flex-end',
@@ -552,22 +514,17 @@ export const PartLookUp = (props) => {
         View all
       </Button>
     </Box> */}
-  </Card>
-  <Card {...props}>
-    <CardHeader title="Part Detailed  Description" />
-    <PerfectScrollbar>
-      <Box sx={{ overflow:"scroll",height:"300px" }}>
-        <Table >
-          <TableHead>
-            
-            <TableRow>
-              <TableCell style={{width:"10%"}}>
-                Material
-              </TableCell>
-              <TableCell>
-              Material_9
-              </TableCell>
-              {/* <TableCell sortDirection="desc">
+      </Card>
+      <Card {...props}>
+        <CardHeader title="Part Detailed  Description" />
+        <PerfectScrollbar>
+          <Box sx={{ overflow: "scroll", height: "300px" }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ width: "10%" }}>Material</TableCell>
+                  <TableCell>Material_9</TableCell>
+                  {/* <TableCell sortDirection="desc">
                 <Tooltip
                   enterDelay={300}
                   title="Sort"
@@ -580,99 +537,60 @@ export const PartLookUp = (props) => {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell> */}
-              <TableCell>
-              Material_7
-              </TableCell>
-              <TableCell>
-                Material Description
-              </TableCell>
-              <TableCell>
-                Material Description Eng
-              </TableCell>
+                  <TableCell>Material_7</TableCell>
+                  <TableCell>Material Description</TableCell>
+                  <TableCell>Material Description Eng</TableCell>
 
-              <TableCell>
-                Safety Stock
-              </TableCell>
+                  <TableCell>Safety Stock</TableCell>
 
-              <TableCell>
-                Plant
-              </TableCell>
+                  <TableCell>Plant</TableCell>
 
-              <TableCell>
-                Lot Size
-              </TableCell>
+                  <TableCell>Lot Size</TableCell>
+                </TableRow>
+              </TableHead>
 
+              <TableBody>
+                {!table2Loading
+                  ? materialResponse?.data?.result.map((order) => (
+                      <TableRow hover key={Math.random()}>
+                        <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                        <TableCell>{order.material_9}</TableCell>
+                        <TableCell>{order.material_7}</TableCell>
+                        <TableCell>{order.mat_description}</TableCell>
 
-            </TableRow>
-          
-          </TableHead>
+                        <TableCell>{order.mat_description_eng}</TableCell>
 
-          <TableBody>
+                        <TableCell style={{ textAlign: "center" }}>{order.safety_stock}</TableCell>
 
-           
+                        <TableCell>{order.plant}</TableCell>
 
-            { !table2Loading ?
-            materialResponse?.data?.result.map((order) => (
-
-              <TableRow
-                hover
-                key={Math.random()}
-              >
-                <TableCell style={{width:"10%"}}>
-                 {order.material}
-                </TableCell>
-                <TableCell>
-                  {order.material_9}
-                </TableCell>
-                <TableCell>
-                  {order.material_7}
-                </TableCell>
-                <TableCell >
-                  {order.mat_description}
-                </TableCell>
-
-                <TableCell>
-                  {order.mat_description_eng}
-                </TableCell>
-
-                <TableCell style={{textAlign:"center"}}>
-                  {order.safety_stock}
-                </TableCell>
-
-                <TableCell>
-                  {order.plant}
-                </TableCell>
-
-                <TableCell style={{textAlign:"center"}}>
-                  {order.lot_size}
-                </TableCell>
-          
-
-              </TableRow>
-            ))
-          : 
-        
-          Array.from({ length: 10 }, (_, i) => ( <tr key = {i}><td colspan="8"><Shimmer><div style={{width:"100%"}}>&nbsp;</div></Shimmer></td></tr>))
-
-          }
-          </TableBody>
-        </Table>
-      </Box>
-    </PerfectScrollbar>
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        p: 2
-      }}
-    >
-
-    </Box>
-  </Card>
-  </>
-
-)};
-
+                        <TableCell style={{ textAlign: "center" }}>{order.lot_size}</TableCell>
+                      </TableRow>
+                    ))
+                  : Array.from({ length: 10 }, (_, i) => (
+                      <tr key={i}>
+                        <td colspan="8">
+                          <Shimmer>
+                            <div style={{ width: "100%" }}>&nbsp;</div>
+                          </Shimmer>
+                        </td>
+                      </tr>
+                    ))}
+              </TableBody>
+            </Table>
+          </Box>
+        </PerfectScrollbar>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            p: 2,
+          }}
+        ></Box>
+      </Card>
+    </>
+  );
+};
 
 // export const LatestOrderDetail= (props) => {
 //  const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
@@ -742,8 +660,6 @@ export const PartLookUp = (props) => {
 //                   {order.PartDescriptionEng}
 //                 </TableCell>
 
-            
-          
 //               </TableRow>
 //             ))}
 //           </TableBody>

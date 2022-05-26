@@ -6,18 +6,18 @@ import "react-toastify/dist/ReactToastify.css";
 let token = "";
 let headers = "";
 
-const getHeader = ()=>{
-    if (typeof window !== "undefined" && localStorage.getItem("token")) {    
-       token = localStorage.getItem("token");
-        // console.log("token",token)
-        return headers = {
-            headers: {
-                Authorization: `${token ?`Bearer ${token}` : ""}`,
-                "Content-Type": "multipart/form-data"
-            },
-        };
-    }
-}
+const getHeader = () => {
+  if (typeof window !== "undefined" && localStorage.getItem("token")) {
+    token = localStorage.getItem("token");
+    // console.log("token",token)
+    return (headers = {
+      headers: {
+        Authorization: `${token ? `Bearer ${token}` : ""}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
+};
 
 const notify = (message, status) => {
   if (status == "error") {
@@ -35,6 +35,11 @@ const notify = (message, status) => {
 
 const handleError = (err) => {
   console.log("erros", err);
+  // if(err){
+  // notify("Something went wrong please try again","error")
+
+  // }
+  // return
 
   if (err.response.status == 401) {
     //
@@ -63,70 +68,9 @@ const handleError = (err) => {
   }
 };
 
-<<<<<<< HEAD
 const loginCall = (body) => {
   const url = `${apiUrl}/users/login`;
   return new Promise((resolve, reject) => {
-=======
-const handleError = (err)=>{
-    console.log("erros",err)
-    // if(err){
-    // notify("Something went wrong please try again","error")
-
-    // }
-    // return
-
-     if(err.response.status == 401){ // 
-         notify(JSON.stringify(err.response.data.detail),"error")
-     }
-     if(err.response.status == 400){
-         notify(JSON.stringify(err.response.data.detail),"error") //bad request 
-     }
-     if(err.response.status == 403){
-        notify(JSON.stringify(err.response.data.detail),"error") //bad request 
-    }
-     if(err.response.status == 404){
-         notify(JSON.stringify(err.response.data.detail),"error") //page not found
-     }
-     if(err.response.status == 408){ //Request timeout - 
-         notify(JSON.stringify(err.response.data.detail),"error")
-     }
-     if(err.response.status == 500){ //internal sever
-         notify(JSON.stringify(err.response.data.detail),"error")
-     }
-     if(err.response.status == 502){ //bad gateway - invalid response
-         notify(JSON.stringify(err.response.data.detail),"error")
-     }
-
- }
- 
-
-const loginCall = (body) =>{
-    const url = `${apiUrl}/users/login`
-    return new Promise((resolve,reject)=>{
-        const header = getHeader();
-        const url = `${apiUrl}/users/login`
-        console.log("url",url)
-            axios
-                .post(url,body,header)
-                .then((res)=>{
-                    resolve(res)
-                })
-                .catch((err) => {
-                   
-                    reject(handleError(err))
-                })
-                
-            })
-
-    }
-
-const healthScoreCall = (materialId,healthDate) => {
-    const url = `${apiUrl}/healthscore/${eval(plannerId)}/${materialId}?healthdate=${healthDate}`
-    console.log("url",url)
-    // http://localhost:8000/exceptions/healthscore/115/?start_date=02/18/22&end_date=04/04/22
-    return new Promise((resolve,reject)=>{
->>>>>>> 4aeed846de686977f813b73d8ba860598a390e9e
     const header = getHeader();
     const url = `${apiUrl}/users/login`;
     console.log("url", url);
