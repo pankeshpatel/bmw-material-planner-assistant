@@ -270,8 +270,8 @@ export const PartLookUp = (props) => {
 
     // SetTable1Loading(true)
     const healthScoreResponse = await healthScoreCall("7430935-05","05/20/21")
-    sethealthResponse(healthScoreResponse.data)
     // SetTable1Loading(false)
+    sethealthResponse(healthScoreResponse.data)
 
  
   }, [])
