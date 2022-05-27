@@ -35,11 +35,11 @@ const notify = (message, status) => {
 
 const handleError = (err) => {
   console.log("erros", err);
-  // if(err){
-  // notify("Something went wrong please try again","error")
-
-  // }
   // return
+  if (err) {
+    notify("API error", "error");
+  }
+  return;
 
   if (err.response.status == 401) {
     //
@@ -74,10 +74,18 @@ const loginCall = (body) => {
     const header = getHeader();
     const url = `${apiUrl}/users/login`;
     console.log("url", url);
+    const options = {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
     axios
       .post(url, body, header)
+      // fetch(url,options)
       .then((res) => {
-        resolve(res);
+        resolve(res.data);
       })
       .catch((err) => {
         reject(handleError(err));
@@ -94,7 +102,7 @@ const healthScoreCall = (materialId, healthDate) => {
     axios
       .get(url, header)
       .then((res) => {
-        resolve(res);
+        resolve(res.data);
       })
       .catch((err) => {
         reject(handleError(err));
@@ -112,7 +120,7 @@ const ExceptionManagerCall = (startDate, EndDate) => {
     axios
       .get(url, header)
       .then((res) => {
-        resolve(res);
+        resolve(res.data);
       })
       .catch((err) => {
         reject(handleError(err));
@@ -130,7 +138,7 @@ const ExceptionMatrixCall = (startDate, EndDate) => {
     axios
       .get(url, header)
       .then((res) => {
-        resolve(res);
+        resolve(res.data);
       })
       .catch((err) => {
         reject(handleError(err));
@@ -145,7 +153,7 @@ const plannerIdCall = () => {
     axios
       .get(url, header)
       .then((res) => {
-        resolve(res);
+        resolve(res.data);
       })
       .catch((err) => {
         reject(handleError(err));
@@ -160,7 +168,7 @@ const matetrialCall = () => {
     axios
       .get(url, header)
       .then((res) => {
-        resolve(res);
+        resolve(res.data);
       })
       .catch((err) => {
         reject(handleError(err));

@@ -175,6 +175,7 @@ export const PartLookUp = (props) => {
         offset: 5,
         anchor: "center",
         align: "top",
+        clamp: true,
         font: {
           size: "15",
           weight: "bold",
@@ -187,86 +188,103 @@ export const PartLookUp = (props) => {
     },
   };
 
-  const labels = healthResponse?.total_qty_analysis?.map((val) => {
-    return val.demand_date;
-  });
+  {
+    const labels = healthResponse?.total_qty_analysis?.map((val) => {
+      return val.demand_date;
+    });
 
-  const data1 = {
-    labels,
-    datasets: [
-      {
-        label: "Min of Total Quantity",
-        data: healthResponse?.total_qty_analysis?.map((val) => {
-          return val.min;
-        }),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      {
-        label: "Max of Total Quantity",
-        data: healthResponse?.total_qty_analysis?.map((val) => {
-          return val.max;
-        }),
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "Mean of Total Quantity",
-        data: healthResponse?.total_qty_analysis?.map((val) => {
-          return val.mean;
-        }),
-        borderColor: "rgb(3, 155, 0)",
-        backgroundColor: "rgba(3, 155, 0, 0.5)",
-      },
-      {
-        label: "Safety Stock",
-        data: healthResponse?.total_qty_analysis?.map((val) => {
-          return val["safety stock"];
-        }),
-        borderColor: "rgb(233, 155, 0)",
-        backgroundColor: "rgba(233, 155, 0, 0.5)",
-      },
-    ],
-  };
+    var data1 = {
+      labels,
+      datasets: [
+        {
+          label: "Min of Total Quantity",
+          data: healthResponse?.total_qty_analysis?.map((val) => {
+            return val.min;
+          }),
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+        },
+        {
+          label: "Max of Total Quantity",
+          data: healthResponse?.total_qty_analysis?.map((val) => {
+            return val.max;
+          }),
+          borderColor: "rgb(53, 162, 235)",
+          backgroundColor: "rgba(53, 162, 235, 0.5)",
+        },
+        {
+          label: "Mean of Total Quantity",
+          data: healthResponse?.total_qty_analysis?.map((val) => {
+            return val.mean;
+          }),
+          borderColor: "rgb(3, 155, 0)",
+          backgroundColor: "rgba(3, 155, 0, 0.5)",
+        },
+        {
+          label: "Safety Stock",
+          data: healthResponse?.total_qty_analysis?.map((val) => {
+            return val["safety stock"];
+          }),
+          borderColor: "rgb(233, 155, 0)",
+          backgroundColor: "rgba(233, 155, 0, 0.5)",
+        },
+      ],
+    };
+  }
+  console.log(
+    "healthResponse?.total_qty_instances?.map((val)=>{return val.total_quantity})",
+    healthResponse?.total_qty_instances?.map((val) => {
+      return val.total_quantity;
+    })
+  );
 
-  const data2 = {
-    labels,
-    datasets: [
-      {
-        label: "Total Quantity",
-        data: healthResponse?.total_qty_instances?.map((val) => {
-          return val.total_quantity;
-        }),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      {
-        label: "Safety Stock",
-        data: healthResponse?.total_qty_instances?.map((val) => {
-          return val["safety stock"];
-        }),
-        borderColor: "rgb(233, 155, 0)",
-        backgroundColor: "rgba(233, 155, 0, 0.5)",
-      },
-    ],
-  };
+  {
+    const labels = healthResponse?.total_qty_instances?.map((val) => {
+      return val.demand_date;
+    });
+
+    var data2 = {
+      labels,
+      datasets: [
+        {
+          label: "Total Quantity",
+          data: healthResponse?.total_qty_instances?.map((val) => {
+            return val.total_quantity;
+          }),
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+        },
+
+        {
+          label: "Safety Stock",
+          data: healthResponse?.total_qty_instances?.map((val) => {
+            return val["safety stock"];
+          }),
+          borderColor: "rgb(233, 155, 0)",
+          backgroundColor: "rgba(233, 155, 0, 0.5)",
+        },
+      ],
+    };
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   useEffect(async () => {
-    // SetTable2Loading(true)
+    SetTable2Loading(true);
     const matetrialCallResponse = await matetrialCall();
-    setMaterialResponse(matetrialCallResponse);
-    // SetTable2Loading(false)
+    setMaterialResponse(matetrialCallResponse.result);
+    SetTable2Loading(false);
+    console.log("materialCallResponse", matetrialCallResponse);
   }, []);
 
   useEffect(async () => {
-    // SetTable1Loading(true)
+    SetTable1Loading(true);
     const healthScoreResponse = await healthScoreCall("7430935-05", "05/20/21");
-    // SetTable1Loading(false)
-    sethealthResponse(healthScoreResponse.data);
+    SetTable1Loading(false);
+
+    sethealthResponse(healthScoreResponse);
   }, []);
 
   useEffect(() => {
@@ -421,79 +439,77 @@ export const PartLookUp = (props) => {
                   </Box>
                 </Modal>
 
-                {healthResponse?.material_detail?.map((order, index) => {
-                  return (
-                    <>
-                      {!table1Loading ? (
-                        <TableRow
-                          hover
-                          key={Math.random()}
-                          // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
-                        >
-                          <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
-                          <TableCell>
-                            {/* {healthResponse.Date} */}
-                            <input
-                              type="date"
-                              value={startDate}
-                              onChange={(e) => setStartDate(e.target.value)}
-                            />
-                          </TableCell>
-                          <TableCell>{order.material_9}</TableCell>
-                          <TableCell>{order.material_7}</TableCell>
+                <>
+                  {!table1Loading
+                    ? healthResponse?.material_detail?.map((order, index) => {
+                        return (
+                          <TableRow
+                            hover
+                            key={Math.random()}
+                            // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
+                          >
+                            <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                            <TableCell>
+                              {/* {healthResponse.Date} */}
+                              <input
+                                type="date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                              />
+                            </TableCell>
+                            <TableCell>{order.material_9}</TableCell>
+                            <TableCell>{order.material_7}</TableCell>
 
-                          {/* <TableCell>
+                            {/* <TableCell>
                    <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                   </TableCell> */}
 
-                          <TableCell>{order.mat_description}</TableCell>
+                            <TableCell>{order.mat_description}</TableCell>
 
-                          <TableCell>{order.mat_description_eng}</TableCell>
+                            <TableCell>{order.mat_description_eng}</TableCell>
 
-                          <TableCell style={{ textAlign: "center" }}>
-                            <TrafficByDevice
-                              healthGuage={healthGuage}
-                              setHealthGuage={setHealthGuage}
-                              sx={{ height: "100px" }}
-                            />
-                          </TableCell>
+                            <TableCell style={{ textAlign: "center" }}>
+                              <TrafficByDevice
+                                healthGuage={healthGuage}
+                                setHealthGuage={setHealthGuage}
+                                sx={{ height: "100px" }}
+                              />
+                            </TableCell>
 
-                          <TableCell>
-                            <Box
-                              sx={
-                                {
-                                  // display: 'flex',
-                                  // marginTop:"-7%",
-                                  // paddingBottom:"2%",
-                                  // justifyContent: 'center',
-                                  // p: 3
+                            <TableCell>
+                              <Box
+                                sx={
+                                  {
+                                    // display: 'flex',
+                                    // marginTop:"-7%",
+                                    // paddingBottom:"2%",
+                                    // justifyContent: 'center',
+                                    // p: 3
+                                  }
                                 }
-                              }
-                            >
-                              <Button
-                                onClick={() => {
-                                  SetShowmodal(true);
-                                }}
                               >
-                                Show Graphs
-                              </Button>
-                            </Box>
-                          </TableCell>
-                        </TableRow>
-                      ) : (
-                        Array.from({ length: 10 }, (_, i) => (
-                          <tr key={i}>
-                            <td colspan="8">
-                              <Shimmer>
-                                <div style={{ width: "100%" }}>&nbsp;</div>
-                              </Shimmer>
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                    </>
-                  );
-                })}
+                                <Button
+                                  onClick={() => {
+                                    SetShowmodal(true);
+                                  }}
+                                >
+                                  Show Graphs
+                                </Button>
+                              </Box>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    : Array.from({ length: 10 }, (_, i) => (
+                        <tr key={i}>
+                          <td colspan="8">
+                            <Shimmer>
+                              <div style={{ width: "100%" }}>&nbsp;</div>
+                            </Shimmer>
+                          </td>
+                        </tr>
+                      ))}
+                </>
               </TableBody>
             </Table>
           </Box>
@@ -551,7 +567,7 @@ export const PartLookUp = (props) => {
 
               <TableBody>
                 {!table2Loading
-                  ? materialResponse?.data?.result.map((order) => (
+                  ? materialResponse?.map((order) => (
                       <TableRow hover key={Math.random()}>
                         <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
                         <TableCell>{order.material_9}</TableCell>
