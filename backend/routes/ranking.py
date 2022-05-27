@@ -45,7 +45,7 @@ def data(part_number, planner_id):
     #file1 = pd.read_csv('/Users/pankeshpatel/Desktop/colab-data/MD04.csv')
     
     # Accessing data from MD04
-    sql_md04 = """SELECT * FROM MD04 WHERE material = %s AND planner = %s"""
+    sql_md04 = """SELECT material, demand_date, shipping_notification, mrp_element  FROM MD04 WHERE material = %s AND planner = %s"""
     file1 = pd.DataFrame(conn.execute(sql_md04, part_number2, planner_id).fetchall())
     
     if len(file1.columns) == 0:
@@ -55,7 +55,7 @@ def data(part_number, planner_id):
     
     # Accessing data from Zgrev
     
-    sql_zgrve = """SELECT * from Zgrve WHERE matnr = %s"""
+    sql_zgrve = """SELECT matnr, erdat, vbeln from Zgrve WHERE matnr = %s"""
     file2 = pd.DataFrame(conn.execute(sql_zgrve, part_number).fetchall())
     
     if len(file2.columns) == 0:
@@ -225,7 +225,7 @@ def long_run(part_number, planner_id):
 # 1. Markov probability (standard bar graph)
 # 2. Long-run probability (horizontal 100% stacked bar graph)
 @ranking.get('/{planner_id}/{material_id}',status_code = status.HTTP_200_OK)
-def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends(get_current_user)):
+async def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends(get_current_user)):
     
     my_profiler.start("part probabilities")
      
