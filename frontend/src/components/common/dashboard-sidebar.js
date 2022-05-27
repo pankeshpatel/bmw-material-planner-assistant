@@ -1,20 +1,19 @@
-import { useEffect ,useState} from 'react';
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
-import { Box, Button, Divider, Drawer, Typography, useMediaQuery } from '@mui/material';
-import { ChartBar as ChartBarIcon } from '../../icons/chart-bar';
-import { UserAdd as UserAddIcon } from '../../icons/user-add';
-import { NavItem } from '../nav-item';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
-import {faBriefcaseMedical } from '@fortawesome/free-solid-svg-icons';
-import { faPeopleRoof } from '@fortawesome/free-solid-svg-icons';
-import { faRankingStar } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from "react";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
+import PropTypes from "prop-types";
+import { Box, Button, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
+import { ChartBar as ChartBarIcon } from "../../icons/chart-bar";
+import { UserAdd as UserAddIcon } from "../../icons/user-add";
+import { NavItem } from "../nav-item";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBook } from "@fortawesome/free-solid-svg-icons";
+import { faBriefcaseMedical } from "@fortawesome/free-solid-svg-icons";
+import { faPeopleRoof } from "@fortawesome/free-solid-svg-icons";
+import { faRankingStar } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-import { plannerIdCall } from 'src/utils/apihelper';
-
+import { plannerIdCall } from "src/utils/apihelper";
 
 const items = [
   // {
@@ -28,19 +27,19 @@ const items = [
   //   title: 'Materials'
   // },
   {
-    href: '/healthScore',
-    icon: (<FontAwesomeIcon icon={faBriefcaseMedical} />),
-    title: 'Health Score'
+    href: "/healthScore",
+    icon: <FontAwesomeIcon icon={faBriefcaseMedical} />,
+    title: "Health Score",
   },
   {
-    href: '/exception',
-    icon: (<FontAwesomeIcon icon={faPeopleRoof} />),
-    title: 'Exception'
+    href: "/exception",
+    icon: <FontAwesomeIcon icon={faPeopleRoof} />,
+    title: "Exception",
   },
   {
-    href: '',
-    icon: (<FontAwesomeIcon icon={faRankingStar} />),
-    title: 'Part Ranking'
+    href: "",
+    icon: <FontAwesomeIcon icon={faRankingStar} />,
+    title: "Part Ranking",
   },
   // {
   //   href: '/account',
@@ -48,9 +47,9 @@ const items = [
   //   title: 'Account'
   // },
   {
-    href: '/login',
-    icon: (<UserAddIcon fontSize="small" />),
-    title: 'Log out'
+    href: "/login",
+    icon: <UserAddIcon fontSize="small" />,
+    title: "Log out",
   },
   // {
   //   href: '/404',
@@ -60,14 +59,13 @@ const items = [
 ];
 
 export const DashboardSidebar = (props) => {
-
-  const [username,setUsername] = useState("");
+  const [username, setUsername] = useState("");
 
   const { open, onClose } = props;
   const router = useRouter();
-  const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'), {
+  const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
-    noSsr: false
+    noSsr: false,
   });
 
   useEffect(
@@ -85,29 +83,23 @@ export const DashboardSidebar = (props) => {
   );
 
   useEffect(async () => {
-
-    const plannerIdResponse = await plannerIdCall ();
-    console.log("plannerIdResponse",plannerIdResponse)
-    setUsername(plannerIdResponse.data.name)
-  
-  }, [])
-  
+    const plannerIdResponse = await plannerIdCall();
+    console.log("plannerIdResponse", plannerIdResponse);
+    setUsername(plannerIdResponse.name);
+  }, []);
 
   const content = (
     <>
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%'
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
         }}
       >
         <div>
           <Box sx={{ p: 3 }}>
-            <NextLink
-              href="/"
-              passHref
-            >
+            <NextLink href="/" passHref>
               <a>
                 {/* <Logo
                   sx={{
@@ -115,11 +107,8 @@ export const DashboardSidebar = (props) => {
                     width: 42
                   }}
                 /> */}
-                <img height={62} width={62}  src="https://pngimg.com/uploads/bmw_logo/bmw_logo_PNG19714.png" alt="" />
-
-
+                <img height={62} width={62} src="bmw_logo_PNG19714.png?v=2" alt="" />
               </a>
-              
             </NextLink>
             {/* <Typography
                   color="inherit"
@@ -131,24 +120,21 @@ export const DashboardSidebar = (props) => {
           <Box sx={{ px: 2 }}>
             <Box
               sx={{
-                alignItems: 'center',
-                backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'space-between',
+                alignItems: "center",
+                backgroundColor: "rgba(255, 255, 255, 0.04)",
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "space-between",
                 px: 3,
-                py: '11px',
-                borderRadius: 1
+                py: "11px",
+                borderRadius: 1,
               }}
             >
               <div>
-                <Typography
-                  color="inherit"
-                  variant="subtitle1"
-                >
+                <Typography color="inherit" variant="subtitle1">
                   {username.split(" ").join(".")}
-                  <br/>
-                  {Date(Date.now()).slice(4,15)}
+                  <br />
+                  {Date(Date.now()).slice(4, 15)}
                 </Typography>
                 {/* <Typography
                   color="neutral.400"
@@ -169,16 +155,16 @@ export const DashboardSidebar = (props) => {
         </div>
         <Divider
           sx={{
-            borderColor: '#2D3748',
-            my: 3
+            borderColor: "#2D3748",
+            my: 3,
           }}
         />
         <Box sx={{ flexGrow: 1 }}>
           {items.map((item) => (
             <NavItem
-
-             onClick={()=>{item.title == 'Log out' ? localStorage.clear() :null}}
-
+              onClick={() => {
+                item.title == "Log out" ? localStorage.clear() : null;
+              }}
               key={item.title}
               icon={item.icon}
               href={item.href}
@@ -186,7 +172,7 @@ export const DashboardSidebar = (props) => {
             />
           ))}
         </Box>
-        <Divider sx={{ borderColor: '#2D3748' }} />
+        <Divider sx={{ borderColor: "#2D3748" }} />
         {/* <Box
           sx={{
             px: 2,
@@ -248,10 +234,10 @@ export const DashboardSidebar = (props) => {
         open
         PaperProps={{
           sx: {
-            backgroundColor: 'neutral.900',
-            color: '#FFFFFF',
-            width: 280
-          }
+            backgroundColor: "neutral.900",
+            color: "#FFFFFF",
+            width: 280,
+          },
         }}
         variant="permanent"
       >
@@ -267,10 +253,10 @@ export const DashboardSidebar = (props) => {
       open={open}
       PaperProps={{
         sx: {
-          backgroundColor: 'neutral.900',
-          color: '#FFFFFF',
-          width: 280
-        }
+          backgroundColor: "neutral.900",
+          color: "#FFFFFF",
+          width: 280,
+        },
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
       variant="temporary"
@@ -282,5 +268,5 @@ export const DashboardSidebar = (props) => {
 
 DashboardSidebar.propTypes = {
   onClose: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
 };

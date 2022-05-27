@@ -1,61 +1,49 @@
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useFormik } from 'formik';
-import { useState } from 'react';
-import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
-import { loginCall } from 'src/utils/apihelper';
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useFormik } from "formik";
+import { useState } from "react";
+import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
+import { loginCall } from "src/utils/apihelper";
 
 const Login = () => {
-
-  const [username,setUsername]= useState("")
-  const [password,setPassword]=useState("")
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: ''
-    }
+      email: "",
+      password: "",
+    },
   });
 
-  const submit = async ()=>{
-
+  const submit = async () => {
     const body = new FormData();
 
-    body.append("username",username)
-    body.append("password",password)
-
-
+    body.append("username", username);
+    body.append("password", password);
 
     const LoginResponse = await loginCall(body);
-    console.log("response",LoginResponse)
-    if(LoginResponse.status=="200"){
-      localStorage.setItem("token",LoginResponse.data.access_token)
-      localStorage.setItem("plannerId",username)
-      router.push("/healthScore")
-    }
-    else{
-      alert("error")
-    }
+    console.log("response", LoginResponse);
 
-    
-  }
+    localStorage.setItem("token", LoginResponse.access_token);
+    localStorage.setItem("plannerId", username);
+    router.push("/healthScore");
+  };
 
   return (
     <>
-  <Head>
-        <title>
-        BMW Material Planner
-        </title>
-        <link rel="icon" type="image/x-icon" href="https://pngimg.com/uploads/bmw_logo/bmw_logo_PNG19714.png"></link>
-    </Head>
+      <Head>
+        <title>BMW Material Planner</title>
+        <link rel="icon" type="image/png" href="bmw_logo_PNG19714.png"></link>
+      </Head>
       <Box
         component="main"
         sx={{
-          alignItems: 'center',
-          display: 'flex',
+          alignItems: "center",
+          display: "flex",
           flexGrow: 1,
-          minHeight: '100%'
+          minHeight: "100%",
         }}
       >
         <Container maxWidth="sm">
@@ -72,24 +60,14 @@ const Login = () => {
           </NextLink> */}
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
-              <Typography
-                color="textPrimary"
-                variant="h4"
-              >
+              <Typography color="textPrimary" variant="h4">
                 Sign in
               </Typography>
-              <Typography
-                color="textSecondary"
-                gutterBottom
-                variant="body2"
-              >
+              <Typography color="textSecondary" gutterBottom variant="body2">
                 Sign in on the internal platform
               </Typography>
             </Box>
-            <Grid
-              container
-              spacing={3}
-            >
+            <Grid container spacing={3}>
               {/* <Grid
                 item
                 xs={12}
@@ -126,14 +104,10 @@ const Login = () => {
             <Box
               sx={{
                 pb: 1,
-                pt: 3
+                pt: 3,
               }}
             >
-              <Typography
-                align="center"
-                color="textSecondary"
-                variant="body1"
-              >
+              <Typography align="center" color="textSecondary" variant="body1">
                 {/* or login with email address */}
               </Typography>
             </Box>
@@ -145,7 +119,9 @@ const Login = () => {
               margin="normal"
               name="email"
               onBlur={formik.handleBlur}
-              onChange={(e)=>{setUsername(e.target.value)}}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
               type="text"
               value={username}
               variant="outlined"
@@ -158,7 +134,9 @@ const Login = () => {
               margin="normal"
               name="password"
               onBlur={formik.handleBlur}
-              onChange={(e)=>{setPassword(e.target.value)}}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               type="password"
               value={password}
               variant="outlined"

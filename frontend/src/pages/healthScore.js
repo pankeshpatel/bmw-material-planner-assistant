@@ -1,40 +1,32 @@
-import Head from 'next/head';
-import { Box, Container, Grid } from '@mui/material';
-import { PartLookUp } from '../components/healthscore/part-lookup';
-import { TrafficByDevice } from '../components/healthscore/traffic-by-device';
-import { DashboardLayout } from '../components/common/dashboard-layout';
-import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import Head from "next/head";
+import { Box, Container, Grid } from "@mui/material";
+import { PartLookUp } from "../components/healthscore/part-lookup";
+import { TrafficByDevice } from "../components/healthscore/traffic-by-device";
+import { DashboardLayout } from "../components/common/dashboard-layout";
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Dashboard = () => {
+  const [healthGuage, setHealthGuage] = useState(10);
 
-  const [healthGuage,setHealthGuage]=useState(10)
-
-
-  return(
-  <>
-   
-    <Head>
-        <title>
-        BMW Material Planner
-        </title>
-        <link rel="icon" type="image/x-icon" href="https://pngimg.com/uploads/bmw_logo/bmw_logo_PNG19714.png"></link>
-    </Head>
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 0,
-        marginTop:"-4%"
-      }}
-    >
-      <Container maxWidth={false}>
-        <Grid
-          container
-          spacing={3}
-        >
-          {/* <Grid
+  return (
+    <>
+      <Head>
+        <title>BMW Material Planner</title>
+        <link rel="icon" type="image/png" href="bmw_logo_PNG19714.png"></link>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 0,
+          marginTop: "-4%",
+        }}
+      >
+        <Container maxWidth={false}>
+          <Grid container spacing={3}>
+            {/* <Grid
             item
             lg={3}
             sm={6}
@@ -43,7 +35,7 @@ const Dashboard = () => {
           >
             <Budget />
           </Grid> */}
-          {/* <Grid
+            {/* <Grid
             item
             xl={3}
             lg={3}
@@ -52,7 +44,7 @@ const Dashboard = () => {
           >
             <TotalCustomers />
           </Grid> */}
-          {/* <Grid
+            {/* <Grid
             item
             xl={3}
             lg={3}
@@ -61,7 +53,7 @@ const Dashboard = () => {
           >
             <TasksProgress />
           </Grid> */}
-          {/* <Grid
+            {/* <Grid
             item
             xl={3}
             lg={3}
@@ -70,7 +62,7 @@ const Dashboard = () => {
           >
             <TotalProfit sx={{ height: '100%' }} />
           </Grid> */}
-             {/* <Grid
+            {/* <Grid
             item
             lg={4}
             md={6}
@@ -80,16 +72,10 @@ const Dashboard = () => {
             <TrafficByDevice healthGuage={healthGuage} setHealthGuage={setHealthGuage} sx={{ height: '100%' }}   />
           </Grid> */}
 
-          <Grid
-            item
-            lg={12}
-            md={12}
-            xl={9}
-            xs={12}
-          >
-            <PartLookUp healthGuage={healthGuage} setHealthGuage={setHealthGuage}/>
-          </Grid>
-          {/* <Grid
+            <Grid item lg={12} md={12} xl={9} xs={12}>
+              <PartLookUp healthGuage={healthGuage} setHealthGuage={setHealthGuage} />
+            </Grid>
+            {/* <Grid
             item
             lg={12}
             md={12}
@@ -98,7 +84,7 @@ const Dashboard = () => {
           >
             <LatestOrderDetail />
           </Grid> */}
-          {/* <Grid
+            {/* <Grid
             item
             lg={8}
             md={12}
@@ -117,22 +103,13 @@ const Dashboard = () => {
           >
             <LatestProducts sx={{ height: '100%' }} />
           </Grid> */}
-      
-        </Grid>
-      </Container>
-    </Box>
-  </>
-  )
-        };
+          </Grid>
+        </Container>
+      </Box>
+    </>
+  );
+};
 
-
-Dashboard.getLayout = (page) => (
-
-  
-
-  <DashboardLayout>
-    {page}
-  </DashboardLayout>
-);
+Dashboard.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default Dashboard;

@@ -1,5 +1,5 @@
-import { v4 as uuid } from 'uuid';
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import { v4 as uuid } from "uuid";
+import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   Box,
   Button,
@@ -12,98 +12,94 @@ import {
   TableRow,
   TableSortLabel,
   Tooltip,
-  Slider
-} from '@mui/material';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { SeverityPill } from '../severity-pill';
+  Slider,
+} from "@mui/material";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import { SeverityPill } from "../severity-pill";
 
-import {healthScore} from '../../../health-score';
-import {exceptionViewer} from '../../../Exception-Viewer-Widget-Datasheet';
+import { healthScore } from "../../../health-score";
+import { exceptionViewer } from "../../../Exception-Viewer-Widget-Datasheet";
 
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { ExceptionMatrixCall } from 'src/utils/apihelper';
-
+import { useState } from "react";
+import { useEffect } from "react";
+import { ExceptionMatrixCall } from "src/utils/apihelper";
 
 const orders = [
   {
     id: uuid(),
-    ref: 'CDD1049',
+    ref: "CDD1049",
     amount: 30.5,
     customer: {
-      name: 'Ekaterina Tankova'
+      name: "Ekaterina Tankova",
     },
     createdAt: 1555016400000,
-    status: 'pending'
+    status: "pending",
   },
   {
     id: uuid(),
-    ref: 'CDD1048',
+    ref: "CDD1048",
     amount: 25.1,
     customer: {
-      name: 'Cao Yu'
+      name: "Cao Yu",
     },
     createdAt: 1555016400000,
-    status: 'delivered'
+    status: "delivered",
   },
   {
     id: uuid(),
-    ref: 'CDD1047',
+    ref: "CDD1047",
     amount: 10.99,
     customer: {
-      name: 'Alexa Richardson'
+      name: "Alexa Richardson",
     },
     createdAt: 1554930000000,
-    status: 'refunded'
+    status: "refunded",
   },
   {
     id: uuid(),
-    ref: 'CDD1046',
+    ref: "CDD1046",
     amount: 96.43,
     customer: {
-      name: 'Anje Keizer'
+      name: "Anje Keizer",
     },
     createdAt: 1554757200000,
-    status: 'pending'
+    status: "pending",
   },
   {
     id: uuid(),
-    ref: 'CDD1045',
+    ref: "CDD1045",
     amount: 32.54,
     customer: {
-      name: 'Clarke Gillebert'
+      name: "Clarke Gillebert",
     },
     createdAt: 1554670800000,
-    status: 'delivered'
+    status: "delivered",
   },
   {
     id: uuid(),
-    ref: 'CDD1044',
+    ref: "CDD1044",
     amount: 16.76,
     customer: {
-      name: 'Adam Denisov'
+      name: "Adam Denisov",
     },
     createdAt: 1554670800000,
-    status: 'delivered'
-  }
+    status: "delivered",
+  },
 ];
 
-function sortByProperty(property){  
-  return function(a,b){  
-     if(Number(a[property]) < Number(b[property]))  
-        return 1;  
-     else if(Number(a[property]) > Number(b[property]))  
-        return -1;  
- 
-     return 0;  
-  }  
+function sortByProperty(property) {
+  return function (a, b) {
+    if (Number(a[property]) < Number(b[property])) return 1;
+    else if (Number(a[property]) > Number(b[property])) return -1;
+
+    return 0;
+  };
 }
 
 export const LatestOrders = (props) => {
-
-  const [healthData,sethealthData]=useState(healthScore.slice(0,healthScore.length-1))
+  const [healthData, sethealthData] = useState(healthScore.slice(0, healthScore.length - 1));
   // let healthData=healthScore;
-  const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
+  const [selectedMaterial, setSelectedMaterial] = useState(healthScore.slice(0, 1));
   const [value, setValue] = useState([0, 200]);
 
   const handleChange = (event, newValue) => {
@@ -111,111 +107,89 @@ export const LatestOrders = (props) => {
   };
 
   useEffect(() => {
-    props.setHealthGuage(healthScore[0].healthstatus)
-  
-  }, [])
-  
+    props.setHealthGuage(healthScore[0].healthstatus);
+  }, []);
 
+  const returnColor = (status) => {
+    const yellow = {
+      color: "black",
+      backgroundColor: "yellow",
+      padding: "5px 20px",
+      borderRadius: "25px 25px",
+    };
 
+    const green = {
+      color: "white",
+      backgroundColor: "green",
+      padding: "5px 20px",
+      borderRadius: "25px 25px",
+    };
 
+    const maroon = {
+      color: "white",
+      backgroundColor: "maroon",
+      padding: "5px 20px",
+      borderRadius: "25px 25px",
+    };
 
-  const returnColor = (status)=>{
-
-    const yellow ={
-    
-      color:"black",
-      backgroundColor:"yellow",
-      padding:"5px 20px",
-      borderRadius:"25px 25px"
-  
-    }
-  
-    const green ={
-      
-      color:"white",
-      backgroundColor:"green",
-      padding:"5px 20px",
-      borderRadius:"25px 25px"
-  
-    }
-  
-    const maroon ={
-      
-      color:"white",
-      backgroundColor:"maroon",
-      padding:"5px 20px",
-      borderRadius:"25px 25px"
-  
+    if (status < 20) {
+      return maroon;
     }
 
-    if (status<20 ) {
-      return maroon
+    if (status > 20 && status < 60) {
+      return yellow;
     }
 
-    if (status>20  && status <60) {
-      return yellow
+    if (status > 60) {
+      return green;
     }
-
-    if (status >60) {
-      return green
-    }
-
-
-
-  }
+  };
 
   function valuetext(value) {
     return `${Date(value)}`;
   }
 
-  return(
+  return (
     <>
-    <Card {...props} >
-    <CardHeader title="Part Lookup" />
-    <Box
-      sx={{
-        display: 'flex',
-        marginTop:"-7%",
-        paddingBottom:"2%",
-        justifyContent: 'flex-end',
-      
-        // p: 2
-      }}
-    >
-     <Slider
-      // color="primary"
-       sx={{
-        display: 'flex',
-        width:"300px",
-        justifyContent: 'flex-end',
-        marginRight:"5%"
-      
-        // p: 2
-      }}
-      value={value}
-      aria-valuetext="sdasd"
-      onChange={handleChange}
-      min={0}
-      max={200}
-      valueLabelDisplay="off"
-      getAriaValueText={valuetext}
-     >
+      <Card {...props}>
+        <CardHeader title="Part Lookup" />
+        <Box
+          sx={{
+            display: "flex",
+            marginTop: "-7%",
+            paddingBottom: "2%",
+            justifyContent: "flex-end",
 
-     </Slider>
-    </Box>
-    <PerfectScrollbar>
-      <Box sx={{ minWidth: 800,height:"400px" ,overflow:"scroll"}}>
-     
-        <Table stickyHeader={true} >
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                Material ID
-              </TableCell>
-              <TableCell>
-                Date
-              </TableCell>
-              {/* <TableCell sortDirection="desc">
+            // p: 2
+          }}
+        >
+          <Slider
+            // color="primary"
+            sx={{
+              display: "flex",
+              width: "300px",
+              justifyContent: "flex-end",
+              marginRight: "5%",
+
+              // p: 2
+            }}
+            value={value}
+            aria-valuetext="sdasd"
+            onChange={handleChange}
+            min={0}
+            max={200}
+            valueLabelDisplay="off"
+            getAriaValueText={valuetext}
+          ></Slider>
+        </Box>
+        <PerfectScrollbar>
+          <Box sx={{ minWidth: 800, height: "400px", overflow: "scroll" }}>
+            <Table stickyHeader={true}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Material ID</TableCell>
+                  <TableCell>Date</TableCell>
+                  {/* <TableCell sortDirection="desc">
                 <Tooltip
                   enterDelay={300}
                   title="Sort"
@@ -228,52 +202,51 @@ export const LatestOrders = (props) => {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell> */}
-              <TableCell>
-                Supplier Number
-              </TableCell>
-              <TableCell onClick={()=>{sethealthData(healthScore.sort(sortByProperty("healthstatus")))}}>
-                Health Score
-              </TableCell>
-              <TableCell>
-                Material Description
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            
-            {healthData.map((order,index)=>{
-              return(
-                <TableRow
-                hover
-                key={Math.random()}
-                onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
-              >
-                <TableCell>
-                 {order.materialID}
-                </TableCell>
-                <TableCell>
-                  {order.healthscoredate}
-                </TableCell>
-                <TableCell>
-                  {order.suppliernumber}
-                </TableCell>
+                  <TableCell>Supplier Number</TableCell>
+                  <TableCell
+                    onClick={() => {
+                      sethealthData(healthScore.sort(sortByProperty("healthstatus")));
+                    }}
+                  >
+                    Health Score
+                  </TableCell>
+                  <TableCell>Material Description</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {healthData.map((order, index) => {
+                  return (
+                    <TableRow
+                      hover
+                      key={Math.random()}
+                      onClick={() => {
+                        setSelectedMaterial(healthScore.slice(index, index + 1));
+                      }}
+                    >
+                      <TableCell>{order.materialID}</TableCell>
+                      <TableCell>{order.healthscoredate}</TableCell>
+                      <TableCell>{order.suppliernumber}</TableCell>
 
-                <TableCell>
-                 <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
-                </TableCell>
+                      <TableCell>
+                        <span
+                          style={returnColor(Number(order.healthstatus))}
+                          onClick={() => {
+                            props.setHealthGuage(order.healthstatus);
+                          }}
+                        >
+                          {order.healthstatus}
+                        </span>
+                      </TableCell>
 
-                <TableCell>
-                  {order.partdescriptioneng}
-                </TableCell>
-          
-              </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
-      </Box>
-    </PerfectScrollbar>
-    {/* <Box
+                      <TableCell>{order.partdescriptioneng}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </Box>
+        </PerfectScrollbar>
+        {/* <Box
       sx={{
         display: 'flex',
         justifyContent: 'flex-end',
@@ -289,21 +262,17 @@ export const LatestOrders = (props) => {
         View all
       </Button>
     </Box> */}
-  </Card>
-  <Card {...props}>
-    <CardHeader title="Part Detailed  Description" />
-    <PerfectScrollbar>
-      <Box sx={{ minWidth: 800 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                Material ID
-              </TableCell>
-              <TableCell>
-                Safety Stock
-              </TableCell>
-              {/* <TableCell sortDirection="desc">
+      </Card>
+      <Card {...props}>
+        <CardHeader title="Part Detailed  Description" />
+        <PerfectScrollbar>
+          <Box sx={{ minWidth: 800 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Material ID</TableCell>
+                  <TableCell>Safety Stock</TableCell>
+                  {/* <TableCell sortDirection="desc">
                 <Tooltip
                   enterDelay={300}
                   title="Sort"
@@ -316,91 +285,61 @@ export const LatestOrders = (props) => {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell> */}
-              <TableCell>
-                Part Description Eng
-              </TableCell>
-              <TableCell>
-                Plant
-              </TableCell>
-              <TableCell>
-                Storage Location
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedMaterial.map((order) => (
-              <TableRow
-                hover
-                key={order.materialID}
-              >
-                <TableCell>
-                 {order.materialID}
-                </TableCell>
-                <TableCell>
-                  {order.safetystock}
-                </TableCell>
-                <TableCell >
-                  {order.partdescriptioneng}
-                </TableCell>
+                  <TableCell>Part Description Eng</TableCell>
+                  <TableCell>Plant</TableCell>
+                  <TableCell>Storage Location</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {selectedMaterial.map((order) => (
+                  <TableRow hover key={order.materialID}>
+                    <TableCell>{order.materialID}</TableCell>
+                    <TableCell>{order.safetystock}</TableCell>
+                    <TableCell>{order.partdescriptioneng}</TableCell>
 
-                <TableCell>
-                  {order.plant}
-                </TableCell>
+                    <TableCell>{order.plant}</TableCell>
 
-                <TableCell>
-                  {order.storagelocation}
-                </TableCell>
-          
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Box>
-    </PerfectScrollbar>
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        p: 2
-      }}
-    >
-
-    </Box>
-  </Card>
-  </>
-
-)};
-
-
-
-
-
-
+                    <TableCell>{order.storagelocation}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        </PerfectScrollbar>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            p: 2,
+          }}
+        ></Box>
+      </Card>
+    </>
+  );
+};
 
 export const ExceptionMatrix = (props) => {
- const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
- const [matrixData,setMatrixData] = useState(exceptionViewer)
+  const [selectedMaterial, setSelectedMaterial] = useState(healthScore.slice(0, 1));
+  const [matrixData, setMatrixData] = useState(exceptionViewer);
 
   const [go, setgo] = useState(false);
- useEffect(() => {
-   if (go === false){
-    getMatrixDataAPI();
-    setgo(true);
-   }
- })
+  useEffect(() => {
+    if (go === false) {
+      getMatrixDataAPI();
+      setgo(true);
+    }
+  });
 
+  const [DataValues, setDataValues] = useState([]);
+  const [TotalMatrixData, setTotalMatrixData] = useState([]);
+  const [DataLabels, setDataLabels] = useState([]);
 
- const [DataValues, setDataValues] = useState([]);
- const [TotalMatrixData, setTotalMatrixData] = useState([]);
- const [DataLabels, setDataLabels] = useState([]);
+  async function getMatrixDataAPI() {
+    // use axios instead of fetch
 
-
-
-  async function getMatrixDataAPI() {   // use axios instead of fetch
-
-    let t = localStorage.getItem('token');
-    var sd = '02/18/22';
-    var ed = '04/04/22';    
+    let t = localStorage.getItem("token");
+    var sd = "02/18/22";
+    var ed = "04/04/22";
 
     // const response = await fetch('http://localhost:8000/exceptions/matrix/114/?start_date=02/18/22&end_date=04/04/22', {
     //   method: 'GET',
@@ -411,15 +350,15 @@ export const ExceptionMatrix = (props) => {
     // });
 
     const data = await ExceptionMatrixCall("02/18/22", "04/04/22");
-    data = data.data
+    // data = data.data
 
     if (data.status === 403) {
       router.push("/404");
     }
-    console.log("Matrix API: " , data.result);
-    
+    console.log("Matrix API: ", data.result);
+
     setDataValues(data.result);
-    setDataLabels(data.materials);  
+    setDataLabels(data.materials);
 
     const zip = (a1, a2) => a1.map((x, i) => [x, a2[i]]);
     let combinedJSONData = zip(data.result, data.materials);
@@ -428,26 +367,19 @@ export const ExceptionMatrix = (props) => {
     return data;
   }
 
- return(<Card {...props}>
-    <CardHeader title="Part Exception Matrix" />
-    <PerfectScrollbar>
-      <Box sx={{height:"600px" ,overflow:"scroll"}}>
-        <Table stickyHeader={true}>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                Material ID
-              </TableCell>
-              <TableCell>
-                Material_7
-              </TableCell>
-              <TableCell>
-                Material_9
-              </TableCell>
-              <TableCell>
-              ExceptionCount
-              </TableCell>
-              {/* <TableCell sortDirection="desc">
+  return (
+    <Card {...props}>
+      <CardHeader title="Part Exception Matrix" />
+      <PerfectScrollbar>
+        <Box sx={{ height: "600px", overflow: "scroll" }}>
+          <Table stickyHeader={true}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Material ID</TableCell>
+                <TableCell>Material_7</TableCell>
+                <TableCell>Material_9</TableCell>
+                <TableCell>ExceptionCount</TableCell>
+                {/* <TableCell sortDirection="desc">
                 <Tooltip
                   enterDelay={300}
                   title="Sort"
@@ -460,78 +392,73 @@ export const ExceptionMatrix = (props) => {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell> */}
-              <TableCell onClick={()=>{setMatrixData(exceptionViewer.sort(sortByProperty("Percentage")).slice(0,exceptionViewer.length-1)) }}>
-              Percentage
-
-              </TableCell>
-              <TableCell>
-              Part Description
-
-              </TableCell>
-              <TableCell>
-              Part Description Eng
-
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* {matrixData.map((order) => ( */}
-              {TotalMatrixData.map((order) => (
-              <TableRow
-                hover
-                // key={order.MaterialID}
-                key={order[0].material}
-              >
-                 <TableCell>
-                  {/* {order.MaterialID} */}
-                  {order[1].material}
+                <TableCell
+                  onClick={() => {
+                    setMatrixData(
+                      exceptionViewer
+                        .sort(sortByProperty("Percentage"))
+                        .slice(0, exceptionViewer.length - 1)
+                    );
+                  }}
+                >
+                  Percentage
                 </TableCell>
-
-
-                <TableCell>
-                  {/* {order.MaterialID} */}
-                  {order[1].material_7}
-                </TableCell>
-                <TableCell>
-                  {/* {order.MaterialID} */}
-                  {order[1].material_9}
-                </TableCell>
-
-                <TableCell style={{textAlign:"center"}}>
-                 {/* {order.ExceptionCount} */}
-                 {order[0].count}
-                </TableCell>
-                <TableCell style={{textAlign:"center"}}>
-                  {/* {(order.Percentage*100).toString().slice(0,4) + "%"} */}
-                  {(order[0].percentage).toString().slice(0,4) + " %"}
-                </TableCell>
-                <TableCell >
-                  {/* {order.PartDescription} */}
-                  {order[1].mat_description} 
-                </TableCell>
-
-                <TableCell>
-                  {/* {order.PartDescriptionEng} */}
-                  {order[1].mat_description_eng} 
-                </TableCell>
-
-            
-          
+                <TableCell>Part Description</TableCell>
+                <TableCell>Part Description Eng</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Box>
-    </PerfectScrollbar>
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        p: 2
-      }}
-    >
+            </TableHead>
+            <TableBody>
+              {/* {matrixData.map((order) => ( */}
+              {TotalMatrixData.map((order) => (
+                <TableRow
+                  hover
+                  // key={order.MaterialID}
+                  key={order[0].material}
+                >
+                  <TableCell>
+                    {/* {order.MaterialID} */}
+                    {order[1].material}
+                  </TableCell>
 
-    </Box>
-  </Card>
-)
-}
+                  <TableCell>
+                    {/* {order.MaterialID} */}
+                    {order[1].material_7}
+                  </TableCell>
+                  <TableCell>
+                    {/* {order.MaterialID} */}
+                    {order[1].material_9}
+                  </TableCell>
+
+                  <TableCell style={{ textAlign: "center" }}>
+                    {/* {order.ExceptionCount} */}
+                    {order[0].count}
+                  </TableCell>
+                  <TableCell style={{ textAlign: "center" }}>
+                    {/* {(order.Percentage*100).toString().slice(0,4) + "%"} */}
+                    {order[0].percentage.toString().slice(0, 4) + " %"}
+                  </TableCell>
+                  <TableCell>
+                    {/* {order.PartDescription} */}
+                    {order[1].mat_description}
+                  </TableCell>
+
+                  <TableCell>
+                    {/* {order.PartDescriptionEng} */}
+                    {order[1].mat_description_eng}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+      </PerfectScrollbar>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          p: 2,
+        }}
+      ></Box>
+    </Card>
+  );
+};
