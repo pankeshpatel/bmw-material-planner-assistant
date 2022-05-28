@@ -265,7 +265,7 @@ async def part_probabilities(planner_id: str, material_id: str, user_id: int = D
         # my_profiler.log("print")
 
         # Caching the API Response
-        redis_client.set( "ranking" + "/" + planner_id + "/" + material_id, json.dumps(json_output, indent=4) )
+        redis_client.set(part_ranking_key, json.dumps(json_output, indent=4) )
 
         return json.loads(json.dumps(json_output, indent=4))
 

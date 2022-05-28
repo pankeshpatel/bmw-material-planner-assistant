@@ -14,6 +14,9 @@ from typing import Optional
 import json
 from tabulate import tabulate
 from config.oauth2 import get_current_user
+from config.redisdb import redis_client
+
+
 
 # Import the Class
 from config.profiler import profiler
@@ -154,85 +157,97 @@ def sigmoid(SS: int, k: float) -> float:
 @healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
 async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
 
-    #my_profiler.start("health-score")
-    date = healthdate
-    num_days = 10  
-    
-    
-    sql = """SELECT mrp_element, change_quantity FROM admin.MD04 where material = %s AND planner=%s"""
-    data_safety_stock = pd.DataFrame(conn.execute(sql, material_id, planner_id).fetchall())
-    
-    
-    if len(data_safety_stock.columns) == 0:
-         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
+    #part_ranking_key = "ranking" + "/" + planner_id + "/" + material_id
 
-
-    saftey_stock = 0 # default value 
+    material_healthscore_key = "healthscore" + "/" + planner_id + "/" + material_id + "/" + healthdate
     
-    saftey_stock = find_saftey_stock(data_safety_stock[data_safety_stock["mrp_element"] == "SafeSt"], saftey_stock)
-
-
-    mm, dd, yyyy = map(int, date.split('/'))
-    date_obj = datetime.datetime(yyyy, mm, dd)
-    avg: List = []  # List to keep track of health scores
+    redis_reponse = redis_client.get(material_healthscore_key)
     
-    
-    # This loop will get 
-    for i in range(int(num_days)):
-        td = datetime.timedelta(days=i)
-        new_date = date_obj + td
-        
-        formatted_date = format_date(date=new_date)
-        
-        sql = """SELECT material, mrp_element, total_quantity, demand_date  FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
-        data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "mrp_element", "total_quantity", "demand_date" ])
+     # Check if the data exists in Cache
+    if redis_reponse != None:
+        print("Found the results in redis cache.......")
+        return json.loads(redis_reponse)
+    else:
+        print("I have not found the results in redis cache, computing now...")   
+        #my_profiler.start("health-score")
+        date = healthdate
+        num_days = 10  
         
         
-        stock = find_stock(new_date, formatted_date, material_id, data)
-
-        find_total_quantity_summary(formatted_date, material_id, saftey_stock, data) 
-
-        find_total_quantity_instances(formatted_date, material_id, saftey_stock, data)  
-
-
-        health = get_health_score(stock, saftey_stock, k_val=0.8)   
+        sql = """SELECT mrp_element, change_quantity FROM admin.MD04 where material = %s AND planner=%s"""
+        data_safety_stock = pd.DataFrame(conn.execute(sql, material_id, planner_id).fetchall())
         
-        if health != None:
-             avg.append(health)
+        
+        if len(data_safety_stock.columns) == 0:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
 
 
-    df_total_qty = pd.DataFrame(list_qty, columns = ['material', 'demand_date', 'max', 'min', 'mean', 'safety stock']) 
-    print(tabulate(df_total_qty, headers = 'keys', tablefmt = 'psql'))
-    
-    
-    # This would prepare .csv file that contains total_qty_instances
-    df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']) 
-    print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
-    
-    # destruct this global variable
-    list_qty_instance.clear()
-    list_qty.clear()
-    
-    result = sum(avg)/len(avg)
-    result = round(result, 2)
-    percentage_result = str(result).__add__(' %')
-    
-    sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng FROM admin.MaterialMaster where material = %s"""
-    df_material = pd.DataFrame(conn.execute(sql, material_id).fetchall(), columns=["material", "material_9" , "material_7", "mat_description", "mat_description_eng"])
+        saftey_stock = 0 # default value 
+        
+        saftey_stock = find_saftey_stock(data_safety_stock[data_safety_stock["mrp_element"] == "SafeSt"], saftey_stock)
 
 
-    health_score = {
-        "Material": material_id,
-        "material_detail" : json.loads(json.dumps(list(df_material.T.to_dict().values()))),
-        "Date": date,
-        "Health-score": percentage_result,
-        "total_qty_analysis" : json.loads(json.dumps(list(df_total_qty.T.to_dict().values()))),
-        "total_qty_instances": json.loads(json.dumps(list(df_total_qty_instances.T.to_dict().values())))    
-    }
-    
-    # my_profiler.end("health-score")
-    # my_profiler.log("print")
+        mm, dd, yyyy = map(int, date.split('/'))
+        date_obj = datetime.datetime(yyyy, mm, dd)
+        avg: List = []  # List to keep track of health scores
+        
+        
+        # This loop will get 
+        for i in range(int(num_days)):
+            td = datetime.timedelta(days=i)
+            new_date = date_obj + td
+            
+            formatted_date = format_date(date=new_date)
+            
+            sql = """SELECT material, mrp_element, total_quantity, demand_date  FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
+            data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "mrp_element", "total_quantity", "demand_date" ])
+            
+            
+            stock = find_stock(new_date, formatted_date, material_id, data)
+
+            find_total_quantity_summary(formatted_date, material_id, saftey_stock, data) 
+
+            find_total_quantity_instances(formatted_date, material_id, saftey_stock, data)  
 
 
-    
-    return health_score
+            health = get_health_score(stock, saftey_stock, k_val=0.8)   
+            
+            if health != None:
+                avg.append(health)
+
+
+        df_total_qty = pd.DataFrame(list_qty, columns = ['material', 'demand_date', 'max', 'min', 'mean', 'safety stock']) 
+        print(tabulate(df_total_qty, headers = 'keys', tablefmt = 'psql'))
+        
+        
+        # This would prepare .csv file that contains total_qty_instances
+        df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']) 
+        print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
+        
+        # destruct this global variable
+        list_qty_instance.clear()
+        list_qty.clear()
+        
+        result = sum(avg)/len(avg)
+        result = round(result, 2)
+        percentage_result = str(result).__add__(' %')
+        
+        sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng FROM admin.MaterialMaster where material = %s"""
+        df_material = pd.DataFrame(conn.execute(sql, material_id).fetchall(), columns=["material", "material_9" , "material_7", "mat_description", "mat_description_eng"])
+
+
+        health_score = {
+            "Material": material_id,
+            "material_detail" : json.loads(json.dumps(list(df_material.T.to_dict().values()))),
+            "Date": date,
+            "Health-score": percentage_result,
+            "total_qty_analysis" : json.loads(json.dumps(list(df_total_qty.T.to_dict().values()))),
+            "total_qty_instances": json.loads(json.dumps(list(df_total_qty_instances.T.to_dict().values())))    
+        }
+        
+        # my_profiler.end("health-score")
+        # my_profiler.log("print")
+
+        redis_client.set(material_healthscore_key, json.dumps(health_score) )
+
+        return health_score
