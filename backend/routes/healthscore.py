@@ -157,10 +157,7 @@ def sigmoid(SS: int, k: float) -> float:
 @healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
 async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
 
-    #part_ranking_key = "ranking" + "/" + planner_id + "/" + material_id
-
     material_healthscore_key = "healthscore" + "/" + planner_id + "/" + material_id + "/" + healthdate
-    
     redis_reponse = redis_client.get(material_healthscore_key)
     
      # Check if the data exists in Cache
@@ -183,7 +180,6 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
 
 
         saftey_stock = 0 # default value 
-        
         saftey_stock = find_saftey_stock(data_safety_stock[data_safety_stock["mrp_element"] == "SafeSt"], saftey_stock)
 
 
@@ -201,15 +197,10 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
             
             sql = """SELECT material, mrp_element, total_quantity, demand_date  FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
             data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "mrp_element", "total_quantity", "demand_date" ])
-            
-            
+                        
             stock = find_stock(new_date, formatted_date, material_id, data)
-
             find_total_quantity_summary(formatted_date, material_id, saftey_stock, data) 
-
             find_total_quantity_instances(formatted_date, material_id, saftey_stock, data)  
-
-
             health = get_health_score(stock, saftey_stock, k_val=0.8)   
             
             if health != None:
@@ -251,3 +242,5 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
         redis_client.set(material_healthscore_key, json.dumps(health_score) )
 
         return health_score
+
+
