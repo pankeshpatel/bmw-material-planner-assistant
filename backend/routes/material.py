@@ -31,7 +31,7 @@ async def get_all_material_info(planner_id: str, user_id: int = Depends(get_curr
     else:
 
         sql = """SELECT DISTINCT material, material_9, material_7, mat_description, 
-        mat_description_eng, safety_stock, plant, lot_size FROM admin.MaterialMaster WHERE planner = %s"""
+        mat_description_eng, safety_stock, plant, lot_size FROM admin.MaterialMaster  WHERE planner = %s"""
         
         df_material_master = pd.DataFrame(conn.execute(sql, planner_id).fetchall(), columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng", "safety_stock", "plant", "lot_size"])
             
