@@ -11,6 +11,9 @@ import datetime
 import numpy as np
 import pandas as pd
 from tabulate import tabulate
+from config.redisdb import redis_client
+
+
 
 from config.profiler import profiler
 
@@ -227,34 +230,45 @@ def long_run(part_number, planner_id):
 @ranking.get('/{planner_id}/{material_id}',status_code = status.HTTP_200_OK)
 async def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends(get_current_user)):
     
-    my_profiler.start("part probabilities")
-     
-    markov_probabilities = markov(material_id, planner_id)
+    part_ranking_key = "ranking" + "/" + planner_id + "/" + material_id
     
-    long_run_probabilities = long_run(material_id, planner_id)
+    redis_reponse = redis_client.get(part_ranking_key)
     
-    
+    # Check if the data exists in Cache
+    if redis_reponse != None:
+        print("Found the results in redis cache.......")
+        return json.loads(redis_reponse)
+    else: 
+        print("I have not found the results in redis cache, computing now...")   
+        my_profiler.start("part probabilities")        
+        markov_probabilities = markov(material_id, planner_id)
+        long_run_probabilities = long_run(material_id, planner_id)
+        
+        
 
-    json_output = {
-        'material': material_id,
-        'markov':[{'-3':markov_probabilities[0]},
-                  {'-2':markov_probabilities[1]},
-                  {'-1':markov_probabilities[2]},
-                  {'0':markov_probabilities[3]},
-                  {'1':markov_probabilities[4]},
-                  {'2':markov_probabilities[5]},
-                  {'3':markov_probabilities[6]}],
+        json_output = {
+            'material': material_id,
+            'markov':[{'-3':markov_probabilities[0]},
+                    {'-2':markov_probabilities[1]},
+                    {'-1':markov_probabilities[2]},
+                    {'0':markov_probabilities[3]},
+                    {'1':markov_probabilities[4]},
+                    {'2':markov_probabilities[5]},
+                    {'3':markov_probabilities[6]}],
 
-        'long run':[{'early':long_run_probabilities[0]},
-                    {'on time':long_run_probabilities[1]},
-                    {'late':long_run_probabilities[2]}]
-    }
-    
-    my_profiler.end("part probabilities")
-    my_profiler.log("print")
+            'long run':[{'early':long_run_probabilities[0]},
+                        {'on time':long_run_probabilities[1]},
+                        {'late':long_run_probabilities[2]}]
+        }
+        
+        my_profiler.end("part probabilities")
+        my_profiler.log("print")
 
+        # Caching the API Response
+        redis_client.set( "ranking" + "/" + planner_id + "/" + material_id, json.dumps(json_output, indent=4) )
 
-    return json.loads(json.dumps(json_output, indent=4))
+        return json.loads(json.dumps(json_output, indent=4))
+
    
    
    

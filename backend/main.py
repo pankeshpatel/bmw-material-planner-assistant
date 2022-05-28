@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from routes.index import *
 from fastapi.middleware.cors import CORSMiddleware
+from config.redisdb import redis_client
+
+
+redis_client.set('name', 'pankesh')
 
 
 # list here all the url on which the frontend is running

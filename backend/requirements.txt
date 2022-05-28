@@ -21,3 +21,4 @@ python-dotenv
 pyjanitor
 gunicorn
 httptools
+redis
