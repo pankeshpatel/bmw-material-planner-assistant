@@ -154,7 +154,7 @@ def sigmoid(SS: int, k: float) -> float:
 @healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
 async def get_material_healthscore(planner_id:str, material_id: str, healthdate: str, user_id: int = Depends(get_current_user)):
 
-    my_profiler.start("health-score")
+    #my_profiler.start("health-score")
     date = healthdate
     num_days = 10  
     
@@ -230,8 +230,8 @@ async def get_material_healthscore(planner_id:str, material_id: str, healthdate:
         "total_qty_instances": json.loads(json.dumps(list(df_total_qty_instances.T.to_dict().values())))    
     }
     
-    my_profiler.end("health-score")
-    my_profiler.log("print")
+    # my_profiler.end("health-score")
+    # my_profiler.log("print")
 
 
     

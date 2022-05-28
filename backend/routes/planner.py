@@ -8,6 +8,7 @@ from config.oauth2 import get_current_user
 
 
 
+
 planner = APIRouter(
     prefix = "/planners",
     tags=["planners"]
@@ -20,8 +21,8 @@ planner = APIRouter(
     
 @planner.get('/',  status_code = status.HTTP_200_OK)
 async def get_all_material_planner_info(user_id: int = Depends(get_current_user)):
-                    #user_id: int = Depends(get_current_user)):
-    #cursor = dbPlanner.cursor()
+
+    
     
     sql = "SELECT * FROM admin.Planner"
     data = conn.execute(sql).fetchall()
@@ -43,10 +44,9 @@ async def get_all_material_planner_info(user_id: int = Depends(get_current_user)
     
 @planner.get('/planner-id/{id}',  status_code = status.HTTP_200_OK)
 async def get_material_planner_info(id:str, user_id: int = Depends(get_current_user)):
-                    #user_id: int = Depends(get_current_user)):
-    
+
     data = conn.execute(dbPlanner.select().where(dbPlanner.c.id == id)).first()
-    
+
     if not data:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Items are not found")
     

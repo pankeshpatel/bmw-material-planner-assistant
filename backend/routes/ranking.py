@@ -240,7 +240,7 @@ async def part_probabilities(planner_id: str, material_id: str, user_id: int = D
         return json.loads(redis_reponse)
     else: 
         print("I have not found the results in redis cache, computing now...")   
-        my_profiler.start("part probabilities")        
+        #my_profiler.start("part probabilities")        
         markov_probabilities = markov(material_id, planner_id)
         long_run_probabilities = long_run(material_id, planner_id)
         
@@ -261,8 +261,8 @@ async def part_probabilities(planner_id: str, material_id: str, user_id: int = D
                         {'late':long_run_probabilities[2]}]
         }
         
-        my_profiler.end("part probabilities")
-        my_profiler.log("print")
+        # my_profiler.end("part probabilities")
+        # my_profiler.log("print")
 
         # Caching the API Response
         redis_client.set( "ranking" + "/" + planner_id + "/" + material_id, json.dumps(json_output, indent=4) )
