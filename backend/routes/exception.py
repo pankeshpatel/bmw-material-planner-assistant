@@ -8,6 +8,8 @@ from tabulate import tabulate
 import json
 from config.oauth2 import get_current_user
 from config.redisdb import redis_client
+from datetime import datetime, timedelta, date
+
 
 
 
@@ -32,7 +34,13 @@ async def get_all_exception_info(user_id: int = Depends(get_current_user)):
 
 
 @exception.get('/manager/{planner_id}',  status_code = status.HTTP_200_OK)
-async def exception_manager(planner_id:str, start_date : str, end_date : str, user_id: int = Depends(get_current_user)):
+#async def exception_manager(planner_id:str, start_date : str, end_date : str, user_id: int = Depends(get_current_user)):
+async def exception_manager(planner_id:str, days: int, user_id: int = Depends(get_current_user)):
+    
+
+    end_date = str(datetime.today().strftime("%m/%d/%y"))
+    start_date = str((datetime.today() + timedelta(days=-days)).strftime("%m/%d/%y"))
+        
     
     exception_manager_key = "exceptions" + "/" + "manager" + "/" + planner_id + "/" +  start_date + "--" + end_date
     
@@ -72,9 +80,14 @@ async def exception_manager(planner_id:str, start_date : str, end_date : str, us
         #  Data cleaning, replacing NaN with '0'
         dataframe_exception_manager['auskt'] = dataframe_exception_manager['auskt'].fillna(0)
         
+        
         # Data filtering with respect to the start and end date
-        dataframe_exception_manager_filtered = dataframe_exception_manager.filter_date('cdate', start_date, end_date)
-
+        
+        sql = """select matnr, cdate, auskt from admin.Exception WHERE (cdate BETWEEN %s AND %s)"""
+        dataframe_exception_manager_filtered = pd.DataFrame(conn.execute(sql, start_date, end_date).fetchall(), columns=[ 'matnr','cdate', 'auskt'])
+        
+        #dataframe_exception_manager_filtered = dataframe_exception_manager.filter_date('cdate', start_date, end_date)
+        #print(dataframe_exception_manager_filtered)
 
         # Remove row that 'auskt' value has zero
         dataframe_exception_manager_filter = dataframe_exception_manager_filtered[dataframe_exception_manager_filtered['auskt'] > 0]
@@ -113,7 +126,6 @@ async def exception_manager(planner_id:str, start_date : str, end_date : str, us
                 df_exceptionMsg["exceptionMsg"][0]
             ]
             exceptionlist.append(local_exceptionMsg)
-            
 
         df_exceptionlist  = pd.DataFrame(exceptionlist, columns=["exceptionID", "exceptionMsg" ]) 
         
@@ -121,8 +133,8 @@ async def exception_manager(planner_id:str, start_date : str, end_date : str, us
         
         response = {
             "planner" : planner_id,
-            "start_date" : start_date,
-            "end_date" : end_date,
+            "start_date" : str(start_date),
+            "end_date" : str(end_date),
             "result": json.loads(json.dumps(list(exception_manager.T.to_dict().values()))),
             "exceptions": json.loads(json.dumps(list(df_exceptionlist.T.to_dict().values())))    
         }
@@ -134,10 +146,13 @@ async def exception_manager(planner_id:str, start_date : str, end_date : str, us
 
 
 @exception.get('/matrix/{planner_id}/', status_code = status.HTTP_200_OK)
-async def exception_matrix(planner_id:str, 
-                                      start_date : str,
-                                      end_date : str,
-                    user_id: int = Depends(get_current_user)):
+#async def exception_matrix(planner_id:str, start_date : str, end_date : str, user_id: int = Depends(get_current_user)):
+async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get_current_user)):
+
+    
+    
+    end_date = str(datetime.today().strftime("%m/%d/%y"))
+    start_date = str((datetime.today() + timedelta(days=-days)).strftime("%m/%d/%y"))
     
     # Reteriving materials
         
@@ -157,7 +172,7 @@ async def exception_matrix(planner_id:str,
         list_manager = df_list_manager["material_9"].values.tolist()
         
         # Data Reading from MySQL 
-        sql = """SELECT * FROM admin.Exception"""
+        sql = """SELECT matnr, cdate, auskt FROM admin.Exception"""
         df_exception = pd.DataFrame(conn.execute(sql).fetchall()) 
         
         if df_exception.empty:
@@ -171,7 +186,6 @@ async def exception_matrix(planner_id:str,
             return response
 
         
-        
         # 1 - matnr, 3 - cdate , 9 - auskt
         dataframe_exception = pd.concat([df_exception["matnr"], df_exception["cdate"], df_exception["auskt"]], axis=1)
         dataframe_exception = dataframe_exception[dataframe_exception["matnr"].isin(list_manager)]
@@ -184,6 +198,10 @@ async def exception_matrix(planner_id:str,
         
         # Data filtering with respect to the start and end date
         dataframe_exception_filtered = dataframe_exception.filter_date("cdate", start_date=start_date, end_date=end_date)
+        
+        #sql = """select matnr, cdate, auskt from admin.Exception WHERE (cdate BETWEEN %s AND %s)"""
+        #dataframe_exception_filtered = pd.DataFrame(conn.execute(sql, start_date, end_date).fetchall(), columns=[ 'matnr','cdate', 'auskt'])
+        
 
 
         # Remove row that 'auskt' value has zero
