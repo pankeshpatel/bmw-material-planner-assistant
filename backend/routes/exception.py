@@ -149,13 +149,10 @@ async def exception_manager(planner_id:str, days: int, user_id: int = Depends(ge
 #async def exception_matrix(planner_id:str, start_date : str, end_date : str, user_id: int = Depends(get_current_user)):
 async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get_current_user)):
 
-    
-    
     end_date = str(datetime.today().strftime("%m/%d/%y"))
     start_date = str((datetime.today() + timedelta(days=-days)).strftime("%m/%d/%y"))
     
     # Reteriving materials
-        
     exception_matrix_key = "exceptions" + "/" + "matrix" + "/" + planner_id + "/" +  start_date + "--" + end_date
     
     redis_reponse = redis_client.get(exception_matrix_key)
@@ -172,8 +169,8 @@ async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get
         list_manager = df_list_manager["material_9"].values.tolist()
         
         # Data Reading from MySQL 
-        sql = """SELECT matnr, cdate, auskt FROM admin.Exception"""
-        df_exception = pd.DataFrame(conn.execute(sql).fetchall()) 
+        sql = """SELECT matnr, cdate, auskt FROM admin.Exception WHERE (cdate BETWEEN %s AND %s)"""
+        df_exception = pd.DataFrame(conn.execute(sql, start_date, end_date).fetchall()) 
         
         if df_exception.empty:
             response = {
@@ -185,19 +182,25 @@ async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get
         
             return response
 
+        print(df_exception)
+        
         
         # 1 - matnr, 3 - cdate , 9 - auskt
         dataframe_exception = pd.concat([df_exception["matnr"], df_exception["cdate"], df_exception["auskt"]], axis=1)
         dataframe_exception = dataframe_exception[dataframe_exception["matnr"].isin(list_manager)]
         
-    
+        print("*****dataframe_exception*****")
+        print(dataframe_exception)
+
         
         #  Data cleaning, replacing NaN with '0'
         dataframe_exception["auskt"] = dataframe_exception["auskt"].fillna(0)
         
+        dataframe_exception_filtered = dataframe_exception
         
         # Data filtering with respect to the start and end date
-        dataframe_exception_filtered = dataframe_exception.filter_date("cdate", start_date=start_date, end_date=end_date)
+        #dataframe_exception_filtered = dataframe_exception.filter_date("cdate", start_date=start_date, end_date=end_date)
+        #print(dataframe_exception_filtered)
         
         #sql = """select matnr, cdate, auskt from admin.Exception WHERE (cdate BETWEEN %s AND %s)"""
         #dataframe_exception_filtered = pd.DataFrame(conn.execute(sql, start_date, end_date).fetchall(), columns=[ 'matnr','cdate', 'auskt'])
