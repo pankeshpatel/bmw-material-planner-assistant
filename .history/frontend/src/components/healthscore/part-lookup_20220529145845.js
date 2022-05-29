@@ -394,11 +394,6 @@ export const PartLookUp = (props) => {
     </Box> */}
         <PerfectScrollbar>
           <Box sx={{ minHeight: "100px", overflow: "scroll" }}>
-
-            {/* for (let index = 0; index < 5; index++) {
-              
-              
-            } */}
             <Table stickyHeader={true}>
               <TableHead>
                 <TableRow>
@@ -523,8 +518,6 @@ export const PartLookUp = (props) => {
                       ))}
                 </>
               </TableBody>
-              
-
             </Table>
           </Box>
         </PerfectScrollbar>
@@ -607,10 +600,22 @@ export const PartLookUp = (props) => {
                       </tr>
                     ))}
               </TableBody>
-
             </Table>
+          </Box>
+        </PerfectScrollbar>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            p: 2,
+          }}
+        ></Box>
+      </Card>
 
-
+      <Card {...props}>
+        <CardHeader title="Part Detailed  Description" />
+        <PerfectScrollbar>
+          <Box sx={{ overflow: "scroll", height: "300px" }}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -641,9 +646,35 @@ export const PartLookUp = (props) => {
                 </TableRow>
               </TableHead>
 
+              <TableBody>
+                {!table2Loading
+                  ? materialResponse?.map((order) => (
+                      <TableRow hover key={Math.random()}>
+                        <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                        <TableCell>{order.material_9}</TableCell>
+                        <TableCell>{order.material_7}</TableCell>
+                        <TableCell>{order.mat_description}</TableCell>
+
+                        <TableCell>{order.mat_description_eng}</TableCell>
+
+                        <TableCell style={{ textAlign: "center" }}>{order.safety_stock}</TableCell>
+
+                        <TableCell>{order.plant}</TableCell>
+
+                        <TableCell style={{ textAlign: "center" }}>{order.lot_size}</TableCell>
+                      </TableRow>
+                    ))
+                  : Array.from({ length: 10 }, (_, i) => (
+                      <tr key={i}>
+                        <td colspan="8">
+                          <Shimmer>
+                            <div style={{ width: "100%" }}>&nbsp;</div>
+                          </Shimmer>
+                        </td>
+                      </tr>
+                    ))}
+              </TableBody>
             </Table>
-
-
           </Box>
         </PerfectScrollbar>
         <Box
@@ -654,8 +685,6 @@ export const PartLookUp = (props) => {
           }}
         ></Box>
       </Card>
-
-      
     </>
   );
 };

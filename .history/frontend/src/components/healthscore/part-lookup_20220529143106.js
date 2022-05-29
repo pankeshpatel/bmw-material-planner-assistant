@@ -238,7 +238,7 @@ export const PartLookUp = (props) => {
     })
   );
 
-  //{
+  {
     const labels = healthResponse?.total_qty_instances?.map((val) => {
       return val.demand_date;
     });
@@ -265,7 +265,7 @@ export const PartLookUp = (props) => {
         },
       ],
     };
- // }
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -279,11 +279,12 @@ export const PartLookUp = (props) => {
     console.log("materialCallResponse", matetrialCallResponse);
   }, []);
 
-  let date = new Date().toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: '2-digit'});
-
   useEffect(async () => {
     SetTable1Loading(true);
     // const healthScoreResponse = await healthScoreCall("7430935-05", "05/20/21");
+
+    let date = new Date().toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: '2-digit'});
+    console.log(date);
 
     const healthScoreResponse = await healthScoreCall("7430935-05", date);
 
@@ -394,11 +395,6 @@ export const PartLookUp = (props) => {
     </Box> */}
         <PerfectScrollbar>
           <Box sx={{ minHeight: "100px", overflow: "scroll" }}>
-
-            {/* for (let index = 0; index < 5; index++) {
-              
-              
-            } */}
             <Table stickyHeader={true}>
               <TableHead>
                 <TableRow>
@@ -417,15 +413,15 @@ export const PartLookUp = (props) => {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell> */}
-                  {/* <TableCell>Material_9</TableCell> */}
-                  {/* <TableCell
+                  <TableCell>Material_9</TableCell>
+                  <TableCell
                     onClick={() => {
                       sethealthData(healthScore.sort(sortByProperty("healthstatus")));
                     }}
                   >
                     Material_7
-                  </TableCell> */}
-                  {/* <TableCell>Material Description</TableCell> */}
+                  </TableCell>
+                  <TableCell>Material Description</TableCell>
                   <TableCell>Material Description Eng</TableCell>
 
                   <TableCell style={{ textAlign: "center" }}>Health Status</TableCell>
@@ -461,15 +457,14 @@ export const PartLookUp = (props) => {
                             <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
                             <TableCell>
                               {/* {healthResponse.Date} */}
-                              {/* <input
+                              <input
                                 type="date"
                                 value={startDate}
-                                 onChange={(e) => setStartDate(e.target.value)}
-                              /> */}
-                              {date}
+                                onChange={(e) => setStartDate(e.target.value)}
+                              />
                             </TableCell>
-                            {/* <TableCell>{order.material_9}</TableCell>
-                            <TableCell>{order.material_7}</TableCell> */}
+                            <TableCell>{order.material_9}</TableCell>
+                            <TableCell>{order.material_7}</TableCell>
 
                             {/* <TableCell>
                    <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
@@ -477,15 +472,14 @@ export const PartLookUp = (props) => {
 
                             <TableCell>{order.mat_description}</TableCell>
 
-                            {/* <TableCell>{order.mat_description_eng}</TableCell> */}
+                            <TableCell>{order.mat_description_eng}</TableCell>
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthGuage} %
-                              {/* <TrafficByDevice
+                              <TrafficByDevice
                                 healthGuage={healthGuage}
                                 setHealthGuage={setHealthGuage}
                                 sx={{ height: "100px" }}
-                              /> */}
+                              />
                             </TableCell>
 
                             <TableCell>
@@ -505,7 +499,7 @@ export const PartLookUp = (props) => {
                                     SetShowmodal(true);
                                   }}
                                 >
-                                  Show Analysis
+                                  Show Graphs
                                 </Button>
                               </Box>
                             </TableCell>
@@ -523,8 +517,6 @@ export const PartLookUp = (props) => {
                       ))}
                 </>
               </TableBody>
-              
-
             </Table>
           </Box>
         </PerfectScrollbar>
@@ -607,43 +599,7 @@ export const PartLookUp = (props) => {
                       </tr>
                     ))}
               </TableBody>
-
             </Table>
-
-
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell style={{ width: "10%" }}>Material</TableCell>
-                  <TableCell>Material_9</TableCell>
-                  {/* <TableCell sortDirection="desc">
-                <Tooltip
-                  enterDelay={300}
-                  title="Sort"
-                >
-                  <TableSortLabel
-                    active
-                    direction="desc"
-                  >
-                    Date
-                  </TableSortLabel>
-                </Tooltip>
-              </TableCell> */}
-                  <TableCell>Material_7</TableCell>
-                  <TableCell>Material Description</TableCell>
-                  <TableCell>Material Description Eng</TableCell>
-
-                  <TableCell>Safety Stock</TableCell>
-
-                  <TableCell>Plant</TableCell>
-
-                  <TableCell>Lot Size</TableCell>
-                </TableRow>
-              </TableHead>
-
-            </Table>
-
-
           </Box>
         </PerfectScrollbar>
         <Box
@@ -654,8 +610,6 @@ export const PartLookUp = (props) => {
           }}
         ></Box>
       </Card>
-
-      
     </>
   );
 };

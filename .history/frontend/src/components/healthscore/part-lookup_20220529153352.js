@@ -547,7 +547,7 @@ export const PartLookUp = (props) => {
       </Card>
       <Card {...props}>
         <CardHeader title="Part Detailed  Description" />
-        <PerfectScrollbar>
+        <PerfectScrollbar style={{opacity: 100, visibility:'initial'}}>
           <Box sx={{ overflow: "scroll", height: "300px" }}>
             <Table>
               <TableHead>

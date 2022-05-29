@@ -89,9 +89,7 @@ export const DashboardSidebar = (props) => {
     // const plannerIdResponse = await plannerIdCall();
     // console.log("plannerIdResponse", plannerIdResponse);
    // setUsername(plannerIdResponse.name);
-
-
-   let name = localStorage.getItem("plannerId");
+    let name = localStorage.getItem("us");
 
     if (name == "114"){
       setUsername("Ben Shockley");

@@ -132,7 +132,7 @@ export const PartLookUp = (props) => {
   const [table1Loading, SetTable1Loading] = useState(false);
 
   const style = {
-    transform: "translate(40%, 10%)",
+   // transform: "translate(40%, 10%)",
     width: "60%",
     bgcolor: "background.paper",
     boxShadow: 24,

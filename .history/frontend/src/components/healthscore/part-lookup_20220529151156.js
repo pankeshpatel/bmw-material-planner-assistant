@@ -394,11 +394,6 @@ export const PartLookUp = (props) => {
     </Box> */}
         <PerfectScrollbar>
           <Box sx={{ minHeight: "100px", overflow: "scroll" }}>
-
-            {/* for (let index = 0; index < 5; index++) {
-              
-              
-            } */}
             <Table stickyHeader={true}>
               <TableHead>
                 <TableRow>
@@ -523,8 +518,6 @@ export const PartLookUp = (props) => {
                       ))}
                 </>
               </TableBody>
-              
-
             </Table>
           </Box>
         </PerfectScrollbar>
@@ -608,42 +601,36 @@ export const PartLookUp = (props) => {
                     ))}
               </TableBody>
 
+
+              <TableBody>
+                {!table2Loading
+                  ? materialResponse?.map((order) => (
+                      <TableRow hover key={Math.random()}>
+                        <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                        <TableCell>{order.material_9}</TableCell>
+                        <TableCell>{order.material_7}</TableCell>
+                        <TableCell>{order.mat_description}</TableCell>
+
+                        <TableCell>{order.mat_description_eng}</TableCell>
+
+                        <TableCell style={{ textAlign: "center" }}>{order.safety_stock}</TableCell>
+
+                        <TableCell>{order.plant}</TableCell>
+
+                        <TableCell style={{ textAlign: "center" }}>{order.lot_size}</TableCell>
+                      </TableRow>
+                    ))
+                  : Array.from({ length: 10 }, (_, i) => (
+                      <tr key={i}>
+                        <td colspan="8">
+                          <Shimmer>
+                            <div style={{ width: "100%" }}>&nbsp;</div>
+                          </Shimmer>
+                        </td>
+                      </tr>
+                    ))}
+              </TableBody>
             </Table>
-
-
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell style={{ width: "10%" }}>Material</TableCell>
-                  <TableCell>Material_9</TableCell>
-                  {/* <TableCell sortDirection="desc">
-                <Tooltip
-                  enterDelay={300}
-                  title="Sort"
-                >
-                  <TableSortLabel
-                    active
-                    direction="desc"
-                  >
-                    Date
-                  </TableSortLabel>
-                </Tooltip>
-              </TableCell> */}
-                  <TableCell>Material_7</TableCell>
-                  <TableCell>Material Description</TableCell>
-                  <TableCell>Material Description Eng</TableCell>
-
-                  <TableCell>Safety Stock</TableCell>
-
-                  <TableCell>Plant</TableCell>
-
-                  <TableCell>Lot Size</TableCell>
-                </TableRow>
-              </TableHead>
-
-            </Table>
-
-
           </Box>
         </PerfectScrollbar>
         <Box
