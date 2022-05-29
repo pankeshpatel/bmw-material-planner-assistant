@@ -269,9 +269,8 @@ async def part_probabilities(planner_id: str, material_id: str, user_id: int = D
 
         return json.loads(json.dumps(json_output, indent=4))
 
-   
-   
-   
+
+
 # The only user input is the part number
 # part_number = random.choice([742065710,809198305,743093505,807165907,741788607])
 # print(part_probabilities(part_number))

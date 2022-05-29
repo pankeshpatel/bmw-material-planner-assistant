@@ -246,3 +246,7 @@ async def exception_matrix(planner_id:str,
         
         redis_client.set(exception_matrix_key, json.dumps(response) )
         return response
+
+
+
+
