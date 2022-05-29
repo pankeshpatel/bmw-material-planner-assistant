@@ -251,7 +251,7 @@ export const PartLookUp = (props) => {
           data: healthResponse?.total_qty_instances?.map((val) => {
             return val.total_quantity;
           }),
-          borderColor: "rgb(255, 99, 132)",
+          borderColor: "rgb(255, 99, 135)",
           backgroundColor: "rgba(255, 99, 132, 0.5)",
         },
 
@@ -394,11 +394,6 @@ export const PartLookUp = (props) => {
     </Box> */}
         <PerfectScrollbar>
           <Box sx={{ minHeight: "100px", overflow: "scroll" }}>
-
-            {/* for (let index = 0; index < 5; index++) {
-              
-              
-            } */}
             <Table stickyHeader={true}>
               <TableHead>
                 <TableRow>
@@ -523,8 +518,6 @@ export const PartLookUp = (props) => {
                       ))}
                 </>
               </TableBody>
-              
-
             </Table>
           </Box>
         </PerfectScrollbar>
@@ -607,43 +600,7 @@ export const PartLookUp = (props) => {
                       </tr>
                     ))}
               </TableBody>
-
             </Table>
-
-
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell style={{ width: "10%" }}>Material</TableCell>
-                  <TableCell>Material_9</TableCell>
-                  {/* <TableCell sortDirection="desc">
-                <Tooltip
-                  enterDelay={300}
-                  title="Sort"
-                >
-                  <TableSortLabel
-                    active
-                    direction="desc"
-                  >
-                    Date
-                  </TableSortLabel>
-                </Tooltip>
-              </TableCell> */}
-                  <TableCell>Material_7</TableCell>
-                  <TableCell>Material Description</TableCell>
-                  <TableCell>Material Description Eng</TableCell>
-
-                  <TableCell>Safety Stock</TableCell>
-
-                  <TableCell>Plant</TableCell>
-
-                  <TableCell>Lot Size</TableCell>
-                </TableRow>
-              </TableHead>
-
-            </Table>
-
-
           </Box>
         </PerfectScrollbar>
         <Box
@@ -654,8 +611,6 @@ export const PartLookUp = (props) => {
           }}
         ></Box>
       </Card>
-
-      
     </>
   );
 };

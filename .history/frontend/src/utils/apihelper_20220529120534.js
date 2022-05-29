@@ -110,12 +110,11 @@ const healthScoreCall = (materialId, healthDate) => {
   });
 };
 
-const ExceptionManagerCall = (currentDate) => {
+const ExceptionManagerCall = (startDate, EndDate) => {
   const url = `${apiUrl}/exceptions/manager/${eval(
     plannerId
-  )}?days=${currentDate}`
-      // http://localhost:8000/exceptions/manager/114/?days=60
-
+  )}?start_date=${startDate}&end_date=${EndDate}`;
+  // http://localhost:8000/exceptions/manager/115/?start_date=02/18/22&end_date=04/04/22
   return new Promise((resolve, reject) => {
     const header = getHeader();
     axios
@@ -129,11 +128,10 @@ const ExceptionManagerCall = (currentDate) => {
   });
 };
 
-const ExceptionMatrixCall = (currentDate) => {
+const ExceptionMatrixCall = (startDate, EndDate) => {
   const url = `${apiUrl}/exceptions/matrix/${eval(
     plannerId
-  )}?days=${currentDate}`
-    // http://localhost:8000/exceptions/matrix/114/?days=60
+  )}?start_date=${startDate}&end_date=${EndDate}`;
   // http://localhost:8000/exceptions/manager/115/?start_date=02/18/22&end_date=04/04/22
   return new Promise((resolve, reject) => {
     const header = getHeader();

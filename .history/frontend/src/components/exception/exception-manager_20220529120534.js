@@ -32,7 +32,7 @@ export const ExceptionManager = (props) => {
 
   useEffect(async () => {
     if (resultBool === false) {
-      let data = await ExceptionManagerCall("60");
+      let data = await ExceptionManagerCall("02/18/22", "04/04/22");
       // data = data.data;
       console.log("data", data);
       for (let i = 0; i < data.result.length; i++) {
@@ -183,7 +183,7 @@ export const ExceptionManager = (props) => {
           >
             <select>
               <option value="" key="">
-                last 60 days
+                last 45 days
               </option>
             </select>
           </Button>

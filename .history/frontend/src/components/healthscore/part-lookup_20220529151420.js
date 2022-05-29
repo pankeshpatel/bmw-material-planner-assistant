@@ -394,11 +394,6 @@ export const PartLookUp = (props) => {
     </Box> */}
         <PerfectScrollbar>
           <Box sx={{ minHeight: "100px", overflow: "scroll" }}>
-
-            {/* for (let index = 0; index < 5; index++) {
-              
-              
-            } */}
             <Table stickyHeader={true}>
               <TableHead>
                 <TableRow>
@@ -523,7 +518,103 @@ export const PartLookUp = (props) => {
                       ))}
                 </>
               </TableBody>
-              
+
+
+
+
+
+              <TableBody>
+                <Modal
+                  open={showmodal}
+                  onClose={() => {
+                    SetShowmodal(false);
+                  }}
+                >
+                  <Box sx={style}>
+                    <h2>Summary of Material availability for next 10 days</h2>
+                    <Line options={options1} data={data1} plugins={[ChartDataLabels]} />
+                    <br />
+                    <h2> Detail Information of Material availability for next 10 days</h2>
+                    <Line options={options2} data={data2} plugins={[ChartDataLabels]} />
+                  </Box>
+                </Modal>
+
+                <>
+                  {!table1Loading
+                    ? healthResponse?.material_detail?.map((order, index) => {
+                        return (
+                          <TableRow
+                            hover
+                            key={Math.random()}
+                            // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
+                          >
+                            <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                            <TableCell>
+                              {/* {healthResponse.Date} */}
+                              {/* <input
+                                type="date"
+                                value={startDate}
+                                 onChange={(e) => setStartDate(e.target.value)}
+                              /> */}
+                              {date}
+                            </TableCell>
+                            {/* <TableCell>{order.material_9}</TableCell>
+                            <TableCell>{order.material_7}</TableCell> */}
+
+                            {/* <TableCell>
+                   <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
+                  </TableCell> */}
+
+                            <TableCell>{order.mat_description}</TableCell>
+
+                            {/* <TableCell>{order.mat_description_eng}</TableCell> */}
+
+                            <TableCell style={{ textAlign: "center" }}>
+                              {healthGuage} %
+                              {/* <TrafficByDevice
+                                healthGuage={healthGuage}
+                                setHealthGuage={setHealthGuage}
+                                sx={{ height: "100px" }}
+                              /> */}
+                            </TableCell>
+
+                            <TableCell>
+                              <Box
+                                sx={
+                                  {
+                                    // display: 'flex',
+                                    // marginTop:"-7%",
+                                    // paddingBottom:"2%",
+                                    // justifyContent: 'center',
+                                    // p: 3
+                                  }
+                                }
+                              >
+                                <Button
+                                  onClick={() => {
+                                    SetShowmodal(true);
+                                  }}
+                                >
+                                  Show Analysis
+                                </Button>
+                              </Box>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    : Array.from({ length: 10 }, (_, i) => (
+                        <tr key={i}>
+                          <td colspan="8">
+                            <Shimmer>
+                              <div style={{ width: "100%" }}>&nbsp;</div>
+                            </Shimmer>
+                          </td>
+                        </tr>
+                      ))}
+                </>
+              </TableBody>
+
+
 
             </Table>
           </Box>

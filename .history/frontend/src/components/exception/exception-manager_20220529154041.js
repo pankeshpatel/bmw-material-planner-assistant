@@ -183,7 +183,7 @@ export const ExceptionManager = (props) => {
           >
             <select>
               <option value="" key="">
-                last 60 days
+                last 45 days
               </option>
             </select>
           </Button>
