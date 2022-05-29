@@ -86,32 +86,28 @@ export const DashboardSidebar = (props) => {
   );
 
   useEffect(async () => {
-    // const plannerIdResponse = await plannerIdCall();
-    // console.log("plannerIdResponse", plannerIdResponse);
+    const plannerIdResponse = await plannerIdCall();
+    console.log("plannerIdResponse", plannerIdResponse);
    // setUsername(plannerIdResponse.name);
-    let name = localStorage.getItem("us");
 
-    if (name == "114"){
-      setUsername("Ben Shockley");
+    switch (plannerIDResponse.id) {
+      case 114:
+          setUsername("Ben Shockley");
+      case 594:
+          setUsername("Alec Terry");
+      case 177:
+          setUsername("Justin Hayes");
+      case M11:
+          setUsername("Liliana Banda");
     }
-    else if (name == "594"){
-      setUsername("Alec Terry");
-    }
-    else if (name == "177"){
-      setUsername("Justin Hayes");
-    }
-    else if (name == "M11"){
-      setUsername("Liliana Banda");
-    }
-
 
   }, []);
 
-        // 114 - Ben Shockley
-        // 594 - Alec Terry
+  114 - Ben Shockley
+594 - Alec Terry
 
-        // 177 - Justin Hayes
-        // M11 - Liliana Banda
+177 - Justin Hayes
+M11 - Liliana Banda
 
 
 

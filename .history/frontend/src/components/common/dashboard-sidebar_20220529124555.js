@@ -61,15 +61,12 @@ const items = [
 export const DashboardSidebar = (props) => {
   const [username, setUsername] = useState("");
 
-  const [preSetName, setPreSetName] = useState("");
-
   const { open, onClose } = props;
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
   });
-
 
   useEffect(
     () => {
@@ -86,35 +83,10 @@ export const DashboardSidebar = (props) => {
   );
 
   useEffect(async () => {
-    // const plannerIdResponse = await plannerIdCall();
-    // console.log("plannerIdResponse", plannerIdResponse);
-   // setUsername(plannerIdResponse.name);
-    let name = localStorage.getItem("us");
-
-    if (name == "114"){
-      setUsername("Ben Shockley");
-    }
-    else if (name == "594"){
-      setUsername("Alec Terry");
-    }
-    else if (name == "177"){
-      setUsername("Justin Hayes");
-    }
-    else if (name == "M11"){
-      setUsername("Liliana Banda");
-    }
-
-
+    const plannerIdResponse = await plannerIdCall();
+    console.log("plannerIdResponse", plannerIdResponse);
+    setUsername(plannerIdResponse.name);
   }, []);
-
-        // 114 - Ben Shockley
-        // 594 - Alec Terry
-
-        // 177 - Justin Hayes
-        // M11 - Liliana Banda
-
-
-
 
   const content = (
     <>
@@ -161,11 +133,8 @@ export const DashboardSidebar = (props) => {
               <div>
                 <Typography color="inherit" variant="subtitle1">
 
-                    {/* USER NAME */}
-
-                  {username.split(" ").join(".")}
-
-
+                    NAME
+                  {/* {username.split(" ").join(".")} */}
 
 
 

@@ -23,8 +23,6 @@ const Login = () => {
     body.append("username", username);
     body.append("password", password);
 
-    localStorage.setItem("us", username);
-
     const LoginResponse = await loginCall(body);
     console.log("response", LoginResponse);
 
