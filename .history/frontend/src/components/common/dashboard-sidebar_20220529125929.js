@@ -90,20 +90,18 @@ export const DashboardSidebar = (props) => {
     // console.log("plannerIdResponse", plannerIdResponse);
    // setUsername(plannerIdResponse.name);
     let name = localStorage.getItem("us");
-
-    if (name == "114"){
-      setUsername("Ben Shockley");
+    switch (name) {
+      case "114":
+          setUsername("Ben Shockley");
+      case "594":
+          setUsername("Alec Terry");
+      case "177":
+          setUsername("Justin Hayes");
+      case "M11":
+          setUsername("Liliana Banda");
+      default:
+          setUsername("Guest");
     }
-    else if (name == "594"){
-      setUsername("Alec Terry");
-    }
-    else if (name == "177"){
-      setUsername("Justin Hayes");
-    }
-    else if (name == "M11"){
-      setUsername("Liliana Banda");
-    }
-
 
   }, []);
 
