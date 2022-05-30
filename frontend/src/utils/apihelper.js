@@ -178,6 +178,24 @@ const matetrialCall = () => {
   });
 };
 
+const rankCall = () => {
+  const url = `${apiUrl}/ranking/${eval(plannerId)}/742065710`; // change material number 
+  // http://localhost:8000/ranking/114/742065710
+  return new Promise((resolve, reject) => {
+    const header = getHeader();
+    axios
+      .get(url, header)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(handleError(err));
+       // localStorage.setItem('RunCallPass', false);   // ADDEDDDDD
+      });
+     // localStorage.setItem('RunCallPass', true);
+  });
+};
+
 export {
   loginCall,
   healthScoreCall,
@@ -185,4 +203,5 @@ export {
   ExceptionMatrixCall,
   plannerIdCall,
   matetrialCall,
+  rankCall,
 };
