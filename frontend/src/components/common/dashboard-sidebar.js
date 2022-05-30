@@ -37,7 +37,7 @@ const items = [
     title: "Exception",
   },
   {
-    href: "",
+    href: "/ranking",
     icon: <FontAwesomeIcon icon={faRankingStar} />,
     title: "Part Ranking",
   },

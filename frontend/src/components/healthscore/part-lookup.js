@@ -611,11 +611,11 @@ export const PartLookUp = (props) => {
             </Table>
 
 
-            <Table>
+            {/* <Table>
               <TableHead>
                 <TableRow>
                   <TableCell style={{ width: "10%" }}>Material</TableCell>
-                  <TableCell>Material_9</TableCell>
+                  <TableCell>Material_9</TableCell> */}
                   {/* <TableCell sortDirection="desc">
                 <Tooltip
                   enterDelay={300}
@@ -629,7 +629,7 @@ export const PartLookUp = (props) => {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell> */}
-                  <TableCell>Material_7</TableCell>
+                  {/* <TableCell>Material_7</TableCell>
                   <TableCell>Material Description</TableCell>
                   <TableCell>Material Description Eng</TableCell>
 
@@ -641,7 +641,7 @@ export const PartLookUp = (props) => {
                 </TableRow>
               </TableHead>
 
-            </Table>
+            </Table> */}
 
 
           </Box>
