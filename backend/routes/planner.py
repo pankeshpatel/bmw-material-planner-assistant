@@ -60,26 +60,19 @@ async def get_material_planner_info(id:str, user_id: int = Depends(get_current_u
         print("I have not found the results in redis cache, computing now...get_material_planner_info()")   
     
         sql = """SELECT * from admin.Planner where id=%s"""
-        df_planner = pd.DataFrame(conn.execute(sql, id).fetchall())
-
-        if len(df_planner.columns) == 0:
-                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
-            
-        response = {
-                "date" :str(datetime.today().strftime("%m/%d/%y")),
-                "result": json.loads(json.dumps(list(df_planner.T.to_dict().values()))),
-                 }
+        df_planner = pd.DataFrame(pd.DataFrame(conn.execute(sql, id).fetchall()), columns=["id", "name", "email"])
         
-        my_redis.put(planner_id_key, json.dumps(response), 950400) # expire after 11 days
-        return response;
+        if len(df_planner.columns) == 0:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Data item does not exist")
+        
+        # response = {
+        #     "result" : json.loads(json.dumps(list(df_planner.T.to_dict().values())))
+        # }
+        
+        my_redis.put(planner_id_key, json.dumps(list(df_planner.T.to_dict().values())), 172800)
+        return json.dumps(list(df_planner.T.to_dict().values()))
 
 
-    # data = conn.execute(dbPlanner.select().where(dbPlanner.c.id == id)).first()
-
-    # if not data:
-    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Items are not found")
-    
-    #return data
 
 
 @planner.get('/planner-name/{name}',  status_code = status.HTTP_200_OK)
