@@ -21,6 +21,8 @@ my_redis = redis_db()
 from sqlalchemy.orm import Session
 from config.db import get_db
 
+import asyncio
+
 
 # Import the Class
 from config.profiler import profiler
@@ -172,10 +174,24 @@ async def get_material_healthscore(
      # Check if the data exists in Cache
     if redis_reponse != None:
         print("Found the results in redis cache.......healthscore()")
+        
+        # update the cache 1 days advance 
+        date = healthdate       
+        mm, dd, yyyy = map(int, date.split('/'))
+        date_obj = datetime.datetime(yyyy, mm, dd)
+        td = datetime.timedelta(days=1)
+        new_date = date_obj + td
+
+        formatted_date = format_date(date=new_date)
+        print("************formatted_date*********************")
+        print(formatted_date)
+
+        asyncio.create_task(get_material_healthscore_background(planner_id, material_id, formatted_date))
+
         return json.loads(redis_reponse)
     else:
         print("I have not found the results in redis cache, computing now...")   
-        #my_profiler.start("health-score")
+        my_profiler.start("health-score")
         date = healthdate
         num_days = 10  
         
@@ -205,7 +221,9 @@ async def get_material_healthscore(
             formatted_date = format_date(date=new_date)
             
             # update the cache asynchronously in background
-            background_tasks.add_task(get_material_healthscore_background,planner_id, material_id, formatted_date)
+            # asyncio.create_task(background_tasks.add_task(get_material_healthscore_background,planner_id, material_id, formatted_date))
+            
+            #asyncio.create_task(get_material_healthscore_background(planner_id, material_id, formatted_date))
             
             sql = """SELECT material, mrp_element, total_quantity, demand_date  FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
             data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "mrp_element", "total_quantity", "demand_date" ])
@@ -248,10 +266,11 @@ async def get_material_healthscore(
             "total_qty_instances": json.loads(json.dumps(list(df_total_qty_instances.T.to_dict().values())))    
         }
         
-        # my_profiler.end("health-score")
-        # my_profiler.log("print")
+        my_profiler.end("health-score")
+        my_profiler.log("print")
 
-        my_redis.put(material_healthscore_key, json.dumps(health_score) )
+        # 172800 seconds = 2 days
+        my_redis.put(material_healthscore_key, json.dumps(health_score), 172800)
                 
 
         return health_score
@@ -341,4 +360,5 @@ async def get_material_healthscore_background(planner_id:str,  material_id: str,
         # my_profiler.end("health-score")
         # my_profiler.log("print")
 
-        my_redis.put(material_healthscore_key, json.dumps(health_score) )
+        # 172800 seconds = 2 days
+        my_redis.put(material_healthscore_key, json.dumps(health_score), 172800 )
