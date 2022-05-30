@@ -9,6 +9,11 @@ import json
 from config.oauth2 import get_current_user
 from datetime import datetime, timedelta, date
 
+from sqlalchemy.orm import Session
+from config.db import get_db
+
+
+
 
 from config.redisdb import redis_db
 my_redis = redis_db()
@@ -28,14 +33,14 @@ materiallist = []
 # API call
 # http://localhost:8000/exceptions/
 @exception.get('/', status_code = status.HTTP_200_OK)
-async def get_all_exception_info(user_id: int = Depends(get_current_user)):    
+async def get_all_exception_info(user_id: int = Depends(get_current_user), session: Session = Depends(get_db) ):    
     return conn.execute(dbExceptionMessage.select()).fetchall()
 
 
 
 @exception.get('/manager/{planner_id}',  status_code = status.HTTP_200_OK)
 #async def exception_manager(planner_id:str, start_date : str, end_date : str, user_id: int = Depends(get_current_user)):
-async def exception_manager(planner_id:str, days: int, user_id: int = Depends(get_current_user)):
+async def exception_manager(planner_id:str, days: int, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
     
 
     end_date = str(datetime.today().strftime("%m/%d/%y"))
@@ -50,7 +55,7 @@ async def exception_manager(planner_id:str, days: int, user_id: int = Depends(ge
     
     # Check if the data exists in Cache
     if redis_reponse != None:
-        print("Found the results in redis cache.......")
+        print("Found the results in redis cache.......exception_manager()")
         return json.loads(redis_reponse)
     else: 
         print("I have not found the results in redis cache, computing now...")   
@@ -151,7 +156,7 @@ async def exception_manager(planner_id:str, days: int, user_id: int = Depends(ge
 
 @exception.get('/matrix/{planner_id}/', status_code = status.HTTP_200_OK)
 #async def exception_matrix(planner_id:str, start_date : str, end_date : str, user_id: int = Depends(get_current_user)):
-async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get_current_user)):
+async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
 
     end_date = str(datetime.today().strftime("%m/%d/%y"))
     start_date = str((datetime.today() + timedelta(days=-days)).strftime("%m/%d/%y"))
@@ -164,7 +169,7 @@ async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get
     
     # Check if the data exists in Cache
     if redis_reponse != None:
-        print("Found the results in redis cache.......")
+        print("Found the results in redis cache.......exception_matrix()")
         return json.loads(redis_reponse)
     else: 
         print("I have not found the results in redis cache, computing now...")   

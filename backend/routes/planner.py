@@ -5,7 +5,11 @@ from datetime import datetime, date
 from models.dbschema import dbPlanner
 from config.oauth2 import get_current_user
 
+from sqlalchemy.orm import Session
+from config.db import get_db
 
+from config.redisdb import redis_db
+my_redis = redis_db()
 
 
 
@@ -20,7 +24,7 @@ planner = APIRouter(
     # Planner Email 
     
 @planner.get('/',  status_code = status.HTTP_200_OK)
-async def get_all_material_planner_info(user_id: int = Depends(get_current_user)):
+async def get_all_material_planner_info(user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
 
     
     
@@ -43,7 +47,7 @@ async def get_all_material_planner_info(user_id: int = Depends(get_current_user)
 
     
 @planner.get('/planner-id/{id}',  status_code = status.HTTP_200_OK)
-async def get_material_planner_info(id:str, user_id: int = Depends(get_current_user)):
+async def get_material_planner_info(id:str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
 
     data = conn.execute(dbPlanner.select().where(dbPlanner.c.id == id)).first()
 
@@ -54,7 +58,7 @@ async def get_material_planner_info(id:str, user_id: int = Depends(get_current_u
 
 
 @planner.get('/planner-name/{name}',  status_code = status.HTTP_200_OK)
-async def get_material_planner_info(name:str, user_id: int = Depends(get_current_user)):
+async def get_material_planner_info(name:str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
                     #user_id: int = Depends(get_current_user)):
         
     data = conn.execute(dbPlanner.select().where(dbPlanner.c.name == name)).fetchall()

@@ -1,5 +1,7 @@
 from sqlalchemy import create_engine, MetaData
 from config.env import settings
+from sqlalchemy.orm import sessionmaker
+
 
 
 connect_string = f'mysql+pymysql://root:root123@localhost:3306/admin?charset=utf8mb4'
@@ -34,5 +36,22 @@ connect_string = f'mysql+pymysql://root:root123@localhost:3306/admin?charset=utf
 
 
 engine = create_engine(connect_string)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 meta = MetaData()
 conn = engine.connect()
+
+
+def get_db():
+    """
+    Function to generate db session
+    :return: Session
+    """
+    db = None
+    try:
+        db = SessionLocal()
+        yield db
+    finally:
+        db.close()
+
+

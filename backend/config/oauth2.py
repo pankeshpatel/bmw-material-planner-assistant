@@ -8,6 +8,9 @@ from config.db import conn
 from models.dbschema import dbUsers
 from config.env import settings
 
+from sqlalchemy.orm import Session
+from config.db import get_db
+
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
@@ -57,9 +60,12 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 
     token = verify_access_token(token, credentials_exception)
     
-    
+
 
     #user = db.query(models.User).filter(models.User.id == token.id).first()
+    # sql = """select * from admin.User where username=%s"""
+    # user = conn.execute(sql, token.id).first() 
+    
     user = conn.execute(dbUsers.select().where(dbUsers.c.username == token.id)).first()
-
+    
     return user

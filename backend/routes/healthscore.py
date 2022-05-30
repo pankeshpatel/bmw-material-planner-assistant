@@ -18,6 +18,9 @@ from config.oauth2 import get_current_user
 from config.redisdb import redis_db
 my_redis = redis_db()
 
+from sqlalchemy.orm import Session
+from config.db import get_db
+
 
 # Import the Class
 from config.profiler import profiler
@@ -152,15 +155,13 @@ def sigmoid(SS: int, k: float) -> float:
     return (((1/(1+math.exp(-k*SS)))-(1/2))*2)*100
 
 
-
-
-
 @healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
 async def get_material_healthscore(
             planner_id:str, 
             material_id: str, 
             healthdate: str, 
             background_tasks: BackgroundTasks,
+            session: Session = Depends(get_db),
             user_id: int = Depends(get_current_user) ):
 
     material_healthscore_key = "healthscore" + "/" + planner_id + "/" + material_id + "/" + healthdate
@@ -170,7 +171,7 @@ async def get_material_healthscore(
     
      # Check if the data exists in Cache
     if redis_reponse != None:
-        print("Found the results in redis cache.......")
+        print("Found the results in redis cache.......healthscore()")
         return json.loads(redis_reponse)
     else:
         print("I have not found the results in redis cache, computing now...")   

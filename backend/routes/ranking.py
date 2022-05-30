@@ -11,6 +11,9 @@ import datetime
 import numpy as np
 import pandas as pd
 from tabulate import tabulate
+
+from sqlalchemy.orm import Session
+from config.db import get_db
 #from config.redisdb import redis_client
 
 
@@ -230,7 +233,7 @@ def long_run(part_number, planner_id):
 # 1. Markov probability (standard bar graph)
 # 2. Long-run probability (horizontal 100% stacked bar graph)
 @ranking.get('/{planner_id}/{material_id}',status_code = status.HTTP_200_OK)
-async def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends(get_current_user)):
+async def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
     
     part_ranking_key = "ranking" + "/" + planner_id + "/" + material_id
     
@@ -241,7 +244,7 @@ async def part_probabilities(planner_id: str, material_id: str, user_id: int = D
     
     # Check if the data exists in Cache
     if redis_reponse != None:
-        print("Found the results in redis cache.......")
+        print("Found the results in redis cache.......ranking()")
         return json.loads(redis_reponse)
     else: 
         print("I have not found the results in redis cache, computing now...")   
