@@ -14,9 +14,9 @@ from typing import Optional
 import json
 from tabulate import tabulate
 from config.oauth2 import get_current_user
-from config.redisdb import redis_client
 
-
+from config.redisdb import redis_db
+my_redis = redis_db()
 
 
 # Import the Class
@@ -164,7 +164,9 @@ async def get_material_healthscore(
             user_id: int = Depends(get_current_user) ):
 
     material_healthscore_key = "healthscore" + "/" + planner_id + "/" + material_id + "/" + healthdate
-    redis_reponse = redis_client.get(material_healthscore_key)
+    redis_reponse = my_redis.get(material_healthscore_key)
+    
+    
     
      # Check if the data exists in Cache
     if redis_reponse != None:
@@ -248,7 +250,7 @@ async def get_material_healthscore(
         # my_profiler.end("health-score")
         # my_profiler.log("print")
 
-        redis_client.set(material_healthscore_key, json.dumps(health_score) )
+        my_redis.put(material_healthscore_key, json.dumps(health_score) )
                 
 
         return health_score
@@ -257,7 +259,7 @@ async def get_material_healthscore(
 async def get_material_healthscore_background(planner_id:str,  material_id: str, healthdate: str):
 
     material_healthscore_key = "healthscore" + "/" + planner_id + "/" + material_id + "/" + healthdate
-    redis_reponse = redis_client.get(material_healthscore_key)
+    redis_reponse = my_redis.get(material_healthscore_key)
     
      # Check if the data exists in Cache
     if redis_reponse != None:
@@ -338,4 +340,4 @@ async def get_material_healthscore_background(planner_id:str,  material_id: str,
         # my_profiler.end("health-score")
         # my_profiler.log("print")
 
-        redis_client.set(material_healthscore_key, json.dumps(health_score) )
+        my_redis.put(material_healthscore_key, json.dumps(health_score) )

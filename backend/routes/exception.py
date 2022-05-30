@@ -7,11 +7,11 @@ import janitor
 from tabulate import tabulate
 import json
 from config.oauth2 import get_current_user
-from config.redisdb import redis_client
 from datetime import datetime, timedelta, date
 
 
-
+from config.redisdb import redis_db
+my_redis = redis_db()
 
 
 
@@ -44,7 +44,9 @@ async def exception_manager(planner_id:str, days: int, user_id: int = Depends(ge
     
     exception_manager_key = "exceptions" + "/" + "manager" + "/" + planner_id + "/" +  start_date + "--" + end_date
     
-    redis_reponse = redis_client.get(exception_manager_key)
+    #redis_reponse = redis_client.get(exception_manager_key)
+    
+    redis_reponse= my_redis.get(exception_manager_key)
     
     # Check if the data exists in Cache
     if redis_reponse != None:
@@ -139,7 +141,9 @@ async def exception_manager(planner_id:str, days: int, user_id: int = Depends(ge
             "exceptions": json.loads(json.dumps(list(df_exceptionlist.T.to_dict().values())))    
         }
         
-        redis_client.set(exception_manager_key, json.dumps(response) )
+        #redis_client.set(exception_manager_key, json.dumps(response) )
+        my_redis.put(exception_manager_key, json.dumps(response) )
+        
         return response
     
     
@@ -155,7 +159,8 @@ async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get
     # Reteriving materials
     exception_matrix_key = "exceptions" + "/" + "matrix" + "/" + planner_id + "/" +  start_date + "--" + end_date
     
-    redis_reponse = redis_client.get(exception_matrix_key)
+    #redis_reponse = redis_client.get(exception_matrix_key)
+    redis_reponse =  my_redis.get(exception_matrix_key)
     
     # Check if the data exists in Cache
     if redis_reponse != None:
@@ -182,15 +187,15 @@ async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get
         
             return response
 
-        print(df_exception)
+        #print(df_exception)
         
         
         # 1 - matnr, 3 - cdate , 9 - auskt
         dataframe_exception = pd.concat([df_exception["matnr"], df_exception["cdate"], df_exception["auskt"]], axis=1)
         dataframe_exception = dataframe_exception[dataframe_exception["matnr"].isin(list_manager)]
         
-        print("*****dataframe_exception*****")
-        print(dataframe_exception)
+        #print("*****dataframe_exception*****")
+        #print(dataframe_exception)
 
         
         #  Data cleaning, replacing NaN with '0'
@@ -265,9 +270,6 @@ async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get
             "materials" : json.loads(json.dumps(list(df_materiallist.T.to_dict().values()))),   
         }
         
-        redis_client.set(exception_matrix_key, json.dumps(response) )
+        #redis_client.set(exception_matrix_key, json.dumps(response) )
+        my_redis.put(exception_matrix_key, json.dumps(response))
         return response
-
-
-
-

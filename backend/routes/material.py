@@ -6,9 +6,9 @@ from models.dbschema import dbMaterialMaster
 import pandas as pd
 import json
 from config.oauth2 import get_current_user
-from config.redisdb import redis_client
 
-
+from config.redisdb import redis_db
+my_redis = redis_db()
 
 
 material = APIRouter(
@@ -23,7 +23,7 @@ async def get_all_material_info(planner_id: str, user_id: int = Depends(get_curr
     
     # Redis caching
     material_planner_id_key = "materials" + "/" + planner_id
-    redis_reponse = redis_client.get(material_planner_id_key)
+    redis_reponse = my_redis.get(material_planner_id_key)
     
     if redis_reponse != None:
         print("Found the results in redis cache.......")
@@ -41,7 +41,7 @@ async def get_all_material_info(planner_id: str, user_id: int = Depends(get_curr
             "result": json.loads(json.dumps(list(df_material_master.T.to_dict().values())))     
         }
         
-        redis_client.set(material_planner_id_key, json.dumps(response) )
+        my_redis.put(material_planner_id_key, json.dumps(response) )
         
         return response
 

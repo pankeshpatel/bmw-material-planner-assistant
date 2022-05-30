@@ -11,11 +11,13 @@ import datetime
 import numpy as np
 import pandas as pd
 from tabulate import tabulate
-from config.redisdb import redis_client
+#from config.redisdb import redis_client
 
 
 
 from config.profiler import profiler
+from config.redisdb import redis_db
+my_redis = redis_db()
 
 my_profiler = profiler()
 
@@ -232,7 +234,10 @@ async def part_probabilities(planner_id: str, material_id: str, user_id: int = D
     
     part_ranking_key = "ranking" + "/" + planner_id + "/" + material_id
     
-    redis_reponse = redis_client.get(part_ranking_key)
+    redis_reponse = my_redis.get(part_ranking_key)
+    
+    
+    #redis_reponse = redis_client.get(part_ranking_key)
     
     # Check if the data exists in Cache
     if redis_reponse != None:
@@ -265,7 +270,10 @@ async def part_probabilities(planner_id: str, material_id: str, user_id: int = D
         # my_profiler.log("print")
 
         # Caching the API Response
-        redis_client.set(part_ranking_key, json.dumps(json_output, indent=4) )
+        #redis_client.set(part_ranking_key, json.dumps(json_output, indent=4) )
+        
+        my_redis.put(part_ranking_key, json.dumps(json_output, indent=4))
+        
 
         return json.loads(json.dumps(json_output, indent=4))
 
