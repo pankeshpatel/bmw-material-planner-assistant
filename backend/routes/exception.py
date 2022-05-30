@@ -412,7 +412,6 @@ async def exception_matrix_background(planner_id:str,  days:int):
     # Check if the data exists in Cache
     if redis_reponse != None:
         print("Found the results in redis cache.......exception_matrix()")
-        
         return json.loads(redis_reponse)
     else: 
         print("I have not found the results in redis cache, computing now...")   
