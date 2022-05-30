@@ -69,7 +69,7 @@ async def get_material_planner_info(id:str, user_id: int = Depends(get_current_u
         #     "result" : json.loads(json.dumps(list(df_planner.T.to_dict().values())))
         # }
         
-        my_redis.put(planner_id_key, json.dumps(list(df_planner.T.to_dict().values())), 172800)
+        my_redis.put(planner_id_key, json.dumps(list(df_planner.T.to_dict().values())), 950400)
         return json.dumps(list(df_planner.T.to_dict().values()))
 
 
