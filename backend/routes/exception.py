@@ -42,7 +42,6 @@ async def get_all_exception_info(user_id: int = Depends(get_current_user), sessi
 
 
 @exception.get('/manager/{planner_id}',  status_code = status.HTTP_200_OK)
-#async def exception_manager(planner_id:str, start_date : str, end_date : str, user_id: int = Depends(get_current_user)):
 async def exception_manager(planner_id:str, days: int, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
     
 
@@ -55,9 +54,7 @@ async def exception_manager(planner_id:str, days: int, user_id: int = Depends(ge
     # Check if the data exists in Cache
     if redis_reponse != None:
         print("Found the results in redis cache.......exception_manager()")
-        
         asyncio.create_task(exception_manager_background(planner_id, days))
-
         return json.loads(redis_reponse)
     else: 
         print("I have not found the results in redis cache, computing now...")   
@@ -65,8 +62,10 @@ async def exception_manager(planner_id:str, days: int, user_id: int = Depends(ge
         sql_planner = """SELECT DISTINCT(material_9) from admin.MaterialMaster where planner = %s group by material_9"""
         df_list_manager = pd.DataFrame(conn.execute(sql_planner, planner_id).fetchall())
         list_manager = df_list_manager["material_9"].values.tolist()
-
-
+        
+        print("************************************")
+        print(list_manager)
+        
         sql = """SELECT * FROM admin.Exception"""
         df_exception_manager = pd.DataFrame(conn.execute(sql).fetchall())
         
@@ -92,11 +91,11 @@ async def exception_manager(planner_id:str, days: int, user_id: int = Depends(ge
         
         # Data filtering with respect to the start and end date
         
-        sql = """select matnr, cdate, auskt from admin.Exception WHERE (cdate BETWEEN %s AND %s)"""
-        dataframe_exception_manager_filtered = pd.DataFrame(conn.execute(sql, start_date, end_date).fetchall(), columns=[ 'matnr','cdate', 'auskt'])
+        # sql = """select matnr, cdate, auskt from admin.Exception WHERE (cdate BETWEEN %s AND %s)"""
+        # dataframe_exception_manager_filtered = pd.DataFrame(conn.execute(sql, start_date, end_date).fetchall(), columns=[ 'matnr','cdate', 'auskt'])
         
-        #dataframe_exception_manager_filtered = dataframe_exception_manager.filter_date('cdate', start_date, end_date)
-        #print(dataframe_exception_manager_filtered)
+        dataframe_exception_manager_filtered = dataframe_exception_manager.filter_date('cdate', start_date, end_date)
+        print(dataframe_exception_manager_filtered)
 
         # Remove row that 'auskt' value has zero
         dataframe_exception_manager_filter = dataframe_exception_manager_filtered[dataframe_exception_manager_filtered['auskt'] > 0]
@@ -156,7 +155,6 @@ async def exception_manager(planner_id:str, days: int, user_id: int = Depends(ge
 
 
 @exception.get('/matrix/{planner_id}/', status_code = status.HTTP_200_OK)
-#async def exception_matrix(planner_id:str, start_date : str, end_date : str, user_id: int = Depends(get_current_user)):
 async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
 
     end_date = str(datetime.today().strftime("%m/%d/%y"))
