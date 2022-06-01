@@ -111,10 +111,8 @@ const healthScoreCall = (materialId, healthDate) => {
 };
 
 const ExceptionManagerCall = (currentDate) => {
-  const url = `${apiUrl}/exceptions/manager/${eval(
-    plannerId
-  )}?days=${currentDate}`
-      // http://localhost:8000/exceptions/manager/114/?days=60
+  const url = `${apiUrl}/exceptions/manager/${eval(plannerId)}?days=${currentDate}`;
+  // http://localhost:8000/exceptions/manager/114/?days=60
 
   return new Promise((resolve, reject) => {
     const header = getHeader();
@@ -130,10 +128,8 @@ const ExceptionManagerCall = (currentDate) => {
 };
 
 const ExceptionMatrixCall = (currentDate) => {
-  const url = `${apiUrl}/exceptions/matrix/${eval(
-    plannerId
-  )}?days=${currentDate}`
-    // http://localhost:8000/exceptions/matrix/114/?days=60
+  const url = `${apiUrl}/exceptions/matrix/${eval(plannerId)}?days=${currentDate}`;
+  // http://localhost:8000/exceptions/matrix/114/?days=60
   // http://localhost:8000/exceptions/manager/115/?start_date=02/18/22&end_date=04/04/22
   return new Promise((resolve, reject) => {
     const header = getHeader();
@@ -178,8 +174,28 @@ const matetrialCall = () => {
   });
 };
 
+// const rankCall = () => {
+//   const url = `${apiUrl}/ranking/${eval(plannerId)}/742065710`; // change material number
+//   // http://localhost:8000/ranking/114/742065710
+//   return new Promise((resolve, reject) => {
+//     const header = getHeader();
+//     axios
+//       .get(url, header)
+//       .then((res) => {
+//         resolve(res.data);
+//       })
+//       .catch((err) => {
+//         reject(handleError(err));
+//        // localStorage.setItem('RunCallPass', false);   // ADDEDDDDD
+//       });
+//      // localStorage.setItem('RunCallPass', true);
+//   });
+// };
+
 const rankCall = () => {
-  const url = `${apiUrl}/ranking/${eval(plannerId)}/742065710`; // change material number 
+  var material = localStorage.getItem("materialID");
+  console.log("MATERIAL: ", material);
+  const url = `${apiUrl}/ranking/${eval(plannerId)}/${material}`; // change material number
   // http://localhost:8000/ranking/114/742065710
   return new Promise((resolve, reject) => {
     const header = getHeader();
@@ -190,9 +206,7 @@ const rankCall = () => {
       })
       .catch((err) => {
         reject(handleError(err));
-       // localStorage.setItem('RunCallPass', false);   // ADDEDDDDD
       });
-     // localStorage.setItem('RunCallPass', true);
   });
 };
 
