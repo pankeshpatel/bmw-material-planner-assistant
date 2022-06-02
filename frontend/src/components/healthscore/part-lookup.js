@@ -25,6 +25,7 @@ import { TrafficByDevice } from "../../components/healthscore/traffic-by-device"
 //   Tooltip,
 //   Legend,
 // } from 'chart.js';
+
 import { Line } from "react-chartjs-2";
 
 import Modal from "@mui/material/Modal";
@@ -42,69 +43,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import Shimmer from "react-shimmer-effect";
 
-// const orders = [
-//   {
-//     id: uuid(),
-//     ref: 'CDD1049',
-//     amount: 30.5,
-//     customer: {
-//       name: 'Ekaterina Tankova'
-//     },
-//     createdAt: 1555016400000,
-//     status: 'pending'
-//   },
-//   {
-//     id: uuid(),
-//     ref: 'CDD1048',
-//     amount: 25.1,
-//     customer: {
-//       name: 'Cao Yu'
-//     },
-//     createdAt: 1555016400000,
-//     status: 'delivered'
-//   },
-//   {
-//     id: uuid(),
-//     ref: 'CDD1047',
-//     amount: 10.99,
-//     customer: {
-//       name: 'Alexa Richardson'
-//     },
-//     createdAt: 1554930000000,
-//     status: 'refunded'
-//   },
-//   {
-//     id: uuid(),
-//     ref: 'CDD1046',
-//     amount: 96.43,
-//     customer: {
-//       name: 'Anje Keizer'
-//     },
-//     createdAt: 1554757200000,
-//     status: 'pending'
-//   },
-//   {
-//     id: uuid(),
-//     ref: 'CDD1045',
-//     amount: 32.54,
-//     customer: {
-//       name: 'Clarke Gillebert'
-//     },
-//     createdAt: 1554670800000,
-//     status: 'delivered'
-//   },
-//   {
-//     id: uuid(),
-//     ref: 'CDD1044',
-//     amount: 16.76,
-//     customer: {
-//       name: 'Adam Denisov'
-//     },
-//     createdAt: 1554670800000,
-//     status: 'delivered'
-//   }
-// ];
-
 function sortByProperty(property) {
   return function (a, b) {
     if (Number(a[property]) < Number(b[property])) return 1;
@@ -115,9 +53,11 @@ function sortByProperty(property) {
 }
 
 export const PartLookUp = (props) => {
+  
   const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
   const [healthData, sethealthData] = useState([]);
   const [selectedMaterial, setSelectedMaterial] = useState([]);
+ 
   // const [value, setValue] = useState([0, 200]);
 
   const [healthguage, sethealthguage] = useState(10);
@@ -135,6 +75,12 @@ export const PartLookUp = (props) => {
   const [healthResponse5, sethealthResponse5] = useState([]);
 
   const [showmodal, SetShowmodal] = useState(false);
+  const [showmodal2, SetShowmodal2] = useState(false);
+  const [showmodal3, SetShowmodal3] = useState(false);
+  const [showmodal4, SetShowmodal4] = useState(false);
+  const [showmodal5, SetShowmodal5] = useState(false);
+
+ 
 
   const [materialResponse, setMaterialResponse] = useState([]);
 
@@ -142,8 +88,9 @@ export const PartLookUp = (props) => {
   const [table1Loading, SetTable1Loading] = useState(false);
 
   const style = {
-    transform: "translate(40%, 10%)",
-    width: "10%",
+    // transform: "translate(center)",
+    width: "70%",
+    margin:"5% 20%",
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
@@ -160,6 +107,7 @@ export const PartLookUp = (props) => {
       },
       datalabels: {
         offset: 0,
+        display:"auto",
         anchor: "center",
         align: "top",
         font: {
@@ -183,6 +131,7 @@ export const PartLookUp = (props) => {
       },
       datalabels: {
         offset: 5,
+        display:"auto",
         anchor: "center",
         align: "top",
         clamp: true,
@@ -400,12 +349,12 @@ export const PartLookUp = (props) => {
 
 
   }
-  console.log(
-    "healthResponse?.total_qty_instances?.map((val)=>{return val.total_quantity})",
-    healthResponse?.total_qty_instances?.map((val) => {
-      return val.total_quantity;
-    })
-  );
+  // console.log(
+  //   "healthResponse?.total_qty_instances?.map((val)=>{return val.total_quantity})",
+  //   healthResponse?.total_qty_instances?.map((val) => {
+  //     return val.total_quantity;
+  //   })
+  // );
 
   //{
     const labels = healthResponse?.total_qty_instances?.map((val) => {
@@ -729,15 +678,15 @@ export const PartLookUp = (props) => {
       borderRadius: "25px 25px",
     };
 
-    if (status < 20) {
+    if (status <= 50) {
       return maroon;
     }
 
-    if (status > 20 && status < 60) {
+    if (status >= 50 && status < 70) {
       return yellow;
     }
 
-    if (status > 60) {
+    if (status >= 70) {
       return green;
     }
   };
@@ -890,7 +839,7 @@ export const PartLookUp = (props) => {
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthguage} %
+                            <span style={returnColor(healthguage)}> {healthguage} %</span>
                               {/* <TrafficByDevice
                                 healthGuage={healthGuage}
                                 setHealthGuage={setHealthGuage}
@@ -922,9 +871,9 @@ export const PartLookUp = (props) => {
                           </TableRow>
                         );
                       })
-                    : Array.from({ length: 10 }, (_, i) => (
+                    : Array.from({ length: 2 }, (_, i) => (
                         <tr key={i}>
-                          <td colspan="8">
+                          <td colSpan="8">
                             <Shimmer>
                               <div style={{ width: "100%" }}>&nbsp;</div>
                             </Shimmer>
@@ -939,9 +888,9 @@ export const PartLookUp = (props) => {
 
 
                 <Modal
-                  open={showmodal}
+                  open={showmodal2}
                   onClose={() => {
-                    SetShowmodal(false);
+                    SetShowmodal2(false);
                   }}
                 >
                   <Box sx={style}>
@@ -984,7 +933,7 @@ export const PartLookUp = (props) => {
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthguage2} %
+                            <span style={returnColor(healthguage2)}> {healthguage2} %</span>
                             </TableCell>
 
                             <TableCell>
@@ -1001,7 +950,7 @@ export const PartLookUp = (props) => {
                               >
                                 <Button
                                   onClick={() => {
-                                    SetShowmodal(true);
+                                    SetShowmodal2(true);
                                   }}
                                 >
                                   Show Analysis
@@ -1011,9 +960,9 @@ export const PartLookUp = (props) => {
                           </TableRow>
                         );
                       })
-                    : Array.from({ length: 10 }, (_, i) => (
+                    : Array.from({ length: 2 }, (_, i) => (
                         <tr key={i}>
-                          <td colspan="8">
+                          <td colSpan="8">
                             <Shimmer>
                               <div style={{ width: "100%" }}>&nbsp;</div>
                             </Shimmer>
@@ -1032,9 +981,9 @@ export const PartLookUp = (props) => {
              
              
                 <Modal
-                  open={showmodal}
+                  open={showmodal3}
                   onClose={() => {
-                    SetShowmodal(false);
+                    SetShowmodal3(false);
                   }}
                 >
                   <Box sx={style}>
@@ -1077,7 +1026,7 @@ export const PartLookUp = (props) => {
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthguage3} %
+                             <span style={returnColor(healthguage3)}> {healthguage3} %</span>
                             </TableCell>
 
                             <TableCell>
@@ -1094,7 +1043,7 @@ export const PartLookUp = (props) => {
                               >
                                 <Button
                                   onClick={() => {
-                                    SetShowmodal(true);
+                                    SetShowmodal3(true);
                                   }}
                                 >
                                   Show Analysis
@@ -1104,9 +1053,9 @@ export const PartLookUp = (props) => {
                           </TableRow>
                         );
                       })
-                    : Array.from({ length: 10 }, (_, i) => (
+                    : Array.from({ length: 2 }, (_, i) => (
                         <tr key={i}>
-                          <td colspan="8">
+                          <td colSpan="8">
                             <Shimmer>
                               <div style={{ width: "100%" }}>&nbsp;</div>
                             </Shimmer>
@@ -1125,9 +1074,9 @@ export const PartLookUp = (props) => {
              
              
                 <Modal
-                  open={showmodal}
+                  open={showmodal4}
                   onClose={() => {
-                    SetShowmodal(false);
+                    SetShowmodal4(false);
                   }}
                 >
                   <Box sx={style}>
@@ -1170,7 +1119,7 @@ export const PartLookUp = (props) => {
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthguage4} %
+                            <span style={returnColor(healthguage4)}> {healthguage4} %</span>
                             </TableCell>
 
                             <TableCell>
@@ -1187,7 +1136,7 @@ export const PartLookUp = (props) => {
                               >
                                 <Button
                                   onClick={() => {
-                                    SetShowmodal(true);
+                                    SetShowmodal4(true);
                                   }}
                                 >
                                   Show Analysis
@@ -1197,12 +1146,12 @@ export const PartLookUp = (props) => {
                           </TableRow>
                         );
                       })
-                    : Array.from({ length: 10 }, (_, i) => (
+                    : Array.from({ length: 2 }, (_, i) => (
                         <tr key={i}>
-                          <td colspan="8">
+                          <td colSpan="8">
                             <Shimmer>
                               <div style={{ width: "100%" }}>&nbsp;</div>
-                            </Shimmer>
+                            </Shimmer>                               
                           </td>
                         </tr>
                       ))}
@@ -1219,9 +1168,9 @@ export const PartLookUp = (props) => {
              
              
                 <Modal
-                  open={showmodal}
+                  open={showmodal5}
                   onClose={() => {
-                    SetShowmodal(false);
+                    SetShowmodal5(false);
                   }}
                 >
                   <Box sx={style}>
@@ -1264,7 +1213,8 @@ export const PartLookUp = (props) => {
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthguage5} %
+                            <span style={returnColor(healthguage5)}> {healthguage5
+                            } %</span>
                             </TableCell>
 
                             <TableCell>
@@ -1281,7 +1231,7 @@ export const PartLookUp = (props) => {
                               >
                                 <Button
                                   onClick={() => {
-                                    SetShowmodal(true);
+                                    SetShowmodal5(true);
                                   }}
                                 >
                                   Show Analysis
@@ -1291,9 +1241,9 @@ export const PartLookUp = (props) => {
                           </TableRow>
                         );
                       })
-                    : Array.from({ length: 10 }, (_, i) => (
+                    : Array.from({ length: 2 }, (_, i) => (
                         <tr key={i}>
-                          <td colspan="8">
+                          <td colSpan="8">
                             <Shimmer>
                               <div style={{ width: "100%" }}>&nbsp;</div>
                             </Shimmer>
@@ -1386,7 +1336,7 @@ export const PartLookUp = (props) => {
       <Card {...props}>
         <CardHeader title="Part Detailed  Description" />
         <PerfectScrollbar>
-          <Box sx={{ overflow: "scroll", height: "300px" }}>
+          <Box >
             <Table>
               <TableHead>
                 <TableRow>
@@ -1437,7 +1387,7 @@ export const PartLookUp = (props) => {
                     ))
                   : Array.from({ length: 10 }, (_, i) => (
                       <tr key={i}>
-                        <td colspan="8">
+                        <td colSpan="8">
                           <Shimmer>
                             <div style={{ width: "100%" }}>&nbsp;</div>
                           </Shimmer>

@@ -173,7 +173,7 @@ export const LongRunAndMarkov = (props) => {
 
         color: "black",
         align: 50,
-        anchor: "end",
+        anchor: "start",
         offset: 5,
 
         clip: true,
@@ -277,12 +277,12 @@ export const LongRunAndMarkov = (props) => {
         formatter: function (value, context) {
           return value.toString().slice(0, 5);
         },
-
+        display:"auto",
         color: "black",
         align: 0,
-        anchor: "end",
+        anchor: "start",
         offset: 5,
-
+        // padding:"",
         clip: true,
         font: {
           size: "18",

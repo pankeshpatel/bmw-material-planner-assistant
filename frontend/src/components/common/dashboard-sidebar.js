@@ -27,7 +27,7 @@ const items = [
   //   title: 'Materials'
   // },
   {
-    href: "/healthScore",
+    href: "/",
     icon: <FontAwesomeIcon icon={faBriefcaseMedical} />,
     title: "Health Score",
   },
