@@ -157,14 +157,20 @@ def sigmoid(SS: int, k: float) -> float:
     return (((1/(1+math.exp(-k*SS)))-(1/2))*2)*100
 
 
+
+# async def get_material_healthscore(
+#             planner_id:str, 
+#             material_id: str, 
+#             healthdate: str, 
+#             background_tasks: BackgroundTasks,
+#             session: Session = Depends(get_db),
+#             user_id: int = Depends(get_current_user) ):
+
 @healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
 async def get_material_healthscore(
             planner_id:str, 
             material_id: str, 
-            healthdate: str, 
-            background_tasks: BackgroundTasks,
-            session: Session = Depends(get_db),
-            user_id: int = Depends(get_current_user) ):
+            healthdate: str):
 
     material_healthscore_key = "healthscore" + "/" + planner_id + "/" + material_id + "/" + healthdate
     redis_reponse = my_redis.get(material_healthscore_key)
@@ -345,7 +351,7 @@ async def get_material_healthscore_background(planner_id:str,  material_id: str,
         percentage_result = str(result).__add__(' %')
         
         sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng FROM admin.MaterialMaster where material = %s"""
-        df_material = pd.DataFrame(conn.execute(sql, material_id).fetchone(), columns=["material", "material_9" , "material_7", "mat_description", "mat_description_eng"])
+        df_material = pd.DataFrame(conn.execute(sql, material_id).fetchall(), columns=["material", "material_9" , "material_7", "mat_description", "mat_description_eng"])
         
 
 

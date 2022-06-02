@@ -40,9 +40,10 @@ async def get_all_exception_info(user_id: int = Depends(get_current_user), sessi
     return conn.execute(dbExceptionMessage.select()).fetchall()
 
 
+# async def exception_manager(planner_id:str, days: int, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
 
 @exception.get('/manager/{planner_id}',  status_code = status.HTTP_200_OK)
-async def exception_manager(planner_id:str, days: int, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
+async def exception_manager(planner_id:str, days: int):
     
 
     end_date = str(datetime.today().strftime("%m/%d/%y"))
@@ -153,9 +154,9 @@ async def exception_manager(planner_id:str, days: int, user_id: int = Depends(ge
     
     
 
-
+# async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
 @exception.get('/matrix/{planner_id}/', status_code = status.HTTP_200_OK)
-async def exception_matrix(planner_id:str,  days:int, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
+async def exception_matrix(planner_id:str,  days:int):
 
     end_date = str(datetime.today().strftime("%m/%d/%y"))
     start_date = str((datetime.today() + timedelta(days=-days)).strftime("%m/%d/%y"))

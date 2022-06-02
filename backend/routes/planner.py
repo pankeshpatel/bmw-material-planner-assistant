@@ -38,16 +38,11 @@ async def get_all_material_planner_info(user_id: int = Depends(get_current_user)
     return conn.execute(sql).fetchall()
 
 
-# Write a logic here that list a planner with the following information
-    # Planner ID
-    # Planner Name
-    # Planner Email
-    # Assigned  a list of Materials(Material IDs, Material Name) to the Material Planner
     
-
+# async def get_material_planner_info(id:str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
     
 @planner.get('/planner-id/{id}',  status_code = status.HTTP_200_OK)
-async def get_material_planner_info(id:str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
+async def get_material_planner_info(id:str):
     
     planner_id_key = "planners" + "/" + "planner-id" + "/" + id
     redis_reponse = my_redis.get(planner_id_key)
@@ -74,9 +69,10 @@ async def get_material_planner_info(id:str, user_id: int = Depends(get_current_u
 
 
 
+# async def get_material_planner_info(name:str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
 
 @planner.get('/planner-name/{name}',  status_code = status.HTTP_200_OK)
-async def get_material_planner_info(name:str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
+async def get_material_planner_info(name:str):
         
     data = conn.execute(dbPlanner.select().where(dbPlanner.c.name == name)).fetchall()
     

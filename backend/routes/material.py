@@ -21,8 +21,9 @@ material = APIRouter(
 
 
 
+# async def get_all_material_info(planner_id: str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
 @material.get('/{planner_id}',status_code = status.HTTP_200_OK)
-async def get_all_material_info(planner_id: str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
+async def get_all_material_info(planner_id: str):
     
     # Redis caching
     material_planner_id_key = "materials" + "/" + planner_id
@@ -49,8 +50,10 @@ async def get_all_material_info(planner_id: str, user_id: int = Depends(get_curr
 
 
 
+# async def get_material_info(planner_id : str, material_id:str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
+
 @material.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
-async def get_material_info(planner_id : str, material_id:str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
+async def get_material_info(planner_id : str, material_id:str):
     
     sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng, safety_stock, plant, lot_size FROM admin.MaterialMaster WHERE planner = %s AND material = %s"""
     df_material_planner_master = pd.DataFrame(conn.execute(sql, planner_id, material_id).fetchall(), columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng", "safety_stock", "plant", "lot_size" ])

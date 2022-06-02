@@ -232,8 +232,11 @@ def long_run(part_number, planner_id):
 # The only two outputs:
 # 1. Markov probability (standard bar graph)
 # 2. Long-run probability (horizontal 100% stacked bar graph)
+
+# async def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
+
 @ranking.get('/{planner_id}/{material_id}',status_code = status.HTTP_200_OK)
-async def part_probabilities(planner_id: str, material_id: str, user_id: int = Depends(get_current_user), session: Session = Depends(get_db)):
+async def part_probabilities(planner_id: str, material_id: str):
     
     part_ranking_key = "ranking" + "/" + planner_id + "/" + material_id
     
