@@ -39,16 +39,17 @@ healthscore = APIRouter(
 saftey_stock : int
 stock: int
 avg_stock_change: float
-list_qty = []
-list_qty_instance = []  # This is a global
+#list_qty = []
+#list_qty_instance = []  # This is a global
 
 
 # This function constructs an individual instances of total Quantity fields
-def find_total_quantity_instances(formatted_date: str, material_id: str, safety_stock: int, data:pd.DataFrame()):
+def find_total_quantity_instances(formatted_date: str, material_id: str, 
+                                  safety_stock: int, data:pd.DataFrame(), list_qty_instance: List):
         
     item=0
     local_list_qty_instance = []
-    global list_qty_instance
+    #global list_qty_instance
     
     
     if(len(data) == 0):
@@ -71,12 +72,14 @@ def find_total_quantity_instances(formatted_date: str, material_id: str, safety_
             
             list_qty_instance.append(local_list_qty_instance)        
             item = item + 1
+            
+    return list_qty_instance
 
 
 # This function  constructs a summary (avg, min, max) dataframe total Quantity
-def find_total_quantity_summary(formatted_date: str, material_id: str, safety_stock: int, data:pd.DataFrame()):
-    
-    
+def find_total_quantity_summary(formatted_date: str, material_id: str, 
+                                safety_stock: int, data:pd.DataFrame(), list_qty: List):
+
     # max value
     if(len(data["total_quantity"]) == 0):
         max, min, mean = 0,0,0
@@ -97,7 +100,9 @@ def find_total_quantity_summary(formatted_date: str, material_id: str, safety_st
         ]
             
     # construct a list
-    list_qty.append(local_list_qty)
+    list_qty.append(local_list_qty)    
+    
+    return list_qty
 
 
 # This function is to find stock
@@ -137,7 +142,6 @@ def find_saftey_stock(data: pd.DataFrame(), saftey_stock: int) -> int:
     return abs(saftey_stock)  
 
 
-
 def format_date(date: datetime) -> str:
     return datetime.date.strftime(date, "%x")
 
@@ -158,13 +162,13 @@ def sigmoid(SS: int, k: float) -> float:
 
 
 
-# async def get_material_healthscore(
-#             planner_id:str, 
-#             material_id: str, 
-#             healthdate: str, 
-#             background_tasks: BackgroundTasks,
-#             session: Session = Depends(get_db),
-#             user_id: int = Depends(get_current_user) ):
+    # async def get_material_healthscore(
+    #             planner_id:str, 
+    #             material_id: str, 
+    #             healthdate: str, 
+    #             background_tasks: BackgroundTasks,
+    #             session: Session = Depends(get_db),
+    #             user_id: int = Depends(get_current_user) ):
 
 @healthscore.get('/{planner_id}/{material_id}', status_code = status.HTTP_200_OK)
 async def get_material_healthscore(
@@ -215,7 +219,8 @@ async def get_material_healthscore(
         mm, dd, yyyy = map(int, date.split('/'))
         date_obj = datetime.datetime(yyyy, mm, dd)
         avg: List = []  # List to keep track of health scores
-        
+        list_qty: List = []
+        list_qty_instance : List = []
         
         # This loop will get 
         for i in range(int(num_days)):
@@ -233,8 +238,12 @@ async def get_material_healthscore(
             data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "mrp_element", "total_quantity", "demand_date" ])
                         
             stock = find_stock(new_date, formatted_date, material_id, data)
-            find_total_quantity_summary(formatted_date, material_id, saftey_stock, data) 
-            find_total_quantity_instances(formatted_date, material_id, saftey_stock, data)  
+            
+            
+            list_qty = find_total_quantity_summary(formatted_date, material_id, saftey_stock, data, list_qty)             
+            
+            list_qty_instance= find_total_quantity_instances(formatted_date, material_id, saftey_stock, data, list_qty_instance) 
+             
             health = get_health_score(stock, saftey_stock, k_val=0.8)   
             
             if health != None:
@@ -246,12 +255,13 @@ async def get_material_healthscore(
         
         
         # This would prepare .csv file that contains total_qty_instances
-        df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']) 
+        df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']).drop_duplicates(subset=['material', 'demand_date', 'total_quantity', 'safety stock'])
+        
         print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
         
         # destruct this global variable
-        list_qty_instance.clear()
-        list_qty.clear()
+        #list_qty_instance.clear()
+        #list_qty.clear()
         
         result = sum(avg)/len(avg)
         result = round(result, 2)
@@ -311,6 +321,9 @@ async def get_material_healthscore_background(planner_id:str,  material_id: str,
         mm, dd, yyyy = map(int, date.split('/'))
         date_obj = datetime.datetime(yyyy, mm, dd)
         avg: List = []  # List to keep track of health scores
+        list_qty: List = []
+        list_qty_instance : List = []
+        
         
         
         # This loop will get 
@@ -324,8 +337,8 @@ async def get_material_healthscore_background(planner_id:str,  material_id: str,
             data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "mrp_element", "total_quantity", "demand_date" ])
                         
             stock = find_stock(new_date, formatted_date, material_id, data)
-            find_total_quantity_summary(formatted_date, material_id, saftey_stock, data) 
-            find_total_quantity_instances(formatted_date, material_id, saftey_stock, data)  
+            list_qty = find_total_quantity_summary(formatted_date, material_id, saftey_stock, data, list_qty) 
+            list_qty_instance = find_total_quantity_instances(formatted_date, material_id, saftey_stock, data, list_qty_instance)  
             health = get_health_score(stock, saftey_stock, k_val=0.8)   
             
             if health != None:
@@ -338,11 +351,11 @@ async def get_material_healthscore_background(planner_id:str,  material_id: str,
         
         # This would prepare .csv file that contains total_qty_instances
         df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']) 
-        print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
+        print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql')).drop_duplicates(subset=['material', 'demand_date', 'total_quantity', 'safety stock'])
         
         # destruct this global variable
-        list_qty_instance.clear()
-        list_qty.clear()
+        #list_qty_instance.clear()
+        #list_qty.clear()
         
         result = sum(avg)/len(avg)
         result = round(result, 2)
