@@ -253,8 +253,8 @@ async def get_material_healthscore(
         result = round(result, 2)
         percentage_result = str(result).__add__(' %')
         
-        sql = """SELECT DISTINCT material, mat_description_eng FROM admin.MaterialMaster where material = %s"""
-        df_material = pd.DataFrame(conn.execute(sql, material_id).fetchall(), columns=["material", "mat_description_eng"])
+        sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng FROM admin.MaterialMaster where material = %s"""
+        df_material = pd.DataFrame(conn.execute(sql, material_id).fetchall(), columns=["material", "material_9" , "material_7", "mat_description", "mat_description_eng"])
 
 
         health_score = {
@@ -345,7 +345,7 @@ async def get_material_healthscore_background(planner_id:str,  material_id: str,
         percentage_result = str(result).__add__(' %')
         
         sql = """SELECT DISTINCT material, material_9, material_7, mat_description, mat_description_eng FROM admin.MaterialMaster where material = %s"""
-        df_material = pd.DataFrame(conn.execute(sql, material_id).fetchall(), columns=["material", "material_9" , "material_7", "mat_description", "mat_description_eng"])
+        df_material = pd.DataFrame(conn.execute(sql, material_id).fetchone(), columns=["material", "material_9" , "material_7", "mat_description", "mat_description_eng"])
 
 
         health_score = {

@@ -120,11 +120,11 @@ export const PartLookUp = (props) => {
   const [selectedMaterial, setSelectedMaterial] = useState([]);
   // const [value, setValue] = useState([0, 200]);
 
-  const [healthguage, sethealthguage] = useState(10);
-  const [healthguage2, sethealthguage2] = useState(10);
-  const [healthguage3, sethealthguage3] = useState(10);
-  const [healthguage4, sethealthguage4] = useState(10);
-  const [healthguage5, sethealthguage5] = useState(10);
+  const [healthGuage, setHealthGuage] = useState(10);
+  const [healthGuage2, setHealthGuage2] = useState(10);
+  const [healthGuage3, setHealthGuage3] = useState(10);
+  const [healthGuage4, setHealthGuage4] = useState(10);
+  const [healthGuage5, setHealthGuage5] = useState(10);
 
 
   // const [healthResponse,setHealthResponse] = useState([]);
@@ -143,7 +143,7 @@ export const PartLookUp = (props) => {
 
   const style = {
     transform: "translate(40%, 10%)",
-    width: "10%",
+    width: "60%",
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
@@ -240,165 +240,6 @@ export const PartLookUp = (props) => {
         },
       ],
     };
-
-    var data2 = {
-      labels,
-      datasets: [
-        {
-          label: "Min of Total Quantity",
-          data: healthResponse2?.total_qty_analysis?.map((val) => {
-            return val.min;
-          }),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-        {
-          label: "Max of Total Quantity",
-          data: healthResponse2?.total_qty_analysis?.map((val) => {
-            return val.max;
-          }),
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
-        },
-        {
-          label: "Mean of Total Quantity",
-          data: healthResponse2?.total_qty_analysis?.map((val) => {
-            return val.mean;
-          }),
-          borderColor: "rgb(3, 155, 0)",
-          backgroundColor: "rgba(3, 155, 0, 0.5)",
-        },
-        {
-          label: "Safety Stock",
-          data: healthResponse2?.total_qty_analysis?.map((val) => {
-            return val["safety stock"];
-          }),
-          borderColor: "rgb(233, 155, 0)",
-          backgroundColor: "rgba(233, 155, 0, 0.5)",
-        },
-      ],
-    };
-
-    var data3 = {
-      labels,
-      datasets: [
-        {
-          label: "Min of Total Quantity",
-          data: healthResponse3?.total_qty_analysis?.map((val) => {
-            return val.min;
-          }),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-        {
-          label: "Max of Total Quantity",
-          data: healthResponse3?.total_qty_analysis?.map((val) => {
-            return val.max;
-          }),
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
-        },
-        {
-          label: "Mean of Total Quantity",
-          data: healthResponse3?.total_qty_analysis?.map((val) => {
-            return val.mean;
-          }),
-          borderColor: "rgb(3, 155, 0)",
-          backgroundColor: "rgba(3, 155, 0, 0.5)",
-        },
-        {
-          label: "Safety Stock",
-          data: healthResponse3?.total_qty_analysis?.map((val) => {
-            return val["safety stock"];
-          }),
-          borderColor: "rgb(233, 155, 0)",
-          backgroundColor: "rgba(233, 155, 0, 0.5)",
-        },
-      ],
-    };
-
-    var data4 = {
-      labels,
-      datasets: [
-        {
-          label: "Min of Total Quantity",
-          data: healthResponse4?.total_qty_analysis?.map((val) => {
-            return val.min;
-          }),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-        {
-          label: "Max of Total Quantity",
-          data: healthResponse4?.total_qty_analysis?.map((val) => {
-            return val.max;
-          }),
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
-        },
-        {
-          label: "Mean of Total Quantity",
-          data: healthResponse4?.total_qty_analysis?.map((val) => {
-            return val.mean;
-          }),
-          borderColor: "rgb(3, 155, 0)",
-          backgroundColor: "rgba(3, 155, 0, 0.5)",
-        },
-        {
-          label: "Safety Stock",
-          data: healthResponse4?.total_qty_analysis?.map((val) => {
-            return val["safety stock"];
-          }),
-          borderColor: "rgb(233, 155, 0)",
-          backgroundColor: "rgba(233, 155, 0, 0.5)",
-        },
-      ],
-    };
-
-    var data5 = {
-      labels,
-      datasets: [
-        {
-          label: "Min of Total Quantity",
-          data: healthResponse5?.total_qty_analysis?.map((val) => {
-            return val.min;
-          }),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-        {
-          label: "Max of Total Quantity",
-          data: healthResponse5?.total_qty_analysis?.map((val) => {
-            return val.max;
-          }),
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
-        },
-        {
-          label: "Mean of Total Quantity",
-          data: healthResponse5?.total_qty_analysis?.map((val) => {
-            return val.mean;
-          }),
-          borderColor: "rgb(3, 155, 0)",
-          backgroundColor: "rgba(3, 155, 0, 0.5)",
-        },
-        {
-          label: "Safety Stock",
-          data: healthResponse5?.total_qty_analysis?.map((val) => {
-            return val["safety stock"];
-          }),
-          borderColor: "rgb(233, 155, 0)",
-          backgroundColor: "rgba(233, 155, 0, 0.5)",
-        },
-      ],
-    };
-
-
-
-
-
-
-
   }
   console.log(
     "healthResponse?.total_qty_instances?.map((val)=>{return val.total_quantity})",
@@ -412,7 +253,7 @@ export const PartLookUp = (props) => {
       return val.demand_date;
     });
 
-    var dataDetail_1 = {
+    var data2 = {
       labels,
       datasets: [
         {
@@ -434,123 +275,6 @@ export const PartLookUp = (props) => {
         },
       ],
     };
-
-    var dataDetail_1 = {
-      labels,
-      datasets: [
-        {
-          label: "Total Quantity",
-          data: healthResponse?.total_qty_instances?.map((val) => {
-            return val.total_quantity;
-          }),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-
-        {
-          label: "Safety Stock",
-          data: healthResponse?.total_qty_instances?.map((val) => {
-            return val["safety stock"];
-          }),
-          borderColor: "rgb(233, 155, 0)",
-          backgroundColor: "rgba(233, 155, 0, 0.5)",
-        },
-      ],
-    };
-    var dataDetail_2 = {
-      labels,
-      datasets: [
-        {
-          label: "Total Quantity",
-          data: healthResponse2?.total_qty_instances?.map((val) => {
-            return val.total_quantity;
-          }),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-
-        {
-          label: "Safety Stock",
-          data: healthResponse2?.total_qty_instances?.map((val) => {
-            return val["safety stock"];
-          }),
-          borderColor: "rgb(233, 155, 0)",
-          backgroundColor: "rgba(233, 155, 0, 0.5)",
-        },
-      ],
-    };
-    var dataDetail_3 = {
-      labels,
-      datasets: [
-        {
-          label: "Total Quantity",
-          data: healthResponse3?.total_qty_instances?.map((val) => {
-            return val.total_quantity;
-          }),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-
-        {
-          label: "Safety Stock",
-          data: healthResponse3?.total_qty_instances?.map((val) => {
-            return val["safety stock"];
-          }),
-          borderColor: "rgb(233, 155, 0)",
-          backgroundColor: "rgba(233, 155, 0, 0.5)",
-        },
-      ],
-    };
-    var dataDetail_4 = {
-      labels,
-      datasets: [
-        {
-          label: "Total Quantity",
-          data: healthResponse4?.total_qty_instances?.map((val) => {
-            return val.total_quantity;
-          }),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-
-        {
-          label: "Safety Stock",
-          data: healthResponse4?.total_qty_instances?.map((val) => {
-            return val["safety stock"];
-          }),
-          borderColor: "rgb(233, 155, 0)",
-          backgroundColor: "rgba(233, 155, 0, 0.5)",
-        },
-      ],
-    };
-
-    var dataDetail_5 = {
-      labels,
-      datasets: [
-        {
-          label: "Total Quantity",
-          data: healthResponse5?.total_qty_instances?.map((val) => {
-            return val.total_quantity;
-          }),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-
-        {
-          label: "Safety Stock",
-          data: healthResponse5?.total_qty_instances?.map((val) => {
-            return val["safety stock"];
-          }),
-          borderColor: "rgb(233, 155, 0)",
-          backgroundColor: "rgba(233, 155, 0, 0.5)",
-        },
-      ],
-    };
-    
-
-    
-
-
  // }
 
   const handleChange = (event, newValue) => {
@@ -666,8 +390,6 @@ export const PartLookUp = (props) => {
       sethealthResponse3(healthScoreResponse3);
       sethealthResponse4(healthScoreResponse4);
       sethealthResponse5(healthScoreResponse5);
-
-      console.log("HealthResponse5: ", healthResponse5);
    // }
 
 
@@ -678,23 +400,23 @@ export const PartLookUp = (props) => {
   useEffect(() => {
     if (healthResponse["Health-score"]) {
       console.log("HealthScore", healthResponse["Health-score"].slice(0, 4));
-      sethealthguage(Number(healthResponse["Health-score"].slice(0, 4)));
+      setHealthGuage(Number(healthResponse["Health-score"].slice(0, 4)));
     }
     if (healthResponse2["Health-score"]) {
       console.log("HealthScore", healthResponse2["Health-score"].slice(0, 4));
-      sethealthguage2(Number(healthResponse2["Health-score"].slice(0, 4)));
+      setHealthGuage2(Number(healthResponse2["Health-score"].slice(0, 4)));
     }
     if (healthResponse3["Health-score"]) {
       console.log("HealthScore", healthResponse3["Health-score"].slice(0, 4));
-      sethealthguage3(Number(healthResponse3["Health-score"].slice(0, 4)));
+      setHealthGuage3(Number(healthResponse3["Health-score"].slice(0, 4)));
     }
     if (healthResponse4["Health-score"]) {
       console.log("HealthScore", healthResponse4["Health-score"].slice(0, 4));
-      sethealthguage4(Number(healthResponse4["Health-score"].slice(0, 4)));
+      setHealthGuage4(Number(healthResponse4["Health-score"].slice(0, 4)));
     }
     if (healthResponse5["Health-score"]) {
       console.log("HealthScore", healthResponse5["Health-score"].slice(0, 4));
-      sethealthguage5(Number(healthResponse5["Health-score"].slice(0, 4)));
+      setHealthGuage5(Number(healthResponse5["Health-score"].slice(0, 4)));
     }
 
 
@@ -855,7 +577,7 @@ export const PartLookUp = (props) => {
                     <Line options={options1} data={data1} plugins={[ChartDataLabels]} />
                     <br />
                     <h2> Detail Information of Material availability for next 10 days</h2>
-                    <Line options={options2} data={dataDetail_1} plugins={[ChartDataLabels]} />
+                    <Line options={options2} data={data2} plugins={[ChartDataLabels]} />
                   </Box>
                 </Modal>
 
@@ -885,12 +607,12 @@ export const PartLookUp = (props) => {
                             <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                             </TableCell> */}
 
-                            <TableCell>{order.mat_description_eng}</TableCell>
+                            <TableCell>{order.mat_description}</TableCell>
 
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthguage} %
+                              {healthGuage} %
                               {/* <TrafficByDevice
                                 healthGuage={healthGuage}
                                 setHealthGuage={setHealthGuage}
@@ -946,10 +668,10 @@ export const PartLookUp = (props) => {
                 >
                   <Box sx={style}>
                     <h2>Summary of Material availability for next 10 days</h2>
-                    <Line options={options1} data={data2} plugins={[ChartDataLabels]} />
+                    <Line options={options1} data={data1} plugins={[ChartDataLabels]} />
                     <br />
                     <h2> Detail Information of Material availability for next 10 days</h2>
-                    <Line options={options2} data={dataDetail_2} plugins={[ChartDataLabels]} />
+                    <Line options={options2} data={data2} plugins={[ChartDataLabels]} />
                   </Box>
                 </Modal>
 
@@ -979,12 +701,12 @@ export const PartLookUp = (props) => {
                             <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                             </TableCell> */}
 
-                            <TableCell>{order.mat_description_eng}</TableCell>
+                            <TableCell>{order.mat_description}</TableCell>
 
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthguage2} %
+                              {healthGuage2} %
                             </TableCell>
 
                             <TableCell>
@@ -1039,10 +761,10 @@ export const PartLookUp = (props) => {
                 >
                   <Box sx={style}>
                     <h2>Summary of Material availability for next 10 days</h2>
-                    <Line options={options1} data={data3} plugins={[ChartDataLabels]} />
+                    <Line options={options1} data={data1} plugins={[ChartDataLabels]} />
                     <br />
                     <h2> Detail Information of Material availability for next 10 days</h2>
-                    <Line options={options2} data={dataDetail_3} plugins={[ChartDataLabels]} />
+                    <Line options={options2} data={data2} plugins={[ChartDataLabels]} />
                   </Box>
                 </Modal>
 
@@ -1072,12 +794,12 @@ export const PartLookUp = (props) => {
                             <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                             </TableCell> */}
 
-                            <TableCell>{order.mat_description_eng}</TableCell>
+                            <TableCell>{order.mat_description}</TableCell>
 
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthguage3} %
+                              {healthGuage3} %
                             </TableCell>
 
                             <TableCell>
@@ -1132,10 +854,10 @@ export const PartLookUp = (props) => {
                 >
                   <Box sx={style}>
                     <h2>Summary of Material availability for next 10 days</h2>
-                    <Line options={options1} data={data4} plugins={[ChartDataLabels]} />
+                    <Line options={options1} data={data1} plugins={[ChartDataLabels]} />
                     <br />
                     <h2> Detail Information of Material availability for next 10 days</h2>
-                    <Line options={options2} data={dataDetail_4} plugins={[ChartDataLabels]} />
+                    <Line options={options2} data={data2} plugins={[ChartDataLabels]} />
                   </Box>
                 </Modal>
 
@@ -1165,12 +887,12 @@ export const PartLookUp = (props) => {
                             <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                             </TableCell> */}
 
-                            <TableCell>{order.mat_description_eng}</TableCell>
+                            <TableCell>{order.mat_description}</TableCell>
 
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthguage4} %
+                              {healthGuage4} %
                             </TableCell>
 
                             <TableCell>
@@ -1226,10 +948,10 @@ export const PartLookUp = (props) => {
                 >
                   <Box sx={style}>
                     <h2>Summary of Material availability for next 10 days</h2>
-                    <Line options={options1} data={data5} plugins={[ChartDataLabels]} />
+                    <Line options={options1} data={data1} plugins={[ChartDataLabels]} />
                     <br />
                     <h2> Detail Information of Material availability for next 10 days</h2>
-                    <Line options={options2} data={dataDetail_5} plugins={[ChartDataLabels]} />
+                    <Line options={options2} data={data2} plugins={[ChartDataLabels]} />
                   </Box>
                 </Modal>
 
@@ -1259,12 +981,12 @@ export const PartLookUp = (props) => {
                             <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                             </TableCell> */}
 
-                            <TableCell>{order.mat_description_eng}</TableCell>
+                            <TableCell>{order.mat_description}</TableCell>
 
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
                             <TableCell style={{ textAlign: "center" }}>
-                              {healthguage5} %
+                              {healthGuage5} %
                             </TableCell>
 
                             <TableCell>

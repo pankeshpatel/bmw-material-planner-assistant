@@ -33,7 +33,7 @@ import {
 import { Markov } from "./markov";
 
 export const LongRunAndMarkov = (props) => {
-  ChartJS.register(ChartDataLabels);
+  //ChartJS.register(ChartDataLabels);
   const theme = useTheme();
 
   const [resultBool, setResultBool] = useState(false);
@@ -148,6 +148,11 @@ export const LongRunAndMarkov = (props) => {
         stack: "",
         backgroundColor: "#FF0000",
       },
+      // {
+      //  // barThickness: 40,
+      //     // borderRadius: 4,
+      //     // categoryPercentage: 0.5,
+      // }
     ],
     labels: ["Arrival Probabilities"],
   };
@@ -155,7 +160,9 @@ export const LongRunAndMarkov = (props) => {
   const optionsLongRun = {
     animation: true,
     cornerRadius: 20,
+    // color=['red','blue'],
     layout: { padding: 0 },
+    // legend: { display: true },
     maintainAspectRatio: false,
     responsive: true,
     indexAxis: "y",
@@ -172,7 +179,7 @@ export const LongRunAndMarkov = (props) => {
         },
 
         color: "black",
-        align: 50,
+        align: 0,
         anchor: "end",
         offset: 5,
 
@@ -189,25 +196,78 @@ export const LongRunAndMarkov = (props) => {
       },
 
       x: {
-        max:100,
-        min:0,
         ticks: { color: "black", beginAtZero: true },
         title: { display: true, text: "Percantages", color: "black" },
       },
       xAxes: [
         {
           stacked: true,
-          max:100
+          // ticks: {
+          //     fontColor: theme.palette.text.secondary,
+          //     beginAtZero: true,
+          //     min: 0
+          //   },
+          // gridLines: {
+          //     borderDash: [2],
+          //     borderDashOffset: [2],
+          //     color: theme.palette.divider,
+          //     drawBorder: false,
+          //     zeroLineBorderDash: [2],
+          //     zeroLineBorderDashOffset: [2],
+          //     zeroLineColor: theme.palette.divider
+          // }
         },
       ],
       yAxes: [
         {
           stacked: true,
+          //  ticks: {fontColor: theme.palette.text.secondary},
+          //  gridLines: {display:false,drawBorder: false}
         },
       ],
     },
-       color:"black"
-   
+    // scales: {
+    //   y: {
+    //     ticks: { color: 'black', beginAtZero: true },
+    //     //stacked: true,
+    //   },
+
+    //     x: {
+    //     ticks: { color: 'black', beginAtZero: true },
+
+    //     title: {
+    //         display: true,
+    //         text: 'Percantages',
+    //         color:"black"
+    //     },
+    //     // stacked: true
+
+    //     }
+    // },
+    // yAxes: [
+    //   {
+    //     ticks: {fontColor: theme.palette.text.secondary},
+    //     gridLines: {display:false,drawBorder: false}
+    //   }
+    // ],
+    // xAxes: [
+    //   {
+    //     ticks: {
+    //       fontColor: theme.palette.text.secondary,
+    //       beginAtZero: true,
+    //       min: 0
+    //     },
+    //     gridLines: {
+    //       borderDash: [2],
+    //       borderDashOffset: [2],
+    //       color: theme.palette.divider,
+    //       drawBorder: false,
+    //       zeroLineBorderDash: [2],
+    //       zeroLineBorderDashOffset: [2],
+    //       zeroLineColor: theme.palette.divider
+    //     }
+    //   }
+    // ],
   };
 
   let dataMarkov = {
@@ -262,7 +322,9 @@ export const LongRunAndMarkov = (props) => {
   const optionsMarkov = {
     animation: true,
     cornerRadius: 20,
+    // color=['red','blue'],
     layout: { padding: 0 },
+    // legend: { display: true },
     maintainAspectRatio: false,
     responsive: true,
     indexAxis: "y",
@@ -296,23 +358,79 @@ export const LongRunAndMarkov = (props) => {
       },
 
       x: {
-        max:100,
-        min:0,
-        ticks: { color: "black", beginAtZero: true},
+        ticks: { color: "black", beginAtZero: true },
         title: { display: true, text: "Percantages", color: "black" },
       },
       xAxes: [
         {
           stacked: true,
+          max:100
+          // ticks: {
+          //     fontColor: theme.palette.text.secondary,
+          //     beginAtZero: true,
+          //     min: 0
+          //   },
+          // gridLines: {
+          //     borderDash: [2],
+          //     borderDashOffset: [2],
+          //     color: theme.palette.divider,
+          //     drawBorder: false,
+          //     zeroLineBorderDash: [2],
+          //     zeroLineBorderDashOffset: [2],
+          //     zeroLineColor: theme.palette.divider
+          // }
         },
       ],
       yAxes: [
         {
           stacked: true,
+          //  ticks: {fontColor: theme.palette.text.secondary},
+          //  gridLines: {display:false,drawBorder: false}
         },
       ],
     },
+    // scales: {
+    //   y: {
+    //     ticks: { color: 'black', beginAtZero: true },
+    //     //stacked: true,
+    //   },
 
+    //     x: {
+    //     ticks: { color: 'black', beginAtZero: true },
+
+    //     title: {
+    //         display: true,
+    //         text: 'Percantages',
+    //         color:"black"
+    //     },
+    //     // stacked: true
+
+    //     }
+    // },
+    // yAxes: [
+    //   {
+    //     ticks: {fontColor: theme.palette.text.secondary},
+    //     gridLines: {display:false,drawBorder: false}
+    //   }
+    // ],
+    // xAxes: [
+    //   {
+    //     ticks: {
+    //       fontColor: theme.palette.text.secondary,
+    //       beginAtZero: true,
+    //       min: 0
+    //     },
+    //     gridLines: {
+    //       borderDash: [2],
+    //       borderDashOffset: [2],
+    //       color: theme.palette.divider,
+    //       drawBorder: false,
+    //       zeroLineBorderDash: [2],
+    //       zeroLineBorderDashOffset: [2],
+    //       zeroLineColor: theme.palette.divider
+    //     }
+    //   }
+    // ],
   };
 
   const handler = (event) => {
@@ -322,6 +440,12 @@ export const LongRunAndMarkov = (props) => {
     localStorage.setItem("queueMarkov", true);
     localStorage.setItem("MAT", event.target.value);
   };
+
+  // const [material1, setMaterial1] = useState();
+  // const [material2, setMaterial2] = useState();
+  // const [material3, setMaterial3] = useState();
+  // const [material4, setMaterial4] = useState();
+  // const [material5, setMaterial5] = useState();
 
   const handleChange = (event) =>
     setMaterialID("741788607") && setMaterialSelected(true) && console.log("MTTT:", materialID);

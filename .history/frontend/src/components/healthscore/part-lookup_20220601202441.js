@@ -120,11 +120,11 @@ export const PartLookUp = (props) => {
   const [selectedMaterial, setSelectedMaterial] = useState([]);
   // const [value, setValue] = useState([0, 200]);
 
-  const [healthguage, sethealthguage] = useState(10);
-  const [healthguage2, sethealthguage2] = useState(10);
-  const [healthguage3, sethealthguage3] = useState(10);
-  const [healthguage4, sethealthguage4] = useState(10);
-  const [healthguage5, sethealthguage5] = useState(10);
+  const [sethealthguage, sethealthguage] = useState(10);
+  const [sethealthguage2, sethealthguage2] = useState(10);
+  const [sethealthguage3, sethealthguage3] = useState(10);
+  const [sethealthguage4, sethealthguage4] = useState(10);
+  const [setHealthGuage5, sethealthguage5] = useState(10);
 
 
   // const [healthResponse,setHealthResponse] = useState([]);
@@ -679,7 +679,7 @@ export const PartLookUp = (props) => {
     if (healthResponse["Health-score"]) {
       console.log("HealthScore", healthResponse["Health-score"].slice(0, 4));
       sethealthguage(Number(healthResponse["Health-score"].slice(0, 4)));
-    }
+    
     if (healthResponse2["Health-score"]) {
       console.log("HealthScore", healthResponse2["Health-score"].slice(0, 4));
       sethealthguage2(Number(healthResponse2["Health-score"].slice(0, 4)));
