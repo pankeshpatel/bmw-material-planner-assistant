@@ -28,7 +28,7 @@ const Login = () => {
 
     localStorage.setItem("token", LoginResponse.access_token);
     localStorage.setItem("plannerId", username);
-    router.push("/healthScore");
+    router.push("/");
   };
 
   return (
