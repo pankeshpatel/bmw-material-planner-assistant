@@ -172,7 +172,7 @@ export const LongRunAndMarkov = (props) => {
         },
 
         color: "black",
-        align: 50,
+        align: 'center',
         anchor: "end",
         offset: 5,
 

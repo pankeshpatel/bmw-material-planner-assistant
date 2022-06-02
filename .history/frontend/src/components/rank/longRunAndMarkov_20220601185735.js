@@ -33,7 +33,7 @@ import {
 import { Markov } from "./markov";
 
 export const LongRunAndMarkov = (props) => {
-  ChartJS.register(ChartDataLabels);
+  //ChartJS.register(ChartDataLabels);
   const theme = useTheme();
 
   const [resultBool, setResultBool] = useState(false);
@@ -172,7 +172,7 @@ export const LongRunAndMarkov = (props) => {
         },
 
         color: "black",
-        align: 50,
+        align: 0,
         anchor: "end",
         offset: 5,
 

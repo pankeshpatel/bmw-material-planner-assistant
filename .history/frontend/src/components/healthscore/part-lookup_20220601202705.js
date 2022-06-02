@@ -124,7 +124,7 @@ export const PartLookUp = (props) => {
   const [healthguage2, sethealthguage2] = useState(10);
   const [healthguage3, sethealthguage3] = useState(10);
   const [healthguage4, sethealthguage4] = useState(10);
-  const [healthguage5, sethealthguage5] = useState(10);
+  const [Healthguage5, sethealthguage5] = useState(10);
 
 
   // const [healthResponse,setHealthResponse] = useState([]);
