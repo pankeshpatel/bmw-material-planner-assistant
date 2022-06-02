@@ -236,7 +236,7 @@ async def get_material_healthscore(
             
             sql = """SELECT material, mrp_element, total_quantity, demand_date  FROM admin.MD04 WHERE material = %s AND demand_date = %s"""
             data= pd.DataFrame(conn.execute(sql, material_id, formatted_date).fetchall(), columns=["material", "mrp_element", "total_quantity", "demand_date" ])
-                        
+                                    
             stock = find_stock(new_date, formatted_date, material_id, data)
             
             

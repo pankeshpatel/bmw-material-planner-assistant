@@ -16,8 +16,6 @@ import asyncio
 
 
 
-
-
 from config.redisdb import redis_db
 my_redis = redis_db()
 
@@ -388,6 +386,7 @@ async def exception_manager_background(planner_id:str, days: int):
         }
         
         #redis_client.set(exception_manager_key, json.dumps(response) )
+        # Caching  - TTL (11 days)
         my_redis.put(exception_manager_key, json.dumps(response), 172800)
         
         
