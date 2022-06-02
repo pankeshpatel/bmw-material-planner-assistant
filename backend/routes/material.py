@@ -38,8 +38,11 @@ async def get_all_material_info(planner_id: str):
         mat_description_eng, safety_stock, plant, lot_size FROM admin.MaterialMaster  WHERE planner = %s"""
         
         df_material_master = pd.DataFrame(conn.execute(sql, planner_id).fetchall(), columns=["material", "material_9", "material_7", "mat_description", "mat_description_eng", "safety_stock", "plant", "lot_size"])
-            
         
+        
+
+        df_material_master = df_material_master.drop_duplicates(subset=['material'])
+                
         response = {
             "planner" : planner_id,
             "result": json.loads(json.dumps(list(df_material_master.T.to_dict().values())))     

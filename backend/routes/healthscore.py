@@ -189,8 +189,6 @@ async def get_material_healthscore(
         new_date = date_obj + td
 
         formatted_date = format_date(date=new_date)
-        print("************formatted_date*********************")
-        print(formatted_date)
 
         asyncio.create_task(get_material_healthscore_background(planner_id, material_id, formatted_date))
 
