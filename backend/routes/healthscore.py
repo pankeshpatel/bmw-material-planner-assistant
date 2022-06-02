@@ -255,7 +255,8 @@ async def get_material_healthscore(
         
         
         # This would prepare .csv file that contains total_qty_instances
-        df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']).drop_duplicates(subset=['material', 'demand_date', 'total_quantity', 'safety stock'])
+        df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock'])
+        #.drop_duplicates(subset=['material', 'demand_date', 'total_quantity', 'safety stock'])
         
         print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
         
@@ -350,8 +351,9 @@ async def get_material_healthscore_background(planner_id:str,  material_id: str,
         
         
         # This would prepare .csv file that contains total_qty_instances
-        df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock']) 
-        print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql')).drop_duplicates(subset=['material', 'demand_date', 'total_quantity', 'safety stock'])
+        df_total_qty_instances = pd.DataFrame(list_qty_instance, columns = ['material', 'demand_date', 'total_quantity', 'safety stock'])
+        #.drop_duplicates(subset=['material', 'demand_date', 'total_quantity', 'safety stock'])
+        print(tabulate(df_total_qty_instances, headers = 'keys', tablefmt = 'psql'))
         
         # destruct this global variable
         #list_qty_instance.clear()
