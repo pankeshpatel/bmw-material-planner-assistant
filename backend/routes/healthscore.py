@@ -299,6 +299,7 @@ async def get_material_healthscore_background(planner_id:str,  material_id: str,
      # Check if the data exists in Cache
     if redis_reponse != None:
         print("Found the results in redis cache.......")
+        
         #return json.loads(redis_reponse)
     else:
         print("I have not found the results in redis cache, computing now...")   
@@ -381,4 +382,4 @@ async def get_material_healthscore_background(planner_id:str,  material_id: str,
         # my_profiler.log("print")
 
         # 172800 seconds = 2 days
-        my_redis.put(material_healthscore_key, json.dumps(health_score), 172800 )
+        my_redis.put(material_healthscore_key, json.dumps(health_score), 172800)

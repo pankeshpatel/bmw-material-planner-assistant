@@ -1,6 +1,8 @@
-from redis import Redis
+#from redis import Redis
 import json
 import sys
+import redis
+
 
 
 def redis_db():
@@ -10,8 +12,15 @@ def redis_db():
 class Cachedis(object):
     
     def __init__(self, host="localhost", port=6379, db=0):
-        self.__redis = Redis(host, port, db)
         
+        try:
+            self.__redis = redis.Redis(host, port, db)
+            self.__redis.ping()
+            print("Successfully connected to redis....", host)
+        except redis.exceptions.RedisError as error:
+            print(error)
+       
+
     def put(self, key, value, expiration_time=3600):
         self.__redis.set(key, value, expiration_time)
         
