@@ -1460,7 +1460,7 @@ const useStyles = makeStyles({
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#3a86ff", // Change to hex code
+    backgroundColor: "BDCFFF", // Change to hex code
     color: theme.palette.common.black,
   },
   [`&.${tableCellClasses.body}`]: {

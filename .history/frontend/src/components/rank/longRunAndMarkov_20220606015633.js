@@ -342,7 +342,7 @@ export const LongRunAndMarkov = (props) => {
       {is114 ? (
         <CardHeader
           action={
-            <FormControl style={{ width: 300 }}>
+            <FormControl style={{ width: 500 }}>
               <InputLabel id="Select Material">Material</InputLabel>
               <Select
                 // labelId="Select Material"
@@ -491,7 +491,7 @@ export const LongRunAndMarkov = (props) => {
           }}
         >
           <Bar
-            style={{ backgroundColor: "#BDCFFF" , borderRadius:20}}
+            style={{ backgroundColor: "#0166B1" }}
             data={dataLongRun}
             options={optionsLongRun}
             //plugins={[ChartDataLabels]}
@@ -589,7 +589,6 @@ export const LongRunAndMarkov = (props) => {
           //   </Button>
           // )}
           title="Markov"
-          font="h6"
         />
         <Divider />
         <CardContent>
@@ -600,7 +599,7 @@ export const LongRunAndMarkov = (props) => {
             }}
           >
             <Bar
-              style={{ backgroundColor: "#BDCFFF" , borderRadius:10 }}
+              style={{ backgroundColor: "#ccc" }}
               data={dataMarkov}
               options={optionsMarkov}
               //plugins={[ChartDataLabels]}
@@ -608,13 +607,13 @@ export const LongRunAndMarkov = (props) => {
           </Box>
         </CardContent>
         <Divider />
-        {/* <Box
+        <Box
           sx={{
             display: "flex",
             justifyContent: "flex-end",
             p: 2,
           }}
-        > */}
+        >
           {/* <Button
           color="primary"
           endIcon={<ArrowRightIcon fontSize="small" />}
@@ -622,7 +621,7 @@ export const LongRunAndMarkov = (props) => {
         >
           Overview
         </Button> */}
-        {/* </Box> */}
+        </Box>
       </Card>
       </Grid>
 
@@ -633,7 +632,7 @@ const useStyles = makeStyles({
   card: {
     border: "2px solid",
     borderColor: "#3a86ff",
-    boxShadow: "0 19px 38px rgba(1,0.75,1,0.75), 0 15px 12px rgba(0,0,0,0.22)",
+    boxShadow: "0 19px 38px rgba(1,0.7,1,0.7), 0 15px 12px rgba(0,0,0,0.22)",
    // boxShadow: "9px 18px #3a86ff",   // AABDFF   ---   F1EFFE --- 6F6F6F --- 0166B1
     // borderColor: '#C4C4C4',
     marginTop: 0,

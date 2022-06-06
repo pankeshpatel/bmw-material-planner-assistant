@@ -487,7 +487,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     //  backgroundColor: theme.palette.common.black, // Change to hex code
     backgroundColor: "#3a86ff", // Change to hex code
-    color: theme.palette.common.black,
+    color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,

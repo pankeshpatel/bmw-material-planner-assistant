@@ -43,7 +43,7 @@ const items = [
     title: "Part Ranking",
   },
   {
-    href: "",
+    href: "/",
     icon: <FontAwesomeIcon icon={faAtom} />,
     title: "Recommendation Engine",
   },
