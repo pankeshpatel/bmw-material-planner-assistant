@@ -15,7 +15,7 @@ const Dashboard = () => (
       sx={{
         flexGrow: 1,
         py: 0,
-        marginTop: 0,
+        marginTop: "-2%",
       }}
     >
       <Container maxWidth={false}>

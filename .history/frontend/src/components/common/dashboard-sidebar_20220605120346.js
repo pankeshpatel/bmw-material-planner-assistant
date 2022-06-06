@@ -13,8 +13,7 @@ import { faPeopleRoof } from "@fortawesome/free-solid-svg-icons";
 import { faRankingStar } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { plannerIdCall } from "src/utils/apihelper";
-import { faAtom } from "@fortawesome/free-solid-svg-icons";
-
+import { faEngine } from "@fortawesome/free-solid-svg-icons";
 
 const items = [
   // {
@@ -22,7 +21,7 @@ const items = [
   //   icon: (<ChartBarIcon fontSize="small" />),
   //   title: 'Dashboard'
   // },
-  // { 
+  // {
   //   href: '/materials',
   //   icon: (<FontAwesomeIcon  icon={faBook} />),
   //   title: 'Materials'
@@ -34,7 +33,7 @@ const items = [
   },
   {
     href: "/exception",
-    icon: <FontAwesomeIcon icon={faPeopleRoof} />,
+    icon: <FontAwesomeIcon icon={faEngine} />,
     title: "Exception",
   },
   {
@@ -43,8 +42,8 @@ const items = [
     title: "Part Ranking",
   },
   {
-    href: "",
-    icon: <FontAwesomeIcon icon={faAtom} />,
+    href: "/",
+    icon: <FontAwesomeIcon icon={faRankingStar} />,
     title: "Recommendation Engine",
   },
   // {

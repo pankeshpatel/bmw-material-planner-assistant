@@ -13,8 +13,7 @@ import { faPeopleRoof } from "@fortawesome/free-solid-svg-icons";
 import { faRankingStar } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { plannerIdCall } from "src/utils/apihelper";
-import { faAtom } from "@fortawesome/free-solid-svg-icons";
-
+import { faMotorcycle } from "@fortawesome/free-solid-svg-icons";
 
 const items = [
   // {
@@ -43,8 +42,8 @@ const items = [
     title: "Part Ranking",
   },
   {
-    href: "",
-    icon: <FontAwesomeIcon icon={faAtom} />,
+    href: "/",
+    icon: <FontAwesomeIcon icon={faMotorcycle} />,
     title: "Recommendation Engine",
   },
   // {

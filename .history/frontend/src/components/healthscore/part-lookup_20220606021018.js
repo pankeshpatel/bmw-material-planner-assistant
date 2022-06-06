@@ -43,10 +43,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import Shimmer from "react-shimmer-effect";
 import { makeStyles } from "@mui/styles";
-import { styled } from '@mui/material/styles';
-import { tableCellClasses } from '@mui/material/TableCell';
-
-
 
 
 function sortByProperty(property) {
@@ -700,10 +696,10 @@ export const PartLookUp = (props) => {
         <Box
           sx={{
             display: "flex",
-            marginTop:"-2%",
+            // marginTop:"-7%",
             paddingBottom: "2%",
             justifyContent: "flex-end",
-            p: 2,
+            p: 0,
           }}
         >
           {/* <Slider
@@ -757,8 +753,8 @@ export const PartLookUp = (props) => {
             <Table stickyHeader={true}>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell style={{ width: "10%" }}>Material ID</StyledTableCell>
-                  <StyledTableCell>Date</StyledTableCell>
+                  <TableCell style={{ width: "10%" }}>Material ID</TableCell>
+                  <TableCell>Date</TableCell>
                   {/* <TableCell sortDirection="desc">
                 <Tooltip
                   enterDelay={300}
@@ -781,11 +777,11 @@ export const PartLookUp = (props) => {
                     Material_7
                   </TableCell> */}
                   {/* <TableCell>Material Description</TableCell> */}
-                  <StyledTableCell>Material Description Eng</StyledTableCell>
+                  <TableCell>Material Description Eng</TableCell>
 
-                  <StyledTableCell style={{ textAlign: "center" }}>Health Status</StyledTableCell>
+                  <TableCell style={{ textAlign: "center" }}>Health Status</TableCell>
 
-                  <StyledTableCell style={{ textAlign: "left", paddingLeft:"4%" }}>Graphs</StyledTableCell>
+                  <TableCell>Graphs</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -810,13 +806,13 @@ export const PartLookUp = (props) => {
                   {!table1Loading
                     ? healthResponse?.material_detail?.map((order, index) => {
                         return (
-                          <StyledTableRow
+                          <TableRow
                             hover
                             key={Math.random()}
                             // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
                           >
-                            <StyledTableCell style={{ width: "10%" }}>{order.material}</StyledTableCell>
-                            <StyledTableCell>
+                            <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                            <TableCell>
                               {/* {healthResponse.Date} */}
                               {/* <input
                                 type="date"
@@ -824,7 +820,7 @@ export const PartLookUp = (props) => {
                                  onChange={(e) => setStartDate(e.target.value)}
                               /> */}
                               {date}
-                            </StyledTableCell>
+                            </TableCell>
                             {/* <TableCell>{order.material_9}</TableCell>
                             <TableCell>{order.material_7}</TableCell> */}
 
@@ -832,20 +828,20 @@ export const PartLookUp = (props) => {
                             <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                             </TableCell> */}
 
-                            <StyledTableCell>{order.mat_description_eng}</StyledTableCell>
+                            <TableCell>{order.mat_description_eng}</TableCell>
 
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
-                            <StyledTableCell style={{ textAlign: "center" }}>
+                            <TableCell style={{ textAlign: "center" }}>
                             <span style={returnColor(healthguage)}> {healthguage} %</span>
                               {/* <TrafficByDevice
                                 healthGuage={healthGuage}
                                 setHealthGuage={setHealthGuage}
                                 sx={{ height: "100px" }}
                               /> */}
-                            </StyledTableCell>
+                            </TableCell>
 
-                            <StyledTableCell>
+                            <TableCell>
                               <Box
                                 sx={
                                   {
@@ -865,8 +861,8 @@ export const PartLookUp = (props) => {
                                   Show Analysis
                                 </Button>
                               </Box>
-                            </StyledTableCell>
-                          </StyledTableRow>
+                            </TableCell>
+                          </TableRow>
                         );
                       })
                     : Array.from({ length: 2 }, (_, i) => (
@@ -904,13 +900,13 @@ export const PartLookUp = (props) => {
                   {!table1Loading
                     ? healthResponse2?.material_detail?.map((order, index) => {
                         return (
-                          <StyledTableRow
+                          <TableRow
                             hover
                             key={Math.random()}
                             // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
                           >
-                            <StyledTableCell style={{ width: "10%" }}>{order.material}</StyledTableCell>
-                            <StyledTableCell>
+                            <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                            <TableCell>
                               {/* {healthResponse.Date} */}
                               {/* <input
                                 type="date"
@@ -918,7 +914,7 @@ export const PartLookUp = (props) => {
                                  onChange={(e) => setStartDate(e.target.value)}
                               /> */}
                               {date}
-                            </StyledTableCell>
+                            </TableCell>
                             {/* <TableCell>{order.material_9}</TableCell>
                             <TableCell>{order.material_7}</TableCell> */}
 
@@ -926,15 +922,15 @@ export const PartLookUp = (props) => {
                             <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                             </TableCell> */}
 
-                            <StyledTableCell>{order.mat_description_eng}</StyledTableCell>
+                            <TableCell>{order.mat_description_eng}</TableCell>
 
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
-                            <StyledTableCell style={{ textAlign: "center" }}>
+                            <TableCell style={{ textAlign: "center" }}>
                             <span style={returnColor(healthguage2)}> {healthguage2} %</span>
-                            </StyledTableCell>
+                            </TableCell>
 
-                            <StyledTableCell>
+                            <TableCell>
                               <Box
                                 sx={
                                   {
@@ -954,8 +950,8 @@ export const PartLookUp = (props) => {
                                   Show Analysis
                                 </Button>
                               </Box>
-                            </StyledTableCell>
-                          </StyledTableRow>
+                            </TableCell>
+                          </TableRow>
                         );
                       })
                     : Array.from({ length: 2 }, (_, i) => (
@@ -997,13 +993,13 @@ export const PartLookUp = (props) => {
                   {!table1Loading
                     ? healthResponse3?.material_detail?.map((order, index) => {
                         return (
-                          <StyledTableRow
+                          <TableRow
                             hover
                             key={Math.random()}
                             // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
                           >
-                            <StyledTableCell style={{ width: "10%" }}>{order.material}</StyledTableCell>
-                            <StyledTableCell>
+                            <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                            <TableCell>
                               {/* {healthResponse.Date} */}
                               {/* <input
                                 type="date"
@@ -1011,7 +1007,7 @@ export const PartLookUp = (props) => {
                                  onChange={(e) => setStartDate(e.target.value)}
                               /> */}
                               {date}
-                            </StyledTableCell>
+                            </TableCell>
                             {/* <TableCell>{order.material_9}</TableCell>
                             <TableCell>{order.material_7}</TableCell> */}
 
@@ -1019,15 +1015,15 @@ export const PartLookUp = (props) => {
                             <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                             </TableCell> */}
 
-                            <StyledTableCell>{order.mat_description_eng}</StyledTableCell>
+                            <TableCell>{order.mat_description_eng}</TableCell>
 
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
-                            <StyledTableCell style={{ textAlign: "center" }}>
+                            <TableCell style={{ textAlign: "center" }}>
                              <span style={returnColor(healthguage3)}> {healthguage3} %</span>
-                            </StyledTableCell>
+                            </TableCell>
 
-                            <StyledTableCell>
+                            <TableCell>
                               <Box
                                 sx={
                                   {
@@ -1047,8 +1043,8 @@ export const PartLookUp = (props) => {
                                   Show Analysis
                                 </Button>
                               </Box>
-                            </StyledTableCell>
-                          </StyledTableRow>
+                            </TableCell>
+                          </TableRow>
                         );
                       })
                     : Array.from({ length: 2 }, (_, i) => (
@@ -1090,13 +1086,13 @@ export const PartLookUp = (props) => {
                   {!table1Loading
                     ? healthResponse4?.material_detail?.map((order, index) => {
                         return (
-                          <StyledTableRow
+                          <TableRow
                             hover
                             key={Math.random()}
                             // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
                           >
-                            <StyledTableCell style={{ width: "10%" }}>{order.material}</StyledTableCell>
-                            <StyledTableCell>
+                            <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                            <TableCell>
                               {/* {healthResponse.Date} */}
                               {/* <input
                                 type="date"
@@ -1104,7 +1100,7 @@ export const PartLookUp = (props) => {
                                  onChange={(e) => setStartDate(e.target.value)}
                               /> */}
                               {date}
-                            </StyledTableCell>
+                            </TableCell>
                             {/* <TableCell>{order.material_9}</TableCell>
                             <TableCell>{order.material_7}</TableCell> */}
 
@@ -1112,15 +1108,15 @@ export const PartLookUp = (props) => {
                             <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                             </TableCell> */}
 
-                            <StyledTableCell>{order.mat_description_eng}</StyledTableCell>
+                            <TableCell>{order.mat_description_eng}</TableCell>
 
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
-                            <StyledTableCell style={{ textAlign: "center" }}>
+                            <TableCell style={{ textAlign: "center" }}>
                             <span style={returnColor(healthguage4)}> {healthguage4} %</span>
-                            </StyledTableCell>
+                            </TableCell>
 
-                            <StyledTableCell>
+                            <TableCell>
                               <Box
                                 sx={
                                   {
@@ -1140,8 +1136,8 @@ export const PartLookUp = (props) => {
                                   Show Analysis
                                 </Button>
                               </Box>
-                            </StyledTableCell>
-                          </StyledTableRow>
+                            </TableCell>
+                          </TableRow>
                         );
                       })
                     : Array.from({ length: 2 }, (_, i) => (
@@ -1184,13 +1180,13 @@ export const PartLookUp = (props) => {
                   {!table1Loading
                     ? healthResponse5?.material_detail?.map((order, index) => {
                         return (
-                          <StyledTableRow
+                          <TableRow
                             hover
                             key={Math.random()}
                             // onClick={()=>{setSelectedMaterial(healthScore.slice(index,index+1))}}
                           >
-                            <StyledTableCell style={{ width: "10%" }}>{order.material}</StyledTableCell>
-                            <StyledTableCell>
+                            <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                            <TableCell>
                               {/* {healthResponse.Date} */}
                               {/* <input
                                 type="date"
@@ -1198,7 +1194,7 @@ export const PartLookUp = (props) => {
                                  onChange={(e) => setStartDate(e.target.value)}
                               /> */}
                               {date}
-                            </StyledTableCell>
+                            </TableCell>
                             {/* <TableCell>{order.material_9}</TableCell>
                             <TableCell>{order.material_7}</TableCell> */}
 
@@ -1206,16 +1202,16 @@ export const PartLookUp = (props) => {
                             <span style={ returnColor(Number(order.healthstatus)) } onClick={()=>{ props.setHealthGuage(order.healthstatus) }} >{order.healthstatus}</span> 
                             </TableCell> */}
 
-                            <StyledTableCell>{order.mat_description_eng}</StyledTableCell>
+                            <TableCell>{order.mat_description_eng}</TableCell>
 
                             {/* <TableCell>{order.mat_description_eng}</TableCell> */}
 
-                            <StyledTableCell style={{ textAlign: "center" }}>
+                            <TableCell style={{ textAlign: "center" }}>
                             <span style={returnColor(healthguage5)}> {healthguage5
                             } %</span>
-                            </StyledTableCell>
+                            </TableCell>
 
-                            <StyledTableCell>
+                            <TableCell>
                               <Box
                                 sx={
                                   {
@@ -1235,8 +1231,8 @@ export const PartLookUp = (props) => {
                                   Show Analysis
                                 </Button>
                               </Box>
-                            </StyledTableCell>
-                          </StyledTableRow>
+                            </TableCell>
+                          </TableRow>
                         );
                       })
                     : Array.from({ length: 2 }, (_, i) => (
@@ -1338,8 +1334,8 @@ export const PartLookUp = (props) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell style={{ width: "10%" }}>Material</StyledTableCell>
-                  <StyledTableCell>Material_9</StyledTableCell>
+                  <TableCell style={{ width: "10%" }}>Material</TableCell>
+                  <TableCell>Material_9</TableCell>
                   {/* <TableCell sortDirection="desc">
                 <Tooltip
                   enterDelay={300}
@@ -1353,35 +1349,35 @@ export const PartLookUp = (props) => {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell> */}
-                  <StyledTableCell>Material_7</StyledTableCell>
-                  <StyledTableCell>Material Description</StyledTableCell>
-                  <StyledTableCell>Material Description Eng</StyledTableCell>
+                  <TableCell>Material_7</TableCell>
+                  <TableCell>Material Description</TableCell>
+                  <TableCell>Material Description Eng</TableCell>
 
-                  <StyledTableCell>Safety Stock</StyledTableCell>
+                  <TableCell>Safety Stock</TableCell>
 
-                  <StyledTableCell>Plant</StyledTableCell>
+                  <TableCell>Plant</TableCell>
 
-                  <StyledTableCell>Lot Size</StyledTableCell>
+                  <TableCell>Lot Size</TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
                 {!table2Loading
                   ? materialResponse?.map((order) => (
-                      <StyledTableRow hover key={Math.random()}>
-                        <StyledTableCell style={{ width: "10%" }}>{order.material}</StyledTableCell>
-                        <StyledTableCell>{order.material_9}</StyledTableCell>
-                        <StyledTableCell>{order.material_7}</StyledTableCell>
-                        <StyledTableCell>{order.mat_description}</StyledTableCell>
+                      <TableRow hover key={Math.random()}>
+                        <TableCell style={{ width: "10%" }}>{order.material}</TableCell>
+                        <TableCell>{order.material_9}</TableCell>
+                        <TableCell>{order.material_7}</TableCell>
+                        <TableCell>{order.mat_description}</TableCell>
 
-                        <StyledTableCell>{order.mat_description_eng}</StyledTableCell>
+                        <TableCell>{order.mat_description_eng}</TableCell>
 
-                        <StyledTableCell style={{ textAlign: "center" }}>{order.safety_stock}</StyledTableCell>
+                        <TableCell style={{ textAlign: "center" }}>{order.safety_stock}</TableCell>
 
-                        <StyledTableCell>{order.plant}</StyledTableCell>
+                        <TableCell>{order.plant}</TableCell>
 
-                        <StyledTableCell style={{ textAlign: "center" }}>{order.lot_size}</StyledTableCell>
-                      </StyledTableRow>
+                        <TableCell style={{ textAlign: "center" }}>{order.lot_size}</TableCell>
+                      </TableRow>
                     ))
                   : Array.from({ length: 10 }, (_, i) => (
                       <tr key={i}>
@@ -1457,26 +1453,6 @@ const useStyles = makeStyles({
     marginBottom:35
   }
 });
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#3a86ff", // Change to hex code
-    color: theme.palette.common.black,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
 
 // export const LatestOrderDetail= (props) => {
 //  const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));

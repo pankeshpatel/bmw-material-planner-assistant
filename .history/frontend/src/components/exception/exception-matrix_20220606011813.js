@@ -24,8 +24,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { ExceptionMatrixCall } from "src/utils/apihelper";
 import { makeStyles } from "@mui/styles";
-import { styled } from '@mui/material/styles';
-import { tableCellClasses } from '@mui/material/TableCell';
 
 
 const orders = [
@@ -327,8 +325,6 @@ export const LatestOrders = (props) => {
 export const ExceptionMatrix = (props) => {
   const [selectedMaterial, setSelectedMaterial] = useState(healthScore.slice(0, 1));
   const [matrixData, setMatrixData] = useState(exceptionViewer);
-  const classStyle = useStyles();
-
 
   const [go, setgo] = useState(false);
   useEffect(() => {
@@ -376,17 +372,17 @@ export const ExceptionMatrix = (props) => {
   }
 
   return (
-    <Card {...props} className={classStyle.card}>
+    <Card {...props}>
       <CardHeader title="Part Exception Matrix" />
       <PerfectScrollbar>
         <Box sx={{ height: "600px", overflow: "scroll" }}>
           <Table stickyHeader={true}>
             <TableHead>
               <TableRow>
-                <StyledTableCell>Material ID</StyledTableCell>
-                <StyledTableCell>Material_7</StyledTableCell>
-                <StyledTableCell>Material_9</StyledTableCell>
-                <StyledTableCell>ExceptionCount</StyledTableCell>
+                <TableCell>Material ID</TableCell>
+                <TableCell>Material_7</TableCell>
+                <TableCell>Material_9</TableCell>
+                <TableCell>ExceptionCount</TableCell>
                 {/* <TableCell sortDirection="desc">
                 <Tooltip
                   enterDelay={300}
@@ -400,7 +396,7 @@ export const ExceptionMatrix = (props) => {
                   </TableSortLabel>
                 </Tooltip>
               </TableCell> */}
-                <StyledTableCell
+                <TableCell
                   onClick={() => {
                     setMatrixData(
                       exceptionViewer
@@ -410,51 +406,51 @@ export const ExceptionMatrix = (props) => {
                   }}
                 >
                   Percentage
-                </StyledTableCell>
-                <StyledTableCell>Part Description</StyledTableCell>
-                <StyledTableCell>Part Description Eng</StyledTableCell>
+                </TableCell>
+                <TableCell>Part Description</TableCell>
+                <TableCell>Part Description Eng</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {/* {matrixData.map((order) => ( */}
               {TotalMatrixData.map((order) => (
-                <StyledTableRow
+                <TableRow
                   hover
                   // key={order.MaterialID}
                   key={order[0].material}
                 >
-                  <StyledTableCell>
+                  <TableCell>
                     {/* {order.MaterialID} */}
                     {order[1].material}
-                  </StyledTableCell>
+                  </TableCell>
 
-                  <StyledTableCell>
+                  <TableCell>
                     {/* {order.MaterialID} */}
                     {order[1].material_7}
-                  </StyledTableCell>
-                  <StyledTableCell>
+                  </TableCell>
+                  <TableCell>
                     {/* {order.MaterialID} */}
                     {order[1].material_9}
-                  </StyledTableCell>
+                  </TableCell>
 
-                  <StyledTableCell style={{ textAlign: "center" }}>
+                  <TableCell style={{ textAlign: "center" }}>
                     {/* {order.ExceptionCount} */}
                     {order[0].count}
-                  </StyledTableCell>
-                  <StyledTableCell style={{ textAlign: "center" }}>
+                  </TableCell>
+                  <TableCell style={{ textAlign: "center" }}>
                     {/* {(order.Percentage*100).toString().slice(0,4) + "%"} */}
                     {order[0].percentage.toString().slice(0, 4) + " %"}
-                  </StyledTableCell>
-                  <StyledTableCell>
+                  </TableCell>
+                  <TableCell>
                     {/* {order.PartDescription} */}
                     {order[1].mat_description}
-                  </StyledTableCell>
+                  </TableCell>
 
-                  <StyledTableCell>
+                  <TableCell>
                     {/* {order.PartDescriptionEng} */}
                     {order[1].mat_description_eng}
-                  </StyledTableCell>
-                </StyledTableRow>
+                  </TableCell>
+                </TableRow>
               ))}
             </TableBody>
           </Table>
@@ -475,31 +471,10 @@ const useStyles = makeStyles({
   card: {
     border: "2px solid",
     borderColor: "#3a86ff",
-    boxShadow: "0 19px 38px rgba(1,0.75,1,0.75), 0 15px 12px rgba(0,0,0,0.22)",
+    boxShadow: "0 19px 38px rgba(1,0.7,1,0.7), 0 15px 12px rgba(0,0,0,0.22)",
    // boxShadow: "9px 18px #3a86ff",   // AABDFF   ---   F1EFFE --- 6F6F6F --- 0166B1
     // borderColor: '#C4C4C4',
     marginTop:25,
     marginBottom:35
   }
 });
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    //  backgroundColor: theme.palette.common.black, // Change to hex code
-    backgroundColor: "#3a86ff", // Change to hex code
-    color: theme.palette.common.black,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));

@@ -12,7 +12,6 @@ import {
   FormControl,
   Select,
   MenuItem,
-  Grid,
 } from "@mui/material";
 import { setDate } from "date-fns";
 import axios from "axios";
@@ -33,15 +32,11 @@ import {
 } from "chart.js";
 import { Markov } from "./markov";
 
-import { makeStyles } from "@mui/styles";
-
-
 export const LongRunAndMarkov = (props) => {
  // ChartJS.register(ChartDataLabels);
   const theme = useTheme();
 
   const [resultBool, setResultBool] = useState(false);
-  const [alwaysTrue, setAlwaysTrue] = useState(true);
   const [materialID, setMaterialID] = useState("");
   const [materialSelected, setMaterialSelected] = useState(false);
 
@@ -62,9 +57,6 @@ export const LongRunAndMarkov = (props) => {
   const [two, setTwo] = useState();
   const [three, setThree] = useState();
 
-    const classStyle = useStyles();
-
-
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
   var user = "";
@@ -80,7 +72,6 @@ export const LongRunAndMarkov = (props) => {
     } else if (user == "M11") {
       setIsM11(true);
     }
-    setAlwaysTrue(true);
 
     console.log("114:", is114);
     console.log("177:", is177);
@@ -336,13 +327,11 @@ export const LongRunAndMarkov = (props) => {
     setMaterialID("741788607") && setMaterialSelected(true) && console.log("MTTT:", materialID);
 
   return (
-    <Grid >
-
-    <Card {...props} className={classStyle.card}>
+    <Card {...props}>
       {is114 ? (
         <CardHeader
           action={
-            <FormControl style={{ width: 300 }}>
+            <FormControl style={{ width: 500 }}>
               <InputLabel id="Select Material">Material</InputLabel>
               <Select
                 // labelId="Select Material"
@@ -491,7 +480,7 @@ export const LongRunAndMarkov = (props) => {
           }}
         >
           <Bar
-            style={{ backgroundColor: "#BDCFFF" , borderRadius:20}}
+            style={{ backgroundColor: "#ccc" }}
             data={dataLongRun}
             options={optionsLongRun}
             //plugins={[ChartDataLabels]}
@@ -514,8 +503,8 @@ export const LongRunAndMarkov = (props) => {
           />
         </Box>
       </CardContent> */}
-{/* 
-      <Card {...props} className={classStyle.card}>
+
+      <Card {...props}>
         <CardHeader
           // action={(
           //   <Button
@@ -530,8 +519,8 @@ export const LongRunAndMarkov = (props) => {
           //   </Button>
           // )}
           title="Markov"
-        /> */}
-        {/* <Divider />
+        />
+        <Divider />
         <CardContent>
           <Box
             sx={{
@@ -545,8 +534,8 @@ export const LongRunAndMarkov = (props) => {
               options={optionsMarkov}
               //plugins={[ChartDataLabels]}
             />
-          </Box> */}
-        {/* </CardContent>
+          </Box>
+        </CardContent>
         <Divider />
         <Box
           sx={{
@@ -554,7 +543,7 @@ export const LongRunAndMarkov = (props) => {
             justifyContent: "flex-end",
             p: 2,
           }}
-        > */}
+        >
           {/* <Button
           color="primary"
           endIcon={<ArrowRightIcon fontSize="small" />}
@@ -562,81 +551,16 @@ export const LongRunAndMarkov = (props) => {
         >
           Overview
         </Button> */}
-        {/* </Box>
-      </Card> */}
+        </Box>
+      </Card>
 
-      {/* <Box
+      <Box
         sx={{
           display: "flex",
           justifyContent: "flex-end",
           p: 2,
         }}
-      ></Box> */}
+      ></Box>
     </Card>
-
-      <Card {...props} className={classStyle.card}>
-        <CardHeader
-          // action={(
-          //   <Button
-          //     // endIcon={<ArrowDropDownIcon fontSize="small" />}
-          //     size="small"
-          //   >
-          //     <select>
-
-          //       <option value="" key="">last 45 days</option>
-
-          //     </select>
-          //   </Button>
-          // )}
-          title="Markov"
-          font="h6"
-        />
-        <Divider />
-        <CardContent>
-          <Box
-            sx={{
-              height: 350,
-              position: "relative",
-            }}
-          >
-            <Bar
-              style={{ backgroundColor: "#BDCFFF" , borderRadius:10 }}
-              data={dataMarkov}
-              options={optionsMarkov}
-              //plugins={[ChartDataLabels]}
-            />
-          </Box>
-        </CardContent>
-        <Divider />
-        {/* <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            p: 2,
-          }}
-        > */}
-          {/* <Button
-          color="primary"
-          endIcon={<ArrowRightIcon fontSize="small" />}
-          size="small"
-        >
-          Overview
-        </Button> */}
-        {/* </Box> */}
-      </Card>
-      </Grid>
-
   );
 };
-
-const useStyles = makeStyles({
-  card: {
-    border: "2px solid",
-    borderColor: "#3a86ff",
-    boxShadow: "0 19px 38px rgba(1,0.75,1,0.75), 0 15px 12px rgba(0,0,0,0.22)",
-   // boxShadow: "9px 18px #3a86ff",   // AABDFF   ---   F1EFFE --- 6F6F6F --- 0166B1
-    // borderColor: '#C4C4C4',
-    marginTop: 0,
-    marginBottom:100
-  }
-});

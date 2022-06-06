@@ -755,7 +755,7 @@ export const PartLookUp = (props) => {
               
             } */}
             <Table stickyHeader={true}>
-              <TableHead>
+              <TableHead style={{width:50}}>
                 <TableRow>
                   <StyledTableCell style={{ width: "10%" }}>Material ID</StyledTableCell>
                   <StyledTableCell>Date</StyledTableCell>

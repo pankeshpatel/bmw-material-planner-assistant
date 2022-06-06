@@ -693,6 +693,26 @@ export const PartLookUp = (props) => {
     return `${Date(value)}`;
   }
 
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black, // Change to hex code
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+  
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
+
   return (
     <>
       <Card {...props} className={classStyle.card}>
@@ -700,7 +720,7 @@ export const PartLookUp = (props) => {
         <Box
           sx={{
             display: "flex",
-            marginTop:"-2%",
+            marginTop:"-7%",
             paddingBottom: "2%",
             justifyContent: "flex-end",
             p: 2,
@@ -785,7 +805,7 @@ export const PartLookUp = (props) => {
 
                   <StyledTableCell style={{ textAlign: "center" }}>Health Status</StyledTableCell>
 
-                  <StyledTableCell style={{ textAlign: "left", paddingLeft:"4%" }}>Graphs</StyledTableCell>
+                  <StyledTableCell>Graphs</StyledTableCell>
                 </TableRow>
               </TableHead>
 
@@ -1457,26 +1477,6 @@ const useStyles = makeStyles({
     marginBottom:35
   }
 });
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#3a86ff", // Change to hex code
-    color: theme.palette.common.black,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
 
 // export const LatestOrderDetail= (props) => {
 //  const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));
