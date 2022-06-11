@@ -80,6 +80,8 @@ async def exception_manager(planner_id:str, days: int):
 
         dataframe_exception_manager = dataframe_exception_manager[dataframe_exception_manager['matnr'].isin(list_manager)]
         
+        
+        
 
         #  Data cleaning, replacing NaN with '0'
         dataframe_exception_manager['auskt'] = dataframe_exception_manager['auskt'].fillna(0)

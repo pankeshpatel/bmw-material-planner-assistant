@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 
-connect_string = f'mysql+pymysql://root:Manish4161@localhost:3306/admin?charset=utf8mb4'
+connect_string = f'mysql+pymysql://root:root123@localhost:3306/admin?charset=utf8mb4'
 
 
 # DB_USER="root"
