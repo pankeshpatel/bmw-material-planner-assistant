@@ -338,7 +338,8 @@ export const LongRunAndMarkov = (props) => {
   return (
     <Grid >
 
-    <Card {...props} className={classStyle.card}>
+    <Card {...props}
+className={classStyle.card}>
       {is114 ? (
         <CardHeader
           action={
@@ -574,7 +575,8 @@ export const LongRunAndMarkov = (props) => {
       ></Box> */}
     </Card>
 
-      <Card {...props} className={classStyle.card}>
+      <Card {...props}
+className={classStyle.card}>
         <CardHeader
           // action={(
           //   <Button
@@ -632,9 +634,9 @@ export const LongRunAndMarkov = (props) => {
 const useStyles = makeStyles({
   card: {
     border: "2px solid",
-    borderColor: "#3a86ff",
+    borderColor: "#10b981",
     boxShadow: "0 19px 38px rgba(1,0.75,1,0.75), 0 15px 12px rgba(0,0,0,0.22)",
-   // boxShadow: "9px 18px #3a86ff",   // AABDFF   ---   F1EFFE --- 6F6F6F --- 0166B1
+   // boxShadow: "9px 18px #10b981",   // AABDFF   ---   F1EFFE --- 6F6F6F --- 0166B1
     // borderColor: '#C4C4C4',
     marginTop: 0,
     marginBottom:100

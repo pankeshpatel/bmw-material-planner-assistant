@@ -1,9 +1,12 @@
 import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import { loginCall } from "src/utils/apihelper";
+import styles from '../styles/login.module.scss';
+import BMWlogo from '../images/bmw_logo_PNG19714.png';
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -35,18 +38,17 @@ const Login = () => {
     <>
       <Head>
         <title>BMW Material Planner</title>
-        <link rel="icon" type="image/png" href="bmw_logo_PNG19714.png"></link>
+        <link rel="icon"
+type="image/png"
+href="bmw_logo_PNG19714.png"></link>
       </Head>
       <Box
         component="main"
-        sx={{
-          alignItems: "center",
-          display: "flex",
-          flexGrow: 1,
-          minHeight: "100%",
-        }}
+        className={ styles.mainContainer }
       >
-        <Container maxWidth="sm">
+        <Container 
+          maxWidth="sm" 
+          className={styles.loginBox}>
           {/* <NextLink
             href="/"
             passHref
@@ -59,15 +61,21 @@ const Login = () => {
             </Button>
           </NextLink> */}
           <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ my: 3 }}>
-              <Typography color="textPrimary" variant="h4">
-                Sign in
-              </Typography>
-              <Typography color="textSecondary" gutterBottom variant="body2">
-                Sign in on the internal platform
+            
+          <Box className={styles.loginBox__header}>
+              <Image src={BMWlogo}
+                className={styles.loginBox__logo}
+                height={64}
+                width={64}
+                />
+              <Typography sx={{ mt: '.5rem'}}
+                color="white"
+                variant="subtitle">
+                Sign in to the internal platform
               </Typography>
             </Box>
-            <Grid container spacing={3}>
+            <Grid container
+spacing={3}>
               {/* <Grid
                 item
                 xs={12}
@@ -107,7 +115,9 @@ const Login = () => {
                 pt: 3,
               }}
             >
-              <Typography align="center" color="textSecondary" variant="body1">
+              <Typography align="center"
+color="textSecondary"
+variant="body1">
                 {/* or login with email address */}
               </Typography>
             </Box>

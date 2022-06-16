@@ -1,0 +1,50 @@
+.mainContainer {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    height: 100vh;
+    background-image: url(../images/bmw.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.loginBox {
+    background-color: rgba(0,0,0,0.25);
+    backdrop-filter: blur(30px);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    &__logo {
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.loginInput {
+    color: white;
+    label {
+        color: white 
+    }
+    input:autofill{
+        background-color: transparent !important;
+    }
+    :global(label.Mui-focused) {
+        color: white 
+    }
+    :global(.MuiOutlinedInput-root){    
+        fieldset {
+            border-color: rgba(255, 255, 255, 0.753);
+        }
+        &:hover fieldset {
+            border-color:rgba(255, 255, 255, 1)
+        }
+        input {
+            color: white
+        }
+    }
+}
