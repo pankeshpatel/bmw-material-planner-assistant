@@ -13,6 +13,8 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
   flex: '1 1 auto',
   maxWidth: '100%',
   paddingTop: 64,
+  backdropFilter: 'blur(30px)',
+  backgroundColor: 'rgba(16, 185, 129, 0.3)',
   [theme.breakpoints.up('lg')]: {
     paddingLeft: 280
   }
@@ -26,13 +28,13 @@ export const DashboardLayout = (props) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
 
-  useEffect(() => {
-    if(typeof(window) != "undefined"){
-      if((localStorage.getItem("token")==null )){
-        router.push("/login")
-      }
-    }  
-  }, [])
+  // useEffect(() => {
+  //   if(typeof(window) != "undefined"){
+  //     if((localStorage.getItem("token")==null )){
+  //       router.push("/login")
+  //     }
+  //   }  
+  // }, [])
 
   return (
     <>
@@ -53,6 +55,7 @@ export const DashboardLayout = (props) => {
         onClose={() => setSidebarOpen(false)}
         open={isSidebarOpen}
       />
+      <Box sx={{ zIndex: '-1', position: 'fixed', left: 0, top: 0, width: '100vw', height: '100vh', backgroundImage: 'url(images/images.jpg)', backgroundSize: 'cover', }}/>
     </>
   );
 };

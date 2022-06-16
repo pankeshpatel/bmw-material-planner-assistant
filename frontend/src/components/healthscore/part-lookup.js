@@ -58,6 +58,52 @@ function sortByProperty(property) {
   };
 }
 
+const cardStyle = {
+  
+    border: "2px solid",
+    borderColor: "#10b981",
+    boxShadow: "0 19px 38px rgba(1,0.75,1,0.75), 0 15px 12px rgba(0,0,0,0.22)",
+   // boxShadow: "9px 18px #10b981",   // AABDFF   ---   F1EFFE --- 6F6F6F --- 0166B1
+    // borderColor: '#C4C4C4',
+    marginTop:'25px',
+    marginBottom:'35px'
+  
+}
+
+const useStyles = makeStyles({
+  card: {
+    border: "2px solid",
+    borderColor: "#10b981",
+    boxShadow: "0 19px 38px rgba(1,0.75,1,0.75), 0 15px 12px rgba(0,0,0,0.22)",
+   // boxShadow: "9px 18px #10b981",   // AABDFF   ---   F1EFFE --- 6F6F6F --- 0166B1
+    // borderColor: '#C4C4C4',
+    marginTop:25,
+    marginBottom:35
+  }
+});
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    background: "-webkit-linear-gradient(bottom, rgb(13, 101, 72), #10b981)", // Change to hex code
+    color: theme.palette.common.white,
+    fontSize: '16px'
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+
 export const PartLookUp = (props) => {
   
   const classStyle = useStyles();
@@ -695,7 +741,9 @@ export const PartLookUp = (props) => {
 
   return (
     <>
-      <Card {...props} className={classStyle.card}>
+      <Card {...props}
+className={classStyle.card}
+sx={cardStyle}>
         <CardHeader title="Health Score" />
         <Box
           sx={{
@@ -799,10 +847,14 @@ export const PartLookUp = (props) => {
                 >
                   <Box sx={style}>
                     <h2>Summary of Material availability for next 10 days</h2>
-                    <Line options={options1} data={data1} plugins={[ChartDataLabels]} />
+                    <Line options={options1}
+data={data1}
+plugins={[ChartDataLabels]} />
                     <br />
                     <h2> Detail Information of Material availability for next 10 days</h2>
-                    <Line options={options2} data={dataDetail_1} plugins={[ChartDataLabels]} />
+                    <Line options={options2}
+data={dataDetail_1}
+plugins={[ChartDataLabels]} />
                   </Box>
                 </Modal>
 
@@ -893,10 +945,14 @@ export const PartLookUp = (props) => {
                 >
                   <Box sx={style}>
                     <h2>Summary of Material availability for next 10 days</h2>
-                    <Line options={options1} data={data2} plugins={[ChartDataLabels]} />
+                    <Line options={options1}
+data={data2}
+plugins={[ChartDataLabels]} />
                     <br />
                     <h2> Detail Information of Material availability for next 10 days</h2>
-                    <Line options={options2} data={dataDetail_2} plugins={[ChartDataLabels]} />
+                    <Line options={options2}
+data={dataDetail_2}
+plugins={[ChartDataLabels]} />
                   </Box>
                 </Modal>
 
@@ -986,10 +1042,14 @@ export const PartLookUp = (props) => {
                 >
                   <Box sx={style}>
                     <h2>Summary of Material availability for next 10 days</h2>
-                    <Line options={options1} data={data3} plugins={[ChartDataLabels]} />
+                    <Line options={options1}
+data={data3}
+plugins={[ChartDataLabels]} />
                     <br />
                     <h2> Detail Information of Material availability for next 10 days</h2>
-                    <Line options={options2} data={dataDetail_3} plugins={[ChartDataLabels]} />
+                    <Line options={options2}
+data={dataDetail_3}
+plugins={[ChartDataLabels]} />
                   </Box>
                 </Modal>
 
@@ -1079,10 +1139,14 @@ export const PartLookUp = (props) => {
                 >
                   <Box sx={style}>
                     <h2>Summary of Material availability for next 10 days</h2>
-                    <Line options={options1} data={data4} plugins={[ChartDataLabels]} />
+                    <Line options={options1}
+data={data4}
+plugins={[ChartDataLabels]} />
                     <br />
                     <h2> Detail Information of Material availability for next 10 days</h2>
-                    <Line options={options2} data={dataDetail_4} plugins={[ChartDataLabels]} />
+                    <Line options={options2}
+data={dataDetail_4}
+plugins={[ChartDataLabels]} />
                   </Box>
                 </Modal>
 
@@ -1173,10 +1237,14 @@ export const PartLookUp = (props) => {
                 >
                   <Box sx={style}>
                     <h2>Summary of Material availability for next 10 days</h2>
-                    <Line options={options1} data={data5} plugins={[ChartDataLabels]} />
+                    <Line options={options1}
+data={data5}
+plugins={[ChartDataLabels]} />
                     <br />
                     <h2> Detail Information of Material availability for next 10 days</h2>
-                    <Line options={options2} data={dataDetail_5} plugins={[ChartDataLabels]} />
+                    <Line options={options2}
+data={dataDetail_5}
+plugins={[ChartDataLabels]} />
                   </Box>
                 </Modal>
 
@@ -1331,7 +1399,9 @@ export const PartLookUp = (props) => {
       </Button>
     </Box> */}
       </Card>
-      <Card {...props} className={classStyle.card}>
+      <Card {...props}
+className={classStyle.card}
+sx={cardStyle}>
         <CardHeader title="Part Detailed  Description" />
         <PerfectScrollbar>
           <Box >
@@ -1368,7 +1438,8 @@ export const PartLookUp = (props) => {
               <TableBody>
                 {!table2Loading
                   ? materialResponse?.map((order) => (
-                      <StyledTableRow hover key={Math.random()}>
+                      <StyledTableRow hover
+key={Math.random()}>
                         <StyledTableCell style={{ width: "10%" }}>{order.material}</StyledTableCell>
                         <StyledTableCell>{order.material_9}</StyledTableCell>
                         <StyledTableCell>{order.material_7}</StyledTableCell>
@@ -1446,37 +1517,7 @@ export const PartLookUp = (props) => {
   );
 };
 
-const useStyles = makeStyles({
-  card: {
-    border: "2px solid",
-    borderColor: "#3a86ff",
-    boxShadow: "0 19px 38px rgba(1,0.75,1,0.75), 0 15px 12px rgba(0,0,0,0.22)",
-   // boxShadow: "9px 18px #3a86ff",   // AABDFF   ---   F1EFFE --- 6F6F6F --- 0166B1
-    // borderColor: '#C4C4C4',
-    marginTop:25,
-    marginBottom:35
-  }
-});
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#3a86ff", // Change to hex code
-    color: theme.palette.common.black,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
 
 // export const LatestOrderDetail= (props) => {
 //  const [selectedMaterial,setSelectedMaterial] = useState(healthScore.slice(0,1));

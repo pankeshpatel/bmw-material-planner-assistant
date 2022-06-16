@@ -1,7 +1,8 @@
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { Box, Button, ListItem } from '@mui/material';
+import { Box, Button, ListItem, SvgIcon } from '@mui/material';
+import styles from '../styles/dashboard-sidebar.module.scss';
 
 export const NavItem = (props) => {
   const { href, icon, title, ...others } = props;
@@ -24,26 +25,24 @@ export const NavItem = (props) => {
         passHref
       >
         <Button
-          component="a"
-          startIcon={icon}
-          disableRipple
-          sx={{
-            backgroundColor: active && 'rgba(255,255,255, 0.08)',
-            borderRadius: 1,
-            color: active ? 'secondary.main' : 'neutral.300',
-            fontWeight: active && 'fontWeightBold',
-            justifyContent: 'flex-start',
-            px: 3,
-            textAlign: 'left',
-            textTransform: 'none',
-            width: '100%',
-            '& .MuiButton-startIcon': {
-              color: active ? 'secondary.main' : 'neutral.400'
-            },
-            '&:hover': {
-              backgroundColor: 'rgba(255,255,255, 0.08)'
-            }
-          }}
+          component="a"  
+           startIcon={<SvgIcon className={styles.startIcon}
+          size="large">{icon}</SvgIcon>}
+                    disableRipple
+                    sx={{
+                      // backgroundColor: active && 'rgba(255,255,255, 0.08)',
+                      borderRadius: 1,
+                      startIcon: { width: '36px'},
+                      // color: active ? 'secondary.main' : 'neutral.300',
+                      fontWeight: active && 'fontWeightBold',
+                      justifyContent: 'flex-start',
+                      px: 3,
+                      textAlign: 'left',
+                      textTransform: 'none',
+                      width: '100%',
+                    }}
+                    className={`${styles.navItem} ${active && styles.navItem__active}`}
+        
         >
           <Box sx={{ flexGrow: 1 }}>
             {title}

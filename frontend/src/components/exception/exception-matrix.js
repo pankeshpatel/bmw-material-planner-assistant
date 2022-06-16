@@ -157,7 +157,8 @@ export const LatestOrders = (props) => {
 
   return (
     <>
-      <Card {...props} className={classStyle.card}>
+      <Card {...props}
+className={classStyle.card}>
         <CardHeader title="Part Lookup" />
         <Box
           sx={{
@@ -298,7 +299,8 @@ export const LatestOrders = (props) => {
               </TableHead>
               <TableBody>
                 {selectedMaterial.map((order) => (
-                  <TableRow hover key={order.materialID}>
+                  <TableRow hover
+key={order.materialID}>
                     <TableCell>{order.materialID}</TableCell>
                     <TableCell>{order.safetystock}</TableCell>
                     <TableCell>{order.partdescriptioneng}</TableCell>
@@ -376,7 +378,8 @@ export const ExceptionMatrix = (props) => {
   }
 
   return (
-    <Card {...props} className={classStyle.card}>
+    <Card {...props}
+className={classStyle.card}>
       <CardHeader title="Part Exception Matrix" />
       <PerfectScrollbar>
         <Box sx={{ height: "600px", overflow: "scroll" }}>
@@ -474,9 +477,9 @@ export const ExceptionMatrix = (props) => {
 const useStyles = makeStyles({
   card: {
     border: "2px solid",
-    borderColor: "#3a86ff",
+    borderColor: "#10b981",
     boxShadow: "0 19px 38px rgba(1,0.75,1,0.75), 0 15px 12px rgba(0,0,0,0.22)",
-   // boxShadow: "9px 18px #3a86ff",   // AABDFF   ---   F1EFFE --- 6F6F6F --- 0166B1
+   // boxShadow: "9px 18px #10b981",   // AABDFF   ---   F1EFFE --- 6F6F6F --- 0166B1
     // borderColor: '#C4C4C4',
     marginTop:25,
     marginBottom:35
@@ -486,7 +489,7 @@ const useStyles = makeStyles({
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     //  backgroundColor: theme.palette.common.black, // Change to hex code
-    backgroundColor: "#3a86ff", // Change to hex code
+    backgroundColor: "-webkit-linear-gradient(bottom, rgb(13, 101, 72), #10b981)", // Change to hex code
     color: theme.palette.common.black,
   },
   [`&.${tableCellClasses.body}`]: {

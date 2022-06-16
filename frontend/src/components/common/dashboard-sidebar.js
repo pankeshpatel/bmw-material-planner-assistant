@@ -135,7 +135,8 @@ export const DashboardSidebar = (props) => {
       >
         <div>
           <Box sx={{ p: 3 }}>
-            <NextLink href="/" passHref>
+            <NextLink href="/"
+passHref>
               <a>
                 {/* <Logo
                   sx={{
@@ -143,7 +144,10 @@ export const DashboardSidebar = (props) => {
                     width: 42
                   }}
                 /> */}
-                <img height={62} width={62} src="bmw_logo_PNG19714.png?v=2" alt="" />
+                <img height={62}
+width={62}
+src="bmw_logo_PNG19714.png?v=2"
+alt="" />
               </a>
             </NextLink>
             {/* <Typography
@@ -167,7 +171,8 @@ export const DashboardSidebar = (props) => {
               }}
             >
               <div>
-                <Typography color="inherit" variant="subtitle1">
+                <Typography color="inherit"
+variant="subtitle1">
 
                     {/* USER NAME */}
 
@@ -281,9 +286,10 @@ export const DashboardSidebar = (props) => {
         open
         PaperProps={{
           sx: {
-            backgroundColor: "neutral.900",
             color: "#FFFFFF",
             width: 280,
+            backdropFilter: 'blur(30px)',
+            backgroundColor: 'rgba(0,0,0,0.625)'
           },
         }}
         variant="permanent"
@@ -300,9 +306,10 @@ export const DashboardSidebar = (props) => {
       open={open}
       PaperProps={{
         sx: {
-          backgroundColor: "neutral.900",
           color: "#FFFFFF",
           width: 280,
+          backdropFilter: 'blur(30px)',
+          backgroundColor: 'rgba(0,0,0,0.625)'
         },
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}

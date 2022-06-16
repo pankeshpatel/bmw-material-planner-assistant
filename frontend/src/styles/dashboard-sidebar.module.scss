@@ -1,0 +1,56 @@
+.sidebar {
+  &__brand {
+    padding: 16px 36px;
+  }
+  &__main {
+    background-image: url(../images/images.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  &__inner {
+    backdrop-filter: blur(30px);
+    background-color: rgba(0,0,0,0.625);
+  }
+}
+
+.navItem {
+  border-radius: 0.5rem;
+  color: #d1d5db !important;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  & .startIcon {
+    color: #9ca3af !important;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #10b981 !important;
+    transform: translateX(5px);
+    & .startIcon {
+      color: #10b981 !important;
+    }
+  }
+  &__active {
+    color: #10b981 !important;
+    & .startIcon {
+      color: #10b981 !important;
+    }
+  }
+}
+
+.profile {
+  padding: 11px 20px;
+  align-items: "center";
+  background-color: "rgba(255, 255, 255, 0.04)";
+  cursor: "pointer";
+  display: "flex";
+  justify-content: "space-between";
+  &__name {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+  &__date {
+    font-size: 0.875rem;
+    font-weight: 400;
+  }
+}
