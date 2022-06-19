@@ -1,0 +1,57 @@
+import Head from "next/head";
+import { Box, Container, Grid } from "@mui/material";
+import { DashboardLayout } from "../components/common/dashboard-layout";
+
+
+import { RecommendationEngine } from "src/components/recommendation/recommendationEngine";
+import { Feedback } from "src/components/recommendation/feedback";
+
+const Dashboard = () => (
+  <>
+    <Head>
+      <title>BMW Material Ranking</title>
+      <link
+        rel="icon"
+        type="image/x-icon"
+        href="https://pngimg.com/uploads/bmw_logo/bmw_logo_PNG19714.png"
+      ></link>
+    </Head>
+    <Box
+      component="main"
+      sx={{
+        flexGrow: 1,
+        py: 0,
+      }}
+    >
+      <Container maxWidth={false}>
+        <Grid container spacing={1}>
+
+          <Grid item lg={12} md={12} xl={12} xs={12}>
+            <RecommendationEngine/>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+
+    <Box
+      component="main"
+      sx={{
+        flexGrow: 1,
+        py: 0,
+      }}
+    >
+      <Container maxWidth={false}>
+        <Grid container spacing={1}>
+
+          <Grid item lg={12} md={12} xl={12} xs={12}>
+            <Feedback/>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  </>
+);
+
+Dashboard.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+
+export default Dashboard;
