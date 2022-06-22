@@ -40,6 +40,13 @@ export const RecommendationEngine = (props) => {
 
   const [recommendationText, setRecommendationText] = useState("");
 
+  const handler = (event) => {
+    setMaterialID(event.target.value);
+    localStorage.setItem("materialID-Recommendation", event.target.value);
+    setMaterialSelected(true);
+  };
+
+
 
   let materials = [];
   var user = "";
@@ -71,11 +78,6 @@ export const RecommendationEngine = (props) => {
 
   });
 
-  const handler = (event) => {
-    setMaterialID(event.target.value);
-    localStorage.setItem("materialID-Recommendation", event.target.value);
-    setMaterialSelected(true);
-  };
 
   const menuItems = plannerMaterials.map(item => (
     <MenuItem value={item} >{item}</MenuItem>
@@ -123,8 +125,9 @@ export const RecommendationEngine = (props) => {
 
       <CardContent display="flex">
 
+            {/* TEST SCRIPT */}
           <Typography paragraph variant="subtitle1" gutterBottom component="div">
-
+            
             {recommendationText}
 
           {/* {dddd.advice} */}

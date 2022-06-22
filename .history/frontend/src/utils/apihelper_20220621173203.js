@@ -193,41 +193,9 @@ const rankCall = () => {
   });
 };
 
-
 const recommendationCall = () => {
-  var material2 = localStorage.getItem("materialID-Recommendation");
-  const url = `http://10.81.41.200:8000/mpa/assist?material=${material2}`;
-  return new Promise((resolve, reject) => {
-    const header = getHeader();
-    axios
-      .get(url, header)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((err) => {
-        reject(handleError(err));
-      });
-  });
-};
-
-
-const feedbackCall = () => {
- // var material2 = localStorage.getItem("materialID-Recommendation");
-  // http://10.81.41.200:8000/mpa/feedback?transaction=<GUID>&accepted=no&reason=<text>
-
-  const url = `http://10.81.41.200:8000/mpa/feedback?transaction=101010&accepted=no&reason=SAMPLETEXT`;
-  return new Promise((resolve, reject) => {
-    const header = getHeader();
-    axios
-      .get(url, header)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((err) => {
-        reject(handleError(err));
-      });
-  });
-};
+  
+}
 
 
 
@@ -240,6 +208,4 @@ export {
   plannerIdCall,
   matetrialCall,
   rankCall,
-  recommendationCall,
-  feedbackCall,
 };

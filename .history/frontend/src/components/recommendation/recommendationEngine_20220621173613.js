@@ -23,7 +23,7 @@ import { makeStyles } from "@mui/styles";
 
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-import { feedbackCall, matetrialCall, recommendationCall } from 'src/utils/apihelper';
+import { matetrialCall } from 'src/utils/apihelper';
 
 
 
@@ -38,62 +38,38 @@ export const RecommendationEngine = (props) => {
   const [plannerMaterials, setPlannerMaterials] = useState([]);
   const [materialsLoaded, setMaterialsLoaded] = useState(false);
 
-  const [recommendationText, setRecommendationText] = useState("");
+  const handler = (event) => {
+    setMaterialID(event.target.value);
+  //  localStorage.setItem("materialID", event.target.value);
+    setMaterialSelected(true);
+    // localStorage.setItem("queueMarkov", true);
+    // localStorage.setItem("MAT", event.target.value);
+  };
+
 
 
   let materials = [];
   var user = "";
-
   useEffect(async () => {
-
     if (materialsLoaded == false){
       user = localStorage.getItem("plannerId");
       let data = await matetrialCall();
   
       for (let i = 0; i < data.result.length; i++) {
+        //console.log("MATERIAL ENGINE: ", data.result[i]["material"]);
         materials.push(data.result[i]["material"]);
       }
-
       setPlannerMaterials(materials);
       setMaterialsLoaded(true);
     }
 
-    if (materialSelected == true){
-      let recommData = await recommendationCall();
-      console.log("RECOMMENDATION CALL: ", recommData);
-
-      setRecommendationText(recommData.advice);
-
-      let feedbackData = await feedbackCall();
-      console.log("FEEDBACK CALL: ", feedbackData);
-
-    }
-
   });
 
-  const handler = (event) => {
-    setMaterialID(event.target.value);
-    localStorage.setItem("materialID-Recommendation", event.target.value);
-    setMaterialSelected(true);
-  };
 
   const menuItems = plannerMaterials.map(item => (
     <MenuItem value={item} >{item}</MenuItem>
   ));
 
-
-
-  const dddd = { 
-    "planner": 0,
-    "material": "0",
-   // "advice": "<The recommendation text is here>",
-   "advice": " Left till here away at to whom past. Feelings laughing at no wondered repeated provided finished. It acceptance thoroughly my advantages everything as. Are projecting inquietude affronting preference saw who. Marry of am do avoid ample as. Old disposal followed she ignorant desirous two has. Called played entire roused though for one too. He into walk roof made tall cold he. Feelings way likewise addition wandered contempt bed indulged Taken no great widow spoke of it small. Genius use except son esteem merely her limits. Sons park by do make on. It do oh cottage offered cottage in written. Especially of dissimilar up attachment themselves by interested boisterous. Linen mrs seems men table. Jennings dashwood to quitting marriage bachelor in. On as conviction in of appearance apartments boisterous",
-    "started": "6/9/2022 7:00:56 PM",
-    "finished": "6/9/2022 7:00:56 PM",
-    "elapsed": "00:00:00.0050155",
-  //  "transaction": 92358f84-7fdd-4f08-8c88-c0f202fbb3cb,
-    "problem": "" 
-    }
 
 
 
@@ -123,11 +99,15 @@ export const RecommendationEngine = (props) => {
 
       <CardContent display="flex">
 
+            {/* TEST SCRIPT */}
           <Typography paragraph variant="subtitle1" gutterBottom component="div">
+            Difficulty on insensible reasonable in. From as went he they. Preference themselves me as thoroughly partiality considered on in estimating. Middletons acceptance discovered projecting so is so or. In or attachment inquietude remarkably comparison at an. Is surrounded prosperous stimulated am me discretion expression. But truth being state can she china widow. Occasional preference fat remarkably now projecting uncommonly dissimilar. Sentiments projection particular companions interested do at my delightful. Listening newspaper in advantage frankness to concluded unwilling. 
 
-            {recommendationText}
+            Taken no great widow spoke of it small. Genius use except son esteem merely her limits. Sons park by do make on. It do oh cottage offered cottage in written. Especially of dissimilar up attachment themselves by interested boisterous. Linen mrs seems men table. Jennings dashwood to quitting marriage bachelor in. On as conviction in of appearance apartments boisterous. 
 
-          {/* {dddd.advice} */}
+            Left till here away at to whom past. Feelings laughing at no wondered repeated provided finished. It acceptance thoroughly my advantages everything as. Are projecting inquietude affronting preference saw who. Marry of am do avoid ample as. Old disposal followed she ignorant desirous two has. Called played entire roused though for one too. He into walk roof made tall cold he. Feelings way likewise addition wandered contempt bed indulged. 
+
+            Two assure edward whence the was. Who worthy yet ten boy denote wonder. Weeks views her sight old tears sorry. Additions can suspected its concealed put furnished. M
           </Typography>
 
         <Box

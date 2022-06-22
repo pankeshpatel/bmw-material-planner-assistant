@@ -212,10 +212,10 @@ const recommendationCall = () => {
 
 
 const feedbackCall = () => {
- // var material2 = localStorage.getItem("materialID-Recommendation");
+  var material2 = localStorage.getItem("materialID-Recommendation");
   // http://10.81.41.200:8000/mpa/feedback?transaction=<GUID>&accepted=no&reason=<text>
-
-  const url = `http://10.81.41.200:8000/mpa/feedback?transaction=101010&accepted=no&reason=SAMPLETEXT`;
+  
+  const url = `http://10.81.41.200:8000/mpa/feedback?transaction=<101010>&accepted=no&reason=<text>`;
   return new Promise((resolve, reject) => {
     const header = getHeader();
     axios

@@ -75,7 +75,10 @@ export const RecommendationEngine = (props) => {
     setMaterialID(event.target.value);
     localStorage.setItem("materialID-Recommendation", event.target.value);
     setMaterialSelected(true);
+    useEffect();
   };
+
+
 
   const menuItems = plannerMaterials.map(item => (
     <MenuItem value={item} >{item}</MenuItem>

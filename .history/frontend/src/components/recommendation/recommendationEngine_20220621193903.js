@@ -77,6 +77,8 @@ export const RecommendationEngine = (props) => {
     setMaterialSelected(true);
   };
 
+
+
   const menuItems = plannerMaterials.map(item => (
     <MenuItem value={item} >{item}</MenuItem>
   ));
